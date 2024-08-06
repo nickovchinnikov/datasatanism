@@ -1,0 +1,47 @@
+:root {
+	--cyan: #5bf8ff;
+	--red: #ff716b;
+	--yellow: #ffd741;
+	
+	--red-500: #683134;
+	--red-700: #371315;
+	--grey-900: #070b14;
+
+	--spacing-100: 0.25rem;
+	--spacing-200: 0.5rem;
+	--spacing-300: 1rem;
+	--spacing-400: 1.25rem;
+	--spacing-CircleImage500: 1.5rem;
+	--spacing-600: 2rem;
+	--spacing-700: 3rem;
+	--spacing-800: 4rem;
+}
+
+.button {
+    font-family: "Rajdhani", sans-serif;
+	font-size: 1.25rem;
+	font-weight: 400;
+    appearance: none;
+    text-align: left;
+    border: 0;
+    background: none;
+    padding: var(--spacing-300) var(--spacing-600);
+    padding-top: calc(var(--spacing-300) + 0.1em);
+    color: var(--cyan);
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    line-height: 1.5;
+    font-weight: 600;
+    min-width: 200px;
+    border-image-source: url("data:image/svg+xml,%3Csvg width='307' height='80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='rgba(104, 49, 52, 0.5)' d='M1 1h6v78H1z'/%3E%3Cpath d='M70 1H8v78h289.5l8.5-9V5H74.5L70 1z' fill='transparent'/%3E%3Cpath d='M7.5.5h-7v48l1 1v18l-1 1v11h7m0-79H70l4.5 4h232v66l-9 9H7.5m0-79v79' stroke='%23683134'/%3E%3C/svg%3E");
+    border-image-slice: 10 15 17 8 fill;
+    border-image-width: 0.75rem 1rem 1rem 0.5rem;
+    transition: border-image-source 0.06s ease;
+    will-change: border-image-source;
+
+    &:hover {
+        outline: none;
+        border-image-source: url("data:image/svg+xml,%3Csvg width='307' height='80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill=' rgba(104, 49, 52, 0.67)' d='M1 1h6v78H1z'/%3E%3Cpath d='M70 1H8v78h289.5l8.5-9V5H74.5L70 1z' fill=' rgba(104, 49, 52, 0.67)'/%3E%3Cpath d='M7.5.5h-7v48l1 1v18l-1 1v11h7m0-79H70l4.5 4h232v66l-9 9H7.5m0-79v79' stroke='%23ff716b'/%3E%3C/svg%3E");
+        cursor: pointer;
+    }
+}

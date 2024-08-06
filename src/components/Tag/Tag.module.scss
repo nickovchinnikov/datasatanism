@@ -1,0 +1,74 @@
+.nav {
+    align-items: flex-end;
+    display: flex;
+}
+
+.section {
+    padding-bottom: 0.25rem;
+}
+
+.header {
+    background-color: var(--colors-bg--300);
+    border: 1px solid #5d2322;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.body {
+    padding-left: 1rem;
+}
+
+.title {
+    color: #2be4ea;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.badge {
+    border: 1.5px solid var(--colors-tertiary--500);
+    border-radius: 3px;
+    color: var(--colors-tertiary--500);
+    display: inline-block;
+    font-size: 0.92rem;
+    font-weight: normal;
+    line-height: 1;
+    padding: 0.15em 0.34em;
+    vertical-align: middle;
+}
+
+.channel-link,
+.conversation-link {
+    align-items: center;
+    display: flex;
+}
+
+.channel-link__icon,
+.conversation-link__icon {
+    margin-right: 0.75rem;
+}
+
+.channel-link__element+.channel-link__element,
+.conversation-link__element+.conversation-link__element {
+    margin-left: 0.75rem;
+}
+
+.conversation-link__icon {}
+
+.conversation-link__icon::after {
+    background-color: var(--colors-primary--500);
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 0.5em;
+    width: 0.5em;
+}
+
+.conversation-link--online .conversation-link__icon::after {
+    background-color: var(--colors-active--500);
+}
+
+.channel-link--unread,
+.conversation-link--unread {
+    font-weight: bold;
+}

@@ -1,0 +1,71 @@
+/* @component: button */
+.button {
+    position: relative;
+    background-color: transparent;
+    border: 1px solid var(--colors-primary--500);
+    border-radius: 2px;
+    cursor: pointer;
+    color: var(--colors-primary--500);
+    display: inline-block;
+    font-family: var(--fonts-primary);
+    letter-spacing: 0.045em;
+    padding: 0.45rem;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: var(--colors-primary--800);
+    color: var(--colors-on_primary--500);
+}
+
+.buttonContent {
+    display: inline-block;
+    z-index: 2;
+}
+
+.buttonIcon {
+    display: block;
+    vertical-align: top;
+    line-height: 1;
+    fill: currentcolor;
+}
+
+.buttonContent {
+    display: inline-block;
+    z-index: 2;
+}
+
+.buttonSizeLg, .buttonSizeXl {
+    border-width: 2px;
+    clip-path: var(--ui-notch-path);
+    padding: 0.55rem 0.7rem 0.7rem 0.55rem;
+}
+
+.buttonSizeXl{
+    padding: 0.55rem 1.5rem 1.5rem 0.55rem;
+}
+
+.buttonSizeLg::before, .buttonSizeXl::before {
+    background-color: currentcolor;
+    bottom: 5px;
+    content: "";
+    display: block;
+    height: 3px; /* bigger to compensate transform */
+    position: absolute;
+    right: -6px;
+    top: auto;
+    transform: rotate(-45deg);
+    width: var(--ui-notch-hypotenuse);
+    z-index: 100;
+}
+
+.buttonPrimary {
+    color: var(--colors-secondary--500);
+    border-color: var(--colors-secondary--500);
+}
+  
+.buttonPrimary:hover {
+    background-color: var(--colors-secondary--900);
+    color: var(--colors-secondary--500);
+}

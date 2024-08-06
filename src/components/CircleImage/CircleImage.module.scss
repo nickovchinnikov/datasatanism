@@ -1,0 +1,81 @@
+:root {
+    --accent1: 245 179 1; /*yellow*/
+    --accent2: 233 30 99; /*pink*/
+    --accent3: 0 192 129; /*teal*/
+}
+
+.image {
+    user-select: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contain {
+    width: 100%;
+    position: relative;
+}
+
+.circles {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.circles .circle {
+    position: absolute;
+    margin: auto;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    border-radius: 100%;
+    box-shadow:
+        0 1px 0 0 rgb(var(--accent1) / 25%),
+        0 -1px 0 0 rgb(var(--accent3) / 25%),
+        1px 0 0 0 rgb(var(--accent1) / 25%),
+        0 -1px 0 0 rgb(var(--accent3) / 25%),
+        1px 0 0 0 rgb(var(--accent1) / 25%),
+        -1px 0 0 0 rgb(var(--accent3) / 25%),
+        1px -1px 0 0 rgb(var(--accent2) / 50%),
+        -1px 1px 0 0 rgb(var(--accent2) / 50%),
+        1px 1px 0 0 rgb(var(--accent1) / 75%),
+        -1px -1px 0 0 rgb(var(--accent3) / 75%);
+    animation: rotation 1s linear infinite;
+}
+
+.circles .circle:nth-of-type(1) {
+    animation: warp 2s linear infinite;
+}warp
+
+.circles .circle:nth-of-type(2) {
+    animation: warp 2s linear 0.1s infinite;
+}
+
+.circles .circle:nth-of-type(3) {
+    animation: warp 2s linear 0.25s infinite;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+    to {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes warp {
+    0% {
+        transform: rotate(0deg) scale(1) translate(0, 0);
+    }
+    33% {
+        transform: rotate(360deg) scale(1) translate(2px, 2px);
+    }
+    66% {
+        transform: rotate(720deg) scale(1) translate(-2px, -2px);
+    }
+    100% {
+        transform: rotate(1080deg) scale(1) translate(0, 0);
+    }
+}

@@ -1,0 +1,107 @@
+:root {
+	--cyan: #5bf8ff;
+	--red: #ff716b;
+	--yellow: #ffd741;
+	
+	--red-500: #683134;
+	--red-700: #371315;
+	--grey-900: #070b14;
+
+	--spacing-100: 0.25rem;
+	--spacing-200: 0.5rem;
+	--spacing-300: 1rem;
+	--spacing-400: 1.25rem;
+	--spacing-CircleImage500: 1.5rem;
+	--spacing-600: 2rem;
+	--spacing-700: 3rem;
+	--spacing-800: 4rem;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: "Rajdhani", sans-serif;
+	font-size: 1.25rem;
+	font-weight: 400;
+    width: 300px;
+}
+
+.inputLabel {
+    position: absolute;
+    top: var(--spacing-200);
+    left: var(--spacing-300);
+    font-size: .875rem;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--cyan);
+}
+
+.input {
+    background: transparent;
+    border: 1px solid var(--red-500);
+    padding: 2rem 0 1rem 1rem;
+    color: var(--red);
+    caret-color: var(--cyan);
+    font-family: inherit;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-image-source: url("data:image/svg+xml,%3Csvg viewBox='0 0 351 52' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M350.5 39V.5H1v51h337L350.5 39z' stroke='%23683134'/%3E%3C/svg%3E");
+    border-image-slice: 10 15 17 8 fill;
+    border-image-width: 0.75rem 1rem 1rem 0.5rem;
+    transition: border-image-source 0.06s ease;
+    will-change: border-image-source;
+
+    -moz-appearance: textfield;
+    &::-webkiclasst-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    &::placeholder {
+        color: var(--red-500);
+    }
+    
+    &:hover {
+        border-image-source: url("data:image/svg+xml,%3Csvg viewBox='0 0 351 52' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M350.5 39V.5H1v51h337L350.5 39z' stroke='%23ff716b'/%3E%3C/svg%3E");
+    }
+    
+    &:focus {
+        outline: none;
+        &::placeholder {
+            color: rgba(black, .75);
+        }
+    }
+}
+
+.button {
+    position: absolute;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
+    right: 0.3rem;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.7;
+    }
+    &:after {
+      position: absolute;
+      content: "";
+      border-width: 1rem;
+      border-style: solid;
+    }
+    &Up {
+      top: 0;
+      &:after {
+        border-color: transparent transparent #ff0000 transparent;
+      }
+    }
+    &Down {
+      bottom: 0;
+      &:after {
+        border-color: #ff0000 transparent transparent transparent;
+      }
+    }
+}

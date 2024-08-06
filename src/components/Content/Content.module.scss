@@ -1,0 +1,33 @@
+.pad {
+    text-shadow: none;
+    position: relative;
+    font-family: var(--fonts-primary);
+    background-color: var(--colors-bg--300);
+    border: 2px solid var(--colors-primary--600);
+    clip-path: var(--ui-notch-path);
+}
+
+.padBody {
+    padding: 0.75rem;
+    padding-bottom: var(--ui-notch-amount);
+}
+
+.pad::before {
+    background-color: var(--colors-primary--600);
+    bottom: 5px;
+    content: "";
+    display: block;
+    height: 3px; /* bigger to compensate transform */
+    position: absolute;
+    right: -6px;
+    top: auto;
+    transform: rotate(-45deg);
+    width: var(--ui-notch-hypotenuse);
+    z-index: 100;
+}
+
+.textContent {
+  text-shadow: none;
+  font-family: var(--fonts-primary);
+  margin: 0;
+}

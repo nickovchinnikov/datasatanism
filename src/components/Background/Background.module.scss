@@ -1,0 +1,41 @@
+:root {
+    --font-body: "Share Tech Mono", monospace;
+    --font-headings: "Audiowide", cursive;
+    --neon-pink: 341, 100%, 58%;
+    --neon-blue: 184, 96%, 46%;
+    --very-light-blue: 190, 100%, 91%;
+    --dark-blue: 240, 95%, 9%;
+    --yellow: 44, 97%, 72%;
+    --border: hsl(var(--neon-blue)), hsl(var(--neon-pink)), hsl(var(--neon-blue));
+    --padding-wrapper: 1.5em;
+    --border-image: linear-gradient(-45deg, var(--border)) 10% stretch;
+    --background-lines: linear-gradient(
+        hsla(184, 96%, 46%, 0) 90%,
+        hsla(184, 96%, 46%, 0.25) 95%
+        )
+        top left / 100% 0.5rem;
+}
+
+.container {
+    position: relative;
+    height: 100vh;
+    padding: 1em;
+    background: hsl(var(--dark-blue)) var(--background-lines);
+    color: hsl(var(--very-light-blue));
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-size: clamp(1.2rem, 0.7rem + 0.9vw, 4rem);
+    line-height: 1.2;
+    overflow-x: hidden;
+    max-width: 112.5rem;
+}
+
+.light {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    background: radial-gradient(circle at 50% 50%, transparent 0%, #000 30%);
+}

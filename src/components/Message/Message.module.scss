@@ -1,0 +1,18 @@
+.message {
+    font-family: var(--fonts-primary);
+    padding-bottom: 1rem;
+}
+
+.messageBody {
+    background-color: var(--colors-bg--300);
+    border: 1px solid var(--colors-tertiary--500);
+    border-radius: 3px;
+    color: var(--colors-tertiary--500);
+    padding: 0.75rem;
+  }
+  
+.messageFooter {
+    color: var(--colors-tertiary--500);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}

@@ -1,0 +1,55 @@
+@import "./variables.scss";
+
+html, body {
+	font-family: $font-mono;
+	text-shadow: 0 0 5px rgba(255,255,255,0.3);
+	background-color: darken($theme, 47%);
+	background-size: 100px;
+	color: $theme;
+	// Css variables
+	--colors-bg--300: #1e181e;
+	--colors-bg--500: #191a1e;
+	--colors-primary--200: #f4908b;
+	--colors-primary--300: #ea6f69;
+	--colors-primary--500: #e8615a;
+	--colors-primary--600: #9c3230;
+	--colors-primary--700: #5e2122;
+	--colors-primary--800: #451717;
+	--colors-primary--900: #3c181a;
+	--colors-secondary--500: #2be4ea;
+	--colors-secondary--900: #295459;
+	--colors-tertiary--500: #fed33f;
+	--colors-on_bg--500: var(--colors-primary--500);
+	--colors-on_tertiary--500: var(--colors-bg--300);
+	--colors-on_primary--500: var(--colors-primary--200);
+	--colors-active--500: #2bfea0;
+	--fonts-primary: "Rajdhani", sans-serif;
+	--fonts-secondary: "VT323", monospace;
+	--ui-glow: 0 0 5px var(--colors-primary--500);
+	--ui-glow-borders--500: 0 0 3px var(--colors-primary--500);
+	--ui-glow-color: currentcolor;
+	--ui-glow-text: -9px -6px 40px var(--ui-glow-color);
+	--ui-glow-text--dimmed: -9px -6px 40px var(--ui-glow-color);
+	--ui-elevation--1: 2px 2px 0 rgba(0, 0, 0, 0.8);
+	--ui-notch-amount: 1rem;
+	--ui-notch-hypotenuse: 22.627416px; /* hypothenuse of --ui-notch-amount */
+	--ui-notch-path: polygon(
+		0 0,
+		100% 0,
+		100% calc(100% - var(--ui-notch-amount) + 2px),
+		calc(100% - var(--ui-notch-amount) + 2px) 100%,
+		0 100%
+	);
+
+	// background-color: var(--colors-bg--500);
+	// background-image: radial-gradient(ellipse at 33% 10%,
+    //         #461616 0%,
+    //         transparent 75%);
+    // background-repeat: no-repeat;
+    color: var(--colors-on_bg--500);
+    font-family: var(--fonts-primary);
+    font-size: 100%;
+    line-height: 1.4;
+    margin: 0;
+    min-height: 100vh;
+}

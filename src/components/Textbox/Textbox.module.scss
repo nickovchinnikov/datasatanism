@@ -1,0 +1,63 @@
+.formGroup {
+    box-sizing: border-box;
+    position: relative;
+    flex: 1;
+}
+
+.formLabel {
+    background-color: var(--colors-primary--600);
+    color: var(--colors-on_primary--500);
+    font-family: var(--fonts-secondary);
+    font-size: 0.92rem;
+    display: inline-block;
+    padding: 0.125em 0.75em;
+    padding-right: 2em;
+    letter-spacing: 0.065em;
+    line-height: 1;
+    text-transform: uppercase;
+    vertical-align: bottom; /* inline-block fix */
+    clip-path: polygon(
+        0.25em 0,
+        calc(100% - 1em) 0,
+        100% 100%,
+        0.33em 100%,
+        0 100%,
+        0 0.25em
+    );
+}
+
+.formControl {
+    background-color: var(--colors-bg--300);
+    border: 1px solid var(--colors-primary--600);
+    clip-path: var(--ui-notch-path);
+    padding-right: 0.5rem;
+}
+
+.formControl::before {
+    background-color: var(--colors-primary--600);
+    bottom: 5px;
+    content: "";
+    display: block;
+    height: 4px; /* bigger to compensate transform */
+    position: absolute;
+    right: -6px;
+    top: auto;
+    transform: rotate(-45deg);
+    width: var(--ui-notch-hypotenuse);
+    z-index: 100;
+}
+
+.formControl input, .formControl textarea {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+    color: var(--colors-primary--500);
+    font-family: var(--fonts-primary);
+    font-size: 1.25rem;
+    letter-spacing: 0.045em;
+    outline: none;
+    padding: 0.5rem;
+    resize: none;
+    width: 100%;
+    overflow: auto;
+}

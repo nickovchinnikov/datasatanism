@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
 
 import { Terminal } from "./Terminal";
 
-const meta = {
+const meta: Meta<typeof Terminal> = {
   title: "Components/Terminal",
   component: Terminal,
 } satisfies Meta<typeof Terminal>;

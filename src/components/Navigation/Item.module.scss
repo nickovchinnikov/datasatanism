@@ -1,0 +1,43 @@
+.link {
+    align-items: center;
+    display: flex;
+    color: var(--colors-secondary--500);
+    padding: 0.5rem 0.75rem;
+}
+
+.unread {
+   font-weight: bold;
+}
+
+.element {
+    margin-left: 0.75rem;
+}
+
+.icon {
+    margin-right: 0.75rem;
+}
+
+.direct {
+    border-radius: 50%;
+    background-color: var(--colors-primary--500);
+    content: "";
+    display: block;
+    height: 0.7em;
+    width: 0.7em;
+}
+
+.red {
+    background-color: var(--colors-primary--500);
+}
+
+.link.active {
+    background-color: #391419;
+    border: 1px solid #9c3230;
+}
+
+.link:focus,
+.link:hover {
+    cursor: pointer;
+    background-color: var(--colors-bg--300);
+    border: 1px solid #5d2322;
+}

@@ -1,0 +1,16 @@
+.badge {
+    display: inline-block;
+    border: 1.5px solid var(--colors-tertiary--500);
+    border-radius: 3px;
+    color: var(--colors-tertiary--500);
+    font-size: 0.92rem;
+    font-weight: normal;
+    line-height: 1;
+    padding: 0.15em 0.34em;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.element {
+    margin-left: 0.75rem;
+}

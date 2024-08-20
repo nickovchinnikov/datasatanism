@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import styles from "./Unread.module.scss";
+import styles from "./Item.module.scss";
 
 interface Props {
     unread: number;

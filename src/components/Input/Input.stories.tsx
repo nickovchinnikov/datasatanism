@@ -35,6 +35,6 @@ export const Number: Story = {
     type: "number",
     label: "Number",
     placeholder: "Enter your number",
-    defaultValue: 12345678,
+    defaultValue: 100,
   },
 };

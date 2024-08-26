@@ -15,7 +15,9 @@ const CONFIG_PATHS = {
   'multi-thread/wllama.wasm'      : wllamaMulti,
   'multi-thread/wllama.worker.mjs': wllamaMultiWorker,
 };
-const CMPL_MODEL = 'https://huggingface.co/ggml-org/models/resolve/main/tinyllamas/stories15M-q4_0.gguf';
+
+// const CMPL_MODEL = 'https://huggingface.co/ggml-org/models/resolve/main/tinyllamas/stories15M-q4_0.gguf';
+const CMPL_MODEL = 'https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf';
 
 function App() {
   const wllama = useMemo(() => new Wllama(CONFIG_PATHS), []);

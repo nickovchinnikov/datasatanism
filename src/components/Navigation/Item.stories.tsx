@@ -16,6 +16,7 @@ export const Primary: Story = {
     name: "Feeds",
     unread: 3,
     active: true,
-    type: "channel",
+    type: "direct",
+    red: false
   },
 };

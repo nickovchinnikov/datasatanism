@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { Loading } from "./Loading";
 
-const meta = {
+const meta: Meta<typeof Loading> = {
   title: "Pages/Loading",
   component: Loading,
-} satisfies Meta<typeof Loading>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;

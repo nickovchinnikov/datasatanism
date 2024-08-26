@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@huggingface/jinja": "^0.3.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@wllama/wllama": "^1.15.0",
     "install": "^0.13.0",

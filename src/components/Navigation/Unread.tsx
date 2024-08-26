@@ -3,10 +3,10 @@ import { FC } from "react";
 import styles from "./Item.module.scss";
 
 interface Props {
-    unread: number;
+    unread?: number;
 }
 
-export const Unread: FC<Props> = ({ unread }) => unread > 0 && (
+export const Unread: FC<Props> = ({ unread }) => (typeof unread === "number" && unread > 0) && (
     <span className={styles.element}>
         <span className={styles.badge}>{unread}</span>
     </span>

@@ -3,7 +3,7 @@ import { fn } from "@storybook/test";
 
 import { Loader } from "./Loader";
 
-const meta = {
+const meta: Meta<typeof Loader> = {
   title: "Components/Loader",
   component: Loader,
   args: {},

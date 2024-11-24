@@ -1,22 +1,23 @@
-name: Deploy MkDocs to GitHub Pages
-
+name: Deploy blog to GitHub Pages
 on:
   push:
     branches:
       - master  # or whatever your default branch is
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
+    - name: Configure Git Credentials
+      run: |
+        git config user.name github-actions[bot]
+        git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x'  # Adjust if you need a specific version of Python
+        python-version: '3.11'  # Adjust if you need a specific version of Python
 
     - name: Install dependencies
       run: |
@@ -26,13 +27,5 @@ jobs:
         pip install cairocffi cairosvg
         pip install mkdocs-glightbox
 
-    - name: Build MkDocs
-      run: mkdocs build --site-dir web
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./web
-        force_orphan: true
-        publish_branch: gh-pages  # This is the default branch for GitHub Pages
+    - name: Build and Deploy MkDocs
+      run: mkdocs gh-deploy --force

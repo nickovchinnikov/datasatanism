@@ -1,0 +1,76 @@
+site_name: DataSatanism
+site_url: https://datasatanism.com
+site_dir: web
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  features:
+    - navigation.footer
+    - navigation.indexes
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+plugins:
+  - blog:
+      blog_dir: .
+      blog_toc: true
+      authors_file: "{blog}/.authors.yml"
+      categories_allowed:
+        - Classification
+        - Dimensionality Reduction
+        - Feature Engineering
+        - Data Visualization
+        - Speech and Audio Processing
+        - Natural Language Processing
+        - TTS (Text to Speech)
+      pagination_per_page: 5
+  - tags:
+      tags_file: .tags.md
+  - search
+  - social
+  - glightbox
+nav:
+  - index.md
+extra:
+  social:
+  - icon: /fontawesome/regular/envelope
+    name: send me an email
+    link: mailto:contact@datasatanism.com
+  - icon: fontawesome/brands/x-twitter
+    name: DataSanta on X
+    link: https://x.com/datasatanisma
+  - icon: fontawesome/brands/reddit-alien
+    name: Reddit Sub
+    link: https://www.reddit.com/r/datasatanism/
+  - icon: fontawesome/brands/telegram
+    name: DataSatanism on telegram
+    link: https://t.me/datasatanisma
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

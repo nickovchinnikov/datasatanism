@@ -23,7 +23,7 @@ tags:
 ---
 
 
-## MNIST Adventure
+## Video: MNIST Adventure
 
 
 ![Image title](../assets/dive_into_learning_from_data/mnist_feat_eng_plot.png){ align=center, width="500" }
@@ -32,8 +32,9 @@ Hey there, data enthusiasts! Today, we're diving into the fascinating world of *
 
 We're diving into the realm of MNIST - a dataset that's like a treasure map for budding data scientists. It contains thousands of handwritten digits from 0 to 9. Each image is a snapshot of someone's attempt to scribble a number, and our mission is to make sense of these scribbles.
 
-
 <!-- more -->
+
+<iframe width="1707" height="765" src="https://www.youtube.com/embed/csZ4dIAPowA" title="Dive Into Learning From Data" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
 ### What's Classification?

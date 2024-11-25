@@ -1,8 +1,10 @@
 ---
+title: Dive into Learning from Data - MNIST Video Adventure
+description: We're diving into the realm of MNIST, a dataset that's like a treasure map for budding data scientists.
 authors:
   - nick
 date:
-  created: 2024-11-22
+  created: 2024-11-25
 comments: true
 categories:
   - Classification
@@ -21,9 +23,6 @@ tags:
   - sklearn
   - numpy
 ---
-
-
-## Video: MNIST Adventure
 
 
 ![Image title](../assets/dive_into_learning_from_data/mnist_feat_eng_plot.png){ align=center, width="500" }
@@ -178,3 +177,203 @@ MNIST grid example
 
 You've turned raw pixel data into a visual representation that's not only informative but also engaging, allowing us to see the variety in how digits are handwritten.
 
+
+### Understanding Logistic Regression
+
+
+Once we've got our dataset ready, it's time to apply a classification algorithm. We'll use **logistic regression**, which, despite its name, is designed for classification. It's not about predicting a continuous outcome; instead, it helps us decide whether an image represents a specific digit or not.
+
+Logistic regression works by transforming input values through a **sigmoid function**, which squeezes any real number into a range between 0 and 1, effectively representing a probability. Here's how it looks:
+
+- If the output of the sigmoid function is less than a certain threshold (commonly 0.5), we classify the input as belonging to one class.
+- If it's greater than or equal to that threshold, we classify it into another class.
+
+**What is the Sigmoid Function?**
+The sigmoid function takes any real-valued number and squashes it into a range from 0 to 1. It's defined as:
+
+$$
+\sigma(z) = \frac{1}{1 + e^{-z}}
+$$
+
+#### The Sigmoid Function
+
+Let's dive into the sigmoid function itself. Here's how you can define and visualize it:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(x):
+    """
+    Compute the sigmoid of x.
+    
+    Parameters:
+    x (float or numpy array): Input value or array of values.
+    
+    Returns:
+    float or numpy array: The sigmoid output.
+    """
+    return 1 / (1 + np.exp(-x))
+
+# Generate a range of x values
+y = np.linspace(-10, 10, 100)
+
+# Apply sigmoid function to generate y values
+x = sigmoid(y)
+
+# Plot the sigmoid function
+plt.figure(figsize=(8, 6))
+plt.plot(y, x, label=r"$\sigma(x) = \frac{1}{1 + e^{-x}}$", color='blue')
+plt.axhline(y=0.5, linestyle="--", color="grey", label='Threshold = 0.5')  # Adding threshold line
+
+plt.title("Sigmoid Function: The Heart of Logistic Regression")
+plt.xlabel("Input (x)")
+plt.ylabel("Output (Probability)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+**Remember, this isn't just about plotting a curve;** it's about understanding how logistic regression decides on class boundaries using the sigmoid function to transform our input into a probability of belonging to a certain class.
+
+![Image title](../assets/dive_into_learning_from_data/sigmoid.png){ align=center, width="500" }
+/// caption
+This simple plot shows how the sigmoid function takes inputs from `-10` to `10` and transforms them into a probability curve. The gray dashed line represents our decision boundary at 0.5.
+///
+
+- **Why this shape?** The sigmoid function gives us a smooth transition from 0 to 1, which is ideal for interpreting the output as probability. It's symmetric around `x = 0`, where `sigmoid(0) = 0.5`, making this the natural choice for our classification threshold.
+
+- **Why is this useful?** When we're dealing with images of digits, this function allows us to convert the raw pixel data into something more interpretable—a probability that the image belongs to a particular class.
+
+*By understanding this function, we gain insight into how logistic regression makes its classifications, turning raw data into decisions in a way that's both mathematically sound and intuitively understandable.*
+
+### How Logistic Regression Works:
+
+Logistic regression initially calculates a linear combination of the input features:
+
+$$
+z = w_1x_1 + w_2x_2 + ... + w_nx_n + b
+$$
+
+Where:
+
+- $w_1, w_2, ..., w_n$ are the weights for each feature.
+  
+- $x_1, x_2, ..., x_n$ are the feature values.
+  
+- $b$ is the bias term.
+
+Then, we apply the sigmoid function to this linear combination:
+
+$$
+\hat{y} = \sigma(z)
+$$
+
+Where:
+
+- $\sigma(z)$ is our sigmoid function.
+
+- $\hat{y}$ is the predicted probability that the input belongs to class 1.
+
+Based on this probability, we can classify data points by setting a threshold (often 0.5):
+
+- If $\hat{y} < 0.5$, predict class 0.
+
+- If $\hat{y} \geq 0.5$, predict class 1.
+
+#### Sigmoid in action
+
+<iframe width="1707" height="765" src="https://www.youtube.com/embed/wLZnPYgbxdw" title="Sigmoid function in action" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+**Interpreting the Sigmoid Output:**
+
+- As `x` goes to negative infinity, the output of the sigmoid function approaches 0.
+- As `x` goes to positive infinity, the output approaches 1.
+- A common threshold for classification is 0.5. If the output is less than 0.5, we might classify it as class 0, and if it's greater than 0.5, as class 1.
+
+### Simulating Logistic Regression
+
+Let's delve deeper into how logistic regression processes data to make predictions. We'll simulate this process using Python to illustrate the transformation from input to output.
+
+**Setting Up Our Simulation:**
+First, we define our parameters:
+
+- **Number of Samples:** 100
+- **Number of Features:** 3
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+num_samples, num_features = 100, 3
+```
+
+**Generating Weights, Bias, and Input Data:**
+
+```python
+# Initialize weights and bias randomly
+weights = np.random.randn(num_features)
+bias = np.random.randn()
+
+# Create input data X
+X = np.random.randn(num_samples, num_features)
+```
+
+**Computing the Linear Combination:**
+
+```python
+# Compute Z, which is our linear combination of weights and features plus bias
+Z = X @ weights + bias  # Using @ for matrix multiplication
+print(f"Shape of Z: {Z.shape}")  # This should be a 1-dimensional array of length 100
+```
+
+The `Z` array represents the linear combination of our input features with the weights, plus the bias. Here, `@` performs the dot product between `X` (100 samples by 3 features) and `weights` (3 features), resulting in a vector of 100 values, one for each sample.
+
+**Applying the Sigmoid Function:**
+Now we'll apply the sigmoid function to transform `Z` into probabilities:
+
+```python
+# Apply sigmoid to Z to get probabilities (y_hat)
+y_hat = sigmoid(Z)
+```
+
+**Plotting the Results:**
+We'll now plot the sigmoid curve along with our simulated predictions:
+
+```python
+# Generate data for the sigmoid plot
+z_sigmoid = np.linspace(-10, 10, 100)
+sigmoid_values = sigmoid(z_sigmoid)
+
+plt.figure(figsize=(10, 6))
+# Plot the sigmoid function
+plt.plot(z_sigmoid, sigmoid_values, label=r"$\sigma(z) = \frac{1}{1 + e^{-x}}$", color='blue')
+
+# Plot our predicted values
+plt.scatter(Z, y_hat, color="red", label="Predicted Values", alpha=0.8)
+plt.axhline(y=0.5, linestyle="--", color="grey")  # Threshold line
+
+plt.title("Simulated Predictions for Logistic Regression")
+plt.xlabel("z")
+plt.ylabel(r"$\hat{y}$")
+
+plt.legend()
+plt.tight_layout()
+
+plt.show()
+```
+
+![Image title](../assets/dive_into_learning_from_data/log_reg_simmulation.png){ align=center, width="500" }
+/// caption
+This simulation visualizes how logistic regression uses the sigmoid function to convert a linear combination of features into class probabilities. Keep in mind, this is a simulation with random weights and bias, not an optimized model, but it helps to illustrate the concept.
+///
+
+**Explaining the Plot:**
+
+- The blue line is the theoretical sigmoid function, showing how inputs are transformed into probabilities.
+- The red dots represent our simulated model's predictions, where each dot corresponds to a sample's `Z` value mapped to its predicted probability `y_hat`.
+- The horizontal grey dashed line at `y=0.5` is our decision boundary; points above this line would be classified as class 1, and below as class 0.

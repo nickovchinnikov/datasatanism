@@ -1,4 +1,6 @@
 ---
+title: Text-to-Speech (TTS) Models Overview, Little Theory and Math
+description: Training Text-to-Speech Models - A Journey from Zero to...
 authors:
   - nick
 date:
@@ -24,12 +26,6 @@ tags:
   - Prosody Modeling
   - Pitch Prediction
 ---
-
-
-# Text-to-Speech (TTS) Models Overview, Little Theory and Math
-
-## Training Text-to-Speech Models: A Journey from Zero to...
-
 
 **Audio is a very complicated data structure, just take a look for a 1 sec waveform...**
 

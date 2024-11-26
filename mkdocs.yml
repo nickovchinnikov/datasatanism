@@ -60,6 +60,9 @@ extra:
   - icon: fontawesome/brands/telegram
     name: DataSatanism on telegram
     link: https://t.me/datasatanisma
+  analytics:
+    provider: google
+    property: G-YQ1VTYK2L7
 markdown_extensions:
   - attr_list
   - md_in_html

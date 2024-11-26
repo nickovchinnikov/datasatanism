@@ -44,6 +44,11 @@ plugins:
   - search
   - social
   - glightbox
+  - rss:
+      match_path: "posts/.*"
+      date_from_meta:
+        as_creation: date.created
+        as_update: date.updated
 nav:
   - index.md
 extra:
@@ -60,6 +65,9 @@ extra:
   - icon: fontawesome/brands/telegram
     name: DataSatanism on telegram
     link: https://t.me/datasatanisma
+  - icon: fontawesome/solid/rss
+    name: RSS Feed
+    link: /feed_rss_created.xml
   analytics:
     provider: google
     property: G-YQ1VTYK2L7

@@ -26,6 +26,7 @@ jobs:
         pip install "mkdocs-material[imaging]"
         pip install cairocffi cairosvg
         pip install mkdocs-glightbox
+        pip install mkdocs-rss-plugin
 
     - name: Build and Deploy MkDocs
       run: mkdocs gh-deploy --force

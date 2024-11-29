@@ -28,6 +28,10 @@ plugins:
       blog_toc: true
       authors_file: "{blog}/.authors.yml"
       categories_allowed:
+        - Mathematics
+        - Programming
+        - Numerical Methods
+        - Data Science
         - Classification
         - Dimensionality Reduction
         - Feature Engineering
@@ -56,6 +60,9 @@ extra:
   - icon: /fontawesome/regular/envelope
     name: send me an email
     link: mailto:contact@datasatanism.com
+  - icon: fontawesome/brands/github
+    name: GitHub
+    link: https://github.com/nickovchinnikov
   - icon: fontawesome/brands/x-twitter
     name: DataSanta on X
     link: https://x.com/datasatanisma

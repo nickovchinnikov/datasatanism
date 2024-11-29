@@ -54,8 +54,11 @@ The derivative \( f'(x) \) is defined as:
 \[ f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h} \]
 
 Here's what this means:
+
 - **\( f(x + h) \)**: The function's value when we slightly change the input by adding \( h \).
+  
 - **\( f(x) \)**: The function's original value.
+  
 - **\( \frac{f(x + h) - f(x)}{h} \)**: This fraction shows how much the function changes when its input changes by \( h \).
 
 ### Applying This to Our Function
@@ -72,7 +75,7 @@ As \( h \) approaches zero, we get:
 
 \[ f'(x) = 2x \]
 
-**Yes, math checks out! **
+**Yes, math checks out!**
 
 ## Understanding Derivatives Through Coding
 

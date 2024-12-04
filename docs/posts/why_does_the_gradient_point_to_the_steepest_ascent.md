@@ -145,11 +145,11 @@ interact(plot_gradient_field,
 
 ```
 
-### Gradient in Action
-
-When exploring this plot, notice how the arrows point directly away from the origin—the direction of the steepest ascent. By following these arrows in reverse (negative gradient), you can descend to the **minimum**.
-
 ![Gradient in 3D](../assets/why_does_the_gradient_point_to_the_steepest_ascent/gradient_3d.png){ align=center }
 /// caption
 Gradient field direction in 3D towards the maximum
 ///
+
+### Gradient in Action
+
+When exploring this plot, notice how the arrows point directly away from the origin—the direction of the steepest ascent. By following these arrows in reverse (negative gradient), you can descend to the **minimum**.

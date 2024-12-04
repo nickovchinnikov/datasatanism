@@ -4,7 +4,7 @@
 
 **The human brain** might be the universe's most complex enigma. Crack its code, and you could unlock the cosmos itself.
 
-??? note "Are You Interested? Subscribe to Our Test Newsletter!"
+??? note "Are You Interested? Subscribe to my test Newsletter!"
 
     <div style="position: relative; padding-bottom: 56.25%; height: 600px; overflow: hidden;">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScj4u8DPfZr-9B4v9lcNTDXFlmavRC44gB0V1XKP05m2D_gYA/viewform?embedded=true" 

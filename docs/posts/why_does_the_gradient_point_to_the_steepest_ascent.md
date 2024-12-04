@@ -28,6 +28,8 @@ Gradient direction in 3D from Min => Max
 
 <!-- more -->
 
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/2.GradientIsTheSteepestAscent.ipynb)
+
 For a given unit vector \( \vec{v} \), the **directional derivative** measures this, and it’s defined as:
 
 $$\nabla_{\vec{v}} f = \nabla f(\textbf{x}) \cdot \vec{v}$$

@@ -32,6 +32,7 @@ plugins:
         - Programming
         - Numerical Methods
         - Data Science
+        - Machine Learning
         - Classification
         - Dimensionality Reduction
         - Feature Engineering

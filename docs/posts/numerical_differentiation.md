@@ -1,5 +1,5 @@
 ---
-title: Mastering Derivatives and Numerical Differentiation From Math to Code
+title: Mastering Derivatives From Math to Code
 description: Dive into the world of derivatives, from understanding the mathematical fundamentals to implementing Python code.
 authors:
   - nick

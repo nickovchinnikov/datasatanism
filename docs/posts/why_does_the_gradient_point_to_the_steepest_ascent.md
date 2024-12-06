@@ -1,5 +1,5 @@
 ---
-title: Why Does the Gradient Point to the Steepest Ascent?
+title: Why Does the Gradient Point Upwards?
 description: Explore why the gradient vector indicates the direction of steepest ascent for functions.
 authors:
   - nick

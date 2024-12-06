@@ -58,11 +58,15 @@ plugins:
         as_update: date.updated
 nav:
   - index.md
+  - about.md
 extra:
   social:
   - icon: /fontawesome/regular/envelope
     name: send me an email
     link: mailto:contact@datasatanism.com
+  - icon: fontawesome/brands/youtube
+    name: YouTube
+    link: https://www.youtube.com/@datasatanism
   - icon: fontawesome/brands/github
     name: GitHub
     link: https://github.com/nickovchinnikov
@@ -106,11 +110,18 @@ markdown_extensions:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tasklist
   - pymdownx.arithmatex:
       generic: true
+  - toc:
+      permalink: true
+  - pymdownx.betterem
   - pymdownx.details
 extra_javascript:
   - javascripts/mathjax.js

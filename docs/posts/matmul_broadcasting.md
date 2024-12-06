@@ -1,6 +1,6 @@
 ---
-title: Matrix Multiplication and Broadcasting - The Heartbeat of Data Transformations
-description: Dive into the essentials of matrix multiplication and broadcasting with simple explanations for deep learning enthusiasts.
+title: Matrix Multiplication and Broadcasting
+description: The Heartbeat of Data Transformations - Dive into the essentials of matrix multiplication and broadcasting.
 authors:
   - nick
 date:

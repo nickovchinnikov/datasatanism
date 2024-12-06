@@ -1,6 +1,6 @@
 ---
 title: Why Does the Gradient Point to the Steepest Ascent?
-description: Explore why the gradient vector indicates the direction of steepest ascent for functions, and learn how to visualize and apply this concept in optimization algorithms like gradient descent.
+description: Explore why the gradient vector indicates the direction of steepest ascent for functions.
 authors:
   - nick
 date:

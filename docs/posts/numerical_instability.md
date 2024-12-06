@@ -26,7 +26,7 @@ tags:
 
 Using the **Centered Difference** approximation of the derivative can lead to **numerical instability**. Function optimization is a precise task; we cannot afford methods that introduce instability and unpredictability into our results. I've discovered a specific case that illustrates this issue.
 
-![Oscillating Function VS Exact Derivative](../assets/gradient_descent_and_the_first_training_loop/oscilation_vs_derivative.png){ align=center }
+![Oscillating Function VS Exact Derivative](../assets/numerical_instability/oscilation_vs_derivative.png){ align=center }
 /// caption
 Oscillating Function VS Exact Derivative
 ///
@@ -155,7 +155,7 @@ interact(
 
 #### Plot
 
-![Oscillating Function VS Exact Derivative](../assets/gradient_descent_and_the_first_training_loop/oscilation_vs_derivative.png){ align=center }
+![Oscillating Function VS Exact Derivative](../assets/numerical_instability/oscilation_vs_derivative.png){ align=center }
 /// caption
 Oscillating Function VS Exact Derivative
 ///
@@ -239,3 +239,4 @@ Recall the [MNIST dataset challange from my first video](./dive_into_learning_fr
 ### Final words
 
 Numerical differentiation is excellent for understanding the true nature of the derivative, but it falls short when facing real challenges in the Deep Learning field. We should use the exact derivative of the function; tools like `backpropagation` or `autodiff` algorithms can compute these derivatives efficiently. That's where the true power of frameworks like `PyTorch` lies - in `autodiff`!
+

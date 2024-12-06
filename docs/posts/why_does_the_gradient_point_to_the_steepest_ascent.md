@@ -30,7 +30,16 @@ Gradient direction in 3D from Min => Max
 
 ### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/2.GradientIsTheSteepestAscent.ipynb)
 
-For a given unit vector \( \vec{v} \), the **directional derivative** measures this, and it’s defined as:
+### What is gradient?
+
+Gradient is a vector of partial derivatives of a function. It's a vector of derivatives of a function with respect to its variables.
+For example, if we have a function $f(x, y)$, then the gradient of this function is a vector of its partial derivatives with respect to $x$ and $y$.
+
+$$\nabla f(x, y) = \left(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y}\right)$$
+
+### Dot Product Formula is the key
+
+For a given unit vector \( \vec{v} \), the **directional derivative** measures this, and it's defined as:
 
 $$\nabla_{\vec{v}} f = \nabla f(\textbf{x}) \cdot \vec{v}$$
 
@@ -54,11 +63,11 @@ Thus, the gradient \( \nabla f(\textbf{x}) \) points in the **steepest ascent** 
 
 ## Gradient Descent: Finding the Steepest Descent
 
-To minimize a function, we use the **negative gradient**, following **the steepest descent**. Let’s visualize this concept with an interactive 3D plot of the gradient field.
+To minimize a function, we use the **negative gradient**, following **the steepest descent**. Let's visualize this concept with an interactive 3D plot of the gradient field.
 
 ### Visualizing the Gradient Field
 
-The function \( f(x, y) = x^2 + y^2 \) is a classic example. Its gradient points outward, showing how the function rises steeply as you move away from the origin. Here’s an interactive plot to explore the gradient field:
+The function \( f(x, y) = x^2 + y^2 \) is a classic example. Its gradient points outward, showing how the function rises steeply as you move away from the origin. Here's an interactive plot to explore the gradient field:
 
 ```python
 import numpy as np

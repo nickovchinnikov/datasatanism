@@ -1,6 +1,6 @@
 ---
-title: Gradient Descent - Downhill to the Minima. A Visual Journey to Optimization
-description: Follow along with our interactive Python plot where we demonstrate the gradient descent in action. See how the algorithm navigates through a function's landscape to find the optimal solution. Watch as we code in Python, but also explain the logic behind each line.
+title: Gradient Descent - Downhill to the Minima
+description: Follow along with our interactive Python plot where we demonstrate the gradient descent in action.
 authors:
   - nick
 date:

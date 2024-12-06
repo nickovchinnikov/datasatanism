@@ -1,6 +1,6 @@
 ---
-title: Mastering Derivatives From Math to Code with Python Numerical Differentiation
-description: Dive into the world of derivatives, from understanding the mathematical fundamentals to implementing Python code. Explore three methods of numerical differentiation - forward, backward, and central. We'll visualize their accuracy, helping you decide the best approach for your computational needs!
+title: Mastering Derivatives and Numerical Differentiation From Math to Code
+description: Dive into the world of derivatives, from understanding the mathematical fundamentals to implementing Python code.
 authors:
   - nick
 date:

@@ -1,6 +1,6 @@
 ---
-title: Numerical Instability in Numerical Differentiation
-description: Delving into the pitfalls of numerical differentiation, exploring its impact on function optimization, and discussing alternatives for precise gradient computation in machine learning.
+title: Instability in Numerical Differentiation
+description: Delving into the pitfalls of numerical differentiation, exploring its impact on gradient computation.
 authors:
   - nick
 date:

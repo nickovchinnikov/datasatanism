@@ -451,3 +451,8 @@ interact(plot_gradient_descent,
          num_iterations=IntSlider(min=1, max=50, step=1, value=20, description='Iterations'))
 
 ```
+
+![Gradient descent in 3D](../assets/why_does_the_gradient_point_to_the_steepest_ascent/grad_descent.png){ align=center }
+/// caption
+Gradient descent in 3D
+///

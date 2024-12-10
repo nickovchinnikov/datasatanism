@@ -77,10 +77,13 @@ At any point \( x \), the derivative \( f'(x) \) indicates the slope of the tang
 
 \[ x_{n+1} = x_n + \alpha \cdot f'(x_n) \]
 
+
 **where:**
 
 * \( x_n \) is your current position on the \( x \)-axis.
+
 * \( f'(x_n) \) is the derivative at \( x_n \).
+
 * \( \alpha \) (learning rate) determines how big a step we take towards the steepest ascent.
 
 
@@ -247,13 +250,16 @@ $$\nabla_{\vec{v}} f = |\nabla f(\textbf{x})| \cos \theta$$
 
 Here, \( \theta \) is the angle between \( \nabla f(\textbf{x}) \) and \( \vec{v} \). The key insight? The **cosine of the angle**, \( \cos \theta \), determines how large the directional derivative is:
 
+
 **When \( \theta = 0^\circ \):** \( \cos(0) = 1 \), so \( \nabla_{\vec{v}} f \) reaches its maximum value:
   
 $$\nabla_{\vec{v}} f = |\nabla f(\textbf{x})|$$
 
+
 **For any other angle:** \( \cos \theta < 1 \), so the directional derivative is smaller.
 
 Thus, the gradient \( \nabla f(\textbf{x}) \) points in the **steepest ascent** direction because that's where \( \cos \theta = 1 \) the function increases the fastest when you move directly in the direction of the gradient!
+
 
 **The gradient vector \( \nabla f(\textbf{x}) \) not only gives the direction of steepest ascent but also quantifies how steep this ascent is**, and by using the cosine of the angle between the gradient and any other direction, we can determine the rate of change in that direction. This understanding is fundamental in fields like optimization where we aim to find the path of maximum increase or decrease of a function.
 

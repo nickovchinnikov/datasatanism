@@ -1,2 +1,5 @@
 .cache
 web/*
+media/*
+manim/media/*
+**__pycache__**

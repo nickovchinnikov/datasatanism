@@ -216,7 +216,7 @@ def ascent(f, x0, steps=5, lr=0.3):
     return result
 ```
 
-### Step 2: Gradient Descent
+## Step 2: Gradient Descent
 
 The **gradient descent** algorithm works similarly but moves in the opposite direction—towards the steepest descent—to find the minimum of a function.
 

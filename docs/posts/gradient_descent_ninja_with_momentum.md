@@ -50,7 +50,7 @@ I won't use numerical differentiation; I'll only use **the exact gradient of the
 
 ### Glance at the Gradient Descent... Again!
 
-On a **gradient field plot**, you see the gradient vector at each point of a 3D function surface. The gradient vectors point in the direction of the steepest ascent. If we start at some point in the field and move in the opposite direction of the gradient vector, we move downhill. This is the idea of gradient descent - follow the gradient’s direction to reach the function's minimum.
+On a **gradient field plot**, you see the gradient vector at each point of a 3D function surface. The gradient vectors point in the direction of the steepest ascent. If we start at some point in the field and move in the opposite direction of the gradient vector, we move downhill. This is the idea of gradient descent - follow the negative gradient’s direction to reach the function's minimum.
 
 The most intuitive way to understand this is by reducing everything to the **2D case**—input \(x\) and output \(y\). [In the previous post, I talked about gradient descent using the derivative.](./gradient_descent_downhill_to_the_minima.md)
 
@@ -196,7 +196,7 @@ Let's apply our basic approach to much complex landscape. Before any strategic c
 
 ### Function:
 
-The function we are working with is a **modified 3D quadratic function** combined with sinusoidal terms it can be described as a **quadratic function with sinusoidal perturbations** or **QFSP function**.
+The function we are working with is a **3D quadratic function** combined with sinusoidal terms it can be described as a **quadratic function with sinusoidal perturbations** or **QFSP function**.
 
 \[
 f(x, y) = x^2 + y^2 + 10 \sin(x) \sin(y)
@@ -226,6 +226,72 @@ Thus, the gradient is:
 \]
 
 The QFSP function features a paraboloid shape disrupted by sinusoidal waves, creating a landscape with numerous local minima and maxima, challenging for gradient descent due to potential entrapment in local optima.
+
+
+```python
+import numpy as np
+
+
+def f3d(vector):
+    """
+    Modified 3D function: f(x, y) = x^2 + y^2 + 10*sin(x)*sin(y).
+
+    Args:
+    vector: A 2D numpy array or list with shape (2,) representing (x, y) coordinates.
+
+    Returns:
+    Value of the function at point (x, y)
+    """
+    x, y = vector
+    return x**2 + y**2 + 10 * np.sin(x) * np.sin(y)
+
+
+def grad_f3d(vector):
+    """
+    Gradient of the function f(x, y) = x^2 + y^2 + 10*sin(x)*sin(y).
+
+    Args:
+    vector: A 2D numpy array or list with shape (2,) representing (x, y) coordinates.
+
+    Returns:
+    Gradient of the function at point (x, y) as a numpy array.
+    """
+    x, y = vector
+    dx = 2*x + 10 * np.cos(x) * np.sin(y)
+    dy = 2*y + 10 * np.sin(x) * np.cos(y)
+    return np.array([dx, dy])
+
+
+
+# Generate data
+x = np.linspace(-10, 10, 100)
+y = np.linspace(-10, 10, 100)
+X, Y = np.meshgrid(x, y)
+Z = f3d([X, Y])
+
+# Create new figure for 3D plot
+fig = plt.figure(figsize=(20, 10))
+
+# 3D plot
+ax1 = fig.add_subplot(121, projection='3d')
+surf = ax1.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
+ax1.set_title('3D Surface Plot of f(x, y)')
+ax1.set_xlabel('X')
+ax1.set_ylabel('Y')
+ax1.set_zlabel('Z')
+fig.colorbar(surf, shrink=0.5, aspect=5, ax=ax1)
+
+# 2D contour plot
+ax2 = fig.add_subplot(122)
+contour = ax2.contourf(X, Y, Z, levels=50, cmap='viridis')
+ax2.set_title('2D Contour Plot of f(x, y)')
+ax2.set_xlabel('X')
+ax2.set_ylabel('Y')
+fig.colorbar(contour, ax=ax2)
+
+plt.tight_layout()
+plt.show()
+```
 
 
 ![Quadratic function with sinusoidal perturbations in 3D](../assets/gradient_descent_ninja_with_momentum/QFSP.png){ align=center }

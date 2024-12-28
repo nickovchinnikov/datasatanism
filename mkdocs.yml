@@ -1,4 +1,4 @@
-site_name: DataSatanism
+site_name: DataSanta
 site_url: https://datasatanism.com
 site_dir: web
 theme:
@@ -45,6 +45,7 @@ plugins:
         - Natural Language Processing
         - TTS (Text to Speech)
         - Neural Networks
+        - Loss Functions
       pagination_per_page: 5
   - tags:
       tags_file: .tags.md

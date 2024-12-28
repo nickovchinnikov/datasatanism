@@ -1,10 +1,10 @@
-# DataSatanism: Exploring the Mystique of Machine Learning
+# Data Santa: Exploring the Mystique of Machine Learning
 
-Welcome to the DataSatanism GitHub repository! This is where the magic happens, where code meets creativity, and where we delve into the arcane arts of machine learning, data science, and beyond.
+Welcome to the Data Santa GitHub repository! This is where the magic happens, where code meets creativity, and where we delve into the arcane arts of machine learning, data science, and beyond.
 
 ## About
 
-DataSatanism is a blog that blends the technical with the mystical, providing insights into:
+DataSanta is a blog that blends the technical with the mystical, providing insights into:
 
 - **Machine Learning** algorithms and techniques.
 - **Data Science** tools and practices.

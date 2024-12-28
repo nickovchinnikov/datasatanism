@@ -1,9 +1,9 @@
 ---
 title: About
-description: DataSatanism - a place where we simplify complex ideas, share practical projects, and build a community.
+description: DataSanta - a place where we simplify complex ideas, share practical projects, and build a community.
 ---
 
-## What is DataSatanism?
+## What is DataSanta?
 
 **The human brain might be the universe's most complex enigma.** Crack its code, and you could unlock the cosmos itself. Here, we explore mimicking the brain's structure to solve problems that even seem magical.
 
@@ -29,7 +29,7 @@ Are you ready to explore, learn, and perhaps even laugh at the absurdity and bea
 - **Comment** on posts with your insights or questions.
 - **Connect** with me and others who are equally fascinated by the power of data.
 
-*Remember, here at DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
+*Remember, here at @DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
 
 **Let's open the mystery together.**
 

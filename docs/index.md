@@ -3,11 +3,11 @@ title: Blog
 description: Dive into the world of Programming and the Mathematical Art of Deep Learning.
 ---
 
-# Welcome to DataSatanism 
+# Welcome to DataSanta 
 
 **Open the Deep Learning Mystery: [**YouTube** :simple-youtube:](https://www.youtube.com/@datasatanism)**
 
-Welcome to **DataSatanism**, my digital diary where numbers dance, and algorithms whisper the secrets of the universe. Here, we take a delightfully unserious approach to very serious topics like data science, machine learning, and, yes, *Goddamnit AI!*. [Read more About This Blog](./about.md)
+Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms whisper the secrets of the universe. Here, we take a delightfully unserious approach to very serious topics like data science, machine learning, and, yes, *Goddamnit AI!*. [Read more About This Blog](./about.md)
 
 ## Feel free to:
 
@@ -26,7 +26,7 @@ Welcome to **DataSatanism**, my digital diary where numbers dance, and algorithm
     - [**Telegram** :simple-telegram:](https://t.me/datasatanisma)
     - :material-email: contact@datasatanism.com
 
-*Remember, here at DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
+*Remember, here at @DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
 
 **Let's open the mystery together.**
 

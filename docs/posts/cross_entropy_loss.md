@@ -34,8 +34,19 @@ Binary Cross-Entropy (BCE)
 
 ### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/6.CrossEntropy.ipynb)
 
+Loss measures how different the true data labels are from the model's predictions. Consider two binary vectors, where "binary" means the vectors have only two possible values: 0 and 1. If we have two vectors
 
-Don't be afraid - at first glance, the Cross-Entropy might look complex, but once we break it down, each part becomes clear and manageable. Let's begin with the foundation: **the logarithmic function.** 
+**True labels ($y$):**
+
+$$y = \left[0, 1, 1, 1, 0, 1, 1, 1 \right]$$
+
+**And predicted labels ($\hat{y}$)**:
+
+$$\hat{y} = \left[1, 1, 1, 0, 0, 1, 1, 0 \right]$$
+
+The loss function provides a universal measure of the difference between these vectors. This is the general purpose of any loss function and the role of **Binary Cross-Entropy** in particular.
+
+The Cross-Entropy might look complex, but once we break it down, each part becomes clear and manageable. Let's begin with the foundation: **the logarithmic function.** 
 
 
 ### Log function
@@ -171,10 +182,6 @@ This gradient follows your notation and describes how the BCE loss changes with 
 ### Deivative plot
 
 This plot visualizes the gradient of the binary cross-entropy loss with respect to the predicted probability $\hat{y}$, for two cases: when the true label $y = 1$ and when $y = 0$. The gradient indicates how the loss changes as the predicted probability moves closer to or farther from the true label. 
-
-**The sharp gradients at incorrect predictions** (\(\hat{y} \approx 0\) for \(y=1\) and \(\hat{y} \approx 1\) for \(y=0\)) enforce stronger corrections, helping the model improve quickly when it's wrong.
-
-**The flatter gradients at correct predictions** (\(\hat{y} \approx 1\) for \(y=1\) and \(\hat{y} \approx 0\) for \(y=0\)) reduce overcorrection, stabilizing the learning process when the model is correct.
 
 ![Cross-Entropy Derivative plot](../assets/cross_entropy/cross_entropy_derivative_plot.png)
 /// caption

@@ -6,7 +6,6 @@ authors:
 date:
   created: 2025-01-03
 comments: true
-draft: true
 categories:
   - Deep Learning
   - Machine Learning
@@ -33,6 +32,7 @@ In a classification problem, especially in **multi-class classification**, the m
 
 
 <!-- more -->
+
 
 ## **[Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/7.SigmoidLogitsProbs.ipynb)**
 
@@ -178,10 +178,18 @@ class Sigmoid:
 
 ## Sigmoid and derivative plot
 
+The **Sigmoid Function** maps input values to an output range between 0 and 1. For large negative inputs ($x \to -\infty$), the sigmoid output approaches 0. For large positive inputs ($x \to +\infty$), the sigmoid output approaches 1. At $x = 0$, the sigmoid output is 0.5, providing symmetry around the origin.
+
 ![Sigmoid and derivative](../assets/logits_probs_sigmoid/sigmoid_and_derivative.png)
 /// caption
 Sigmoid and derivative
 ///
+
+The **left graph** shows the sigmoid curve. Notice its smooth S-shape transitioning from 0 to 1 as $x$ increases. This smoothness is crucial for backpropagation in neural networks, as it allows gradients to flow efficiently during optimization. This smoothness is crucial for backpropagation in neural networks, as it allows gradients to flow efficiently during optimization.
+
+The **right graph** shows the derivative of the sigmoid function. The peak at $x = 0$ highlights the point of maximum sensitivity. This is the region where the sigmoid responds most strongly to changes in input. At the tails ($x \to \pm\infty$), the derivative diminishes, leading to the vanishing gradient problem in deep networks when using sigmoid in multiple layers.
+
+This derivative shows how the sigmoid output changes with respect to the input $x$.
 
 
 ## Logits to Probabilities

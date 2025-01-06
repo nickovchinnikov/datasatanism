@@ -20,8 +20,7 @@ tags:
 ---
 
 
-Cross-Entropy is a widely used loss function, especially in classification tasks, that measures the difference between two probability distributions. It is particularly effective when dealing with probabilities predicted by models (like neural networks).
-
+Cross-Entropy is a widely used loss function, especially in classification tasks, that measures the difference between two probability distributions. 
 
 ![Binary Cross-Entropy plot](../assets/cross_entropy/cross_entropy_plot.png)
 /// caption
@@ -56,14 +55,10 @@ To understand **Cross-Entropy**, let's first recall the concept of the **logarit
 $$\tag{log} \label{eq:log}
 \log_a(b) = c \quad \iff \quad a^c = b$$
 
-This means $c$ is the exponent you raise $a$ to in order to get $b$. In simpler terms, the logarithm answers the question: "To what power should we raise the base $a$ to obtain the value $b$?"
+In simpler terms, the logarithm answers the question: "To what power $c$ should we raise the base $a$ to obtain the value $b$?"
 
-The **logarithmic transformation** is applied to each predicted probability in BCE. Specifically, the natural logarithm (log base $e$) is used. The log function has a significant impact on the BCE formula and helps in penalizing **incorrect predictions** more heavily when the model is **confidently wrong**.
+When you take the logarithm of a value in range `(0, 1)` (which is common for predicted probabilities), the result is always **negative**. The closer the probability is to 0, the more **negative** the log becomes.
 
-When you take the logarithm of a value between 0 and 1 (which is common for predicted probabilities), the result is always **negative**. This is because the logarithm of any fraction (a number between 0 and 1) is negative. The closer the probability is to 0, the more **negative** the log becomes.
-
-
-Here's how it works:
 
 **High-probability predictions** (closer to 1) will have a logarithmic value that is closer to 0. For example if the predicted probability is 0.8, the log will be approximately -0.223. This is still negative, but relatively **close to 0**.
 
@@ -78,10 +73,6 @@ If the probability is 0.2, the log value will be -1.609.
 If the probability is 0.01, the log will be close to -4.605.
 
 ![Low-probability predictions 0.01](../assets/cross_entropy/log_0.01.png)
-
-The **BCE loss function** uses these log values to compute the difference between predicted and actual values, with larger penalties for incorrect predictions that the model is **confident about**. This ensures that the model learns to avoid making strong predictions with high certainty that are wrong. 
-
-The logarithmic function plays a crucial role in **penalizing incorrect predictions** more strongly, especially when the model is **very confident** but wrong, ensuring that it becomes more accurate over time.
 
 You can experiment with this function on your own [check the jupyter notebook](#check-the-jupyter-notebook)
 
@@ -113,7 +104,9 @@ $$\tag{BCE} \label{eq:bce}
 \mathcal{L} = - \frac{1}{N} \sum_{i=1}^{N} y_i \log(p_i) + (1 - y_i) \log(1 - p_i)
 $$
 
-$y_i$ is the true label for the $i$-th sample, can either be 0 or 1. The model predicts $p_i$, the predicted probability for the $i$-th sample. It's the model's output, typically a value between 0 and 1. $N$ represents the number of samples in the dataset or batch. The loss is averaged over all samples, and we divide the sum result by the $N$.
+$y_i$ is the true label for the $i$-th sample, can either be 0 or 1. The model predicts $p_i$, the predicted probability for the $i$-th sample, it's the model's output, typically a value between 0 and 1. $N$ represents the number of samples in the dataset or batch. The loss is averaged over all samples, and we divide the sum result by the $N$.
+
+The **BCE loss function** gives bigger penalties for predictions with low probabilities for the correct class ($p_i$ close to 0) and rewards high probabilities ($p_i$ close to 1). This helps the model avoid being too confident when it’s wrong. The logarithmic function makes sure incorrect, confident predictions are punished the most.
 
 Now let's break down the **logarithmic terms**. Since $y_i$ can be either 0 or 1, the expression:
 

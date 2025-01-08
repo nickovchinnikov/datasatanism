@@ -106,16 +106,15 @@ $$
 
 $y_i$ is the true label for the $i$-th sample, can either be 0 or 1. The model predicts $p_i$, the predicted probability for the $i$-th sample, it's the model's output, typically a value between 0 and 1. $N$ represents the number of samples in the dataset or batch. The loss is averaged over all samples, and we divide the sum result by the $N$.
 
-The **BCE loss function** gives bigger penalties for predictions with low probabilities for the correct class ($p_i$ close to 0) and rewards high probabilities ($p_i$ close to 1). This helps the model avoid being too confident when it’s wrong. The logarithmic function makes sure incorrect, confident predictions are punished the most.
-
 Now let's break down the **logarithmic terms**. Since $y_i$ can be either 0 or 1, the expression:
 
 $$y_i \log(p_i) + (1 - y_i) \log(1 - p_i)$$
 
 **activates only one of the terms depending on the value of $y_i$**.
 
-**When $y_i = 1$**, the first term $y_i \log(p_i)$ becomes active, and **when $y_i = 0$**, the second term $(1 - y_i) \log(1 - p_i)$ takes over. This ensures we focus only on the relevant term for each case, making the computation efficient and precise.
+**First Term $y_i \log(p_i)$:** Active when $y_i = 1$, it evaluates the predicted probability for the true class. A high $p_i$ (close to 1) results in a small penalty, while a low $p_i$ (close to 0) leads to a large penalty. The logarithm amplifies errors for low probabilities, encouraging confident and correct predictions.  
 
+**Second Term $(1 - y_i) \log(1 - p_i)$:** Active when $y_i = 0$, it evaluates the predicted probability for the incorrect class. A low $p_i$ (close to 0) keeps the penalty small, while a high $p_i$ (close to 1) results in a large penalty. The logarithm amplifies errors for high probabilities, penalizing confident but incorrect predictions.  
 
 ![Log](../assets/cross_entropy/log.png)
 /// caption
@@ -123,70 +122,7 @@ Log function
 ///
 
 
-**First Term $y_i \log(p_i)$:** Active when $y_i = 1$, it evaluates the predicted probability for the true class. A high $p_i$ (close to 1) results in a small penalty, while a low $p_i$ (close to 0) leads to a large penalty. The logarithm amplifies errors for low probabilities, encouraging confident and correct predictions.  
-
-**Second Term $(1 - y_i) \log(1 - p_i)$:** Active when $y_i = 0$, it evaluates the predicted probability for the incorrect class. A low $p_i$ (close to 0) keeps the penalty small, while a high $p_i$ (close to 1) results in a large penalty. The logarithm amplifies errors for high probabilities, penalizing confident but incorrect predictions.  
-
-The **logarithmic function** applies a **penalty** that is more severe for **confidently incorrect predictions**. When the predicted probability is far from the true label, the log value becomes more negative, leading to a larger penalty. The logarithmic transformation ensures the model learns to avoid making overly confident, incorrect predictions.
-
-
-## Binary Cross-Entropy plot
-
-The best way to understand how cross-entropy works is to visualize it. Let’s build the widely recognized plot with crossing lines that represents the binary case with two classes. This plot helps us see how the loss behaves depending on the predicted probability, highlighting key insights into how cross-entropy penalizes predictions that are confident but wrong.
-
-![Binary Cross-Entropy plot](../assets/cross_entropy/cross_entropy_plot.png)
-
-The plot visualizes the behavior of cross-entropy loss for binary classification, focusing on how the predicted probability $\hat{y}$ impacts the loss for each true class ($y = 1$ and $y = 0$). 
-
-For $y = 1$ (blue curve), the loss is low when the predicted probability is close to 1, indicating a confident correct prediction. As $\hat{y}$ approaches 0, the loss increases sharply, penalizing confident incorrect predictions. 
-
-For $y = 0$ (red curve), the loss is low when $\hat{y}$ is close to 0, reflecting an accurate prediction for the negative class. When $\hat{y}$ nears 1, the loss grows steeply, again emphasizing penalties for confidently wrong predictions. 
-
-The annotated arrows highlight key points, showing regions of low and high loss for both classes, and the overall behavior underscores the role of cross-entropy in guiding models to make confident and correct predictions.
-
-
-## Binary Cross-Entropy derivative
-
-For a single sample $i$, the BCE loss is:
-
-$$\ell_i = - \left[ y_i \log(p_i) + (1 - y_i) \log(1 - p_i) \right]$$
-
-**Remember the log derivative:**
-
-$$\frac{d}{dx}\left(\log(x)\right) = \frac{1}{x}$$
-
-Taking the partial derivative with respect to $p_i$:
-
-$$\frac{\partial \ell_i}{\partial p_i} = - \left[ \frac{y_i}{p_i} - \frac{1 - y_i}{1 - p_i} \right]$$
-
-Expanding and simplifying:
-
-$$\frac{\partial \ell_i}{\partial p_i} = \frac{p_i - y_i}{p_i (1 - p_i)}$$
-
-
-Since the BCE loss averages over $N$ samples, the gradient for the full dataset is:
-
-$$\tag{BCE gradient} \label{eq:bce_gradient}
-\frac{\partial \mathcal{L}}{\partial p_i} = \frac{1}{N} \sum_{i=1}^{N} \frac{p_i - y_i}{p_i (1 - p_i)}$$
-
-This gradient follows your notation and describes how the BCE loss changes with respect to the predicted probabilities $p_i$.
-
-
-### Deivative plot
-
-This plot visualizes the gradient of the binary cross-entropy loss with respect to the predicted probability $\hat{y}$, for two cases: when the true label $y = 1$ and when $y = 0$. The gradient indicates how the loss changes as the predicted probability moves closer to or farther from the true label. 
-
-![Cross-Entropy Derivative plot](../assets/cross_entropy/cross_entropy_derivative_plot.png)
-/// caption
-Cross-Entropy Derivative plot
-///
-
-For $y = 1$ (blue line), the gradient is steep (large positive values) near $\hat{y} = 0$. This signifies a strong correction when the model predicts a probability far from the true label. As $\hat{y}$ approaches 1, the gradient becomes smaller, meaning minimal adjustments are needed since the prediction aligns well with the true label.
-
-For $y = 0$ (red line), the pattern is reversed. The gradient is steep near $\hat{y} = 1$, penalizing predictions that incorrectly favor the positive class. When $\hat{y}$ approaches 0, the gradient diminishes, reflecting minimal penalties for predictions that align with the true label.
-
-
-## Implementation
+## Forward Implementation
 
 ```python
 import numpy as np
@@ -218,6 +154,39 @@ class BinaryCELoss:
         # Average the loss over the batch size
         return np.mean(loss)
 
+```
+
+
+## Binary Cross-Entropy derivative
+
+For a single sample $i$, the BCE loss is:
+
+$$\ell_i = - \left[ y_i \log(p_i) + (1 - y_i) \log(1 - p_i) \right]$$
+
+**Remember the log derivative:**
+
+$$\frac{d}{dx}\left(\log(x)\right) = \frac{1}{x}$$
+
+Taking the partial derivative with respect to $p_i$:
+
+$$\frac{\partial \ell_i}{\partial p_i} = - \left[ \frac{y_i}{p_i} - \frac{1 - y_i}{1 - p_i} \right]$$
+
+Expanding and simplifying:
+
+$$\frac{\partial \ell_i}{\partial p_i} = \frac{p_i - y_i}{p_i (1 - p_i)}$$
+
+This gradient follows your notation and describes how the BCE loss changes with respect to the predicted probabilities $p_i$.
+
+
+## Backward Implementation
+
+```python
+import numpy as np
+
+
+class BinaryCELoss:
+    # ... forward code
+
     def backward(self, pred: np.ndarray, target: np.ndarray, epsilon: float = 1e-7) -> np.ndarray:
         r"""
         Compute the gradient of the Binary Cross-Entropy loss with respect to the predicted values.
@@ -243,52 +212,102 @@ class BinaryCELoss:
 ```
 
 
-### Multiclass Cross-Entropy
+## Binary Cross-Entropy plot
 
-For multiclass classification, the cross-entropy loss extends from the binary case to handle more than two classes. The **multiclass cross-entropy** formula for a single sample is:
+The best way to understand how cross-entropy works is to visualize it. Let's build the widely recognized plot with crossing lines that represents the binary case with two classes.
 
+![Binary Cross-Entropy plot](../assets/cross_entropy/cross_entropy_plot.png)
+
+The plot visualizes the behavior of cross-entropy loss for binary classification, focusing on how the predicted probability $\hat{y}$ impacts the loss for each true class ($y = 1$ and $y = 0$). 
+
+For $y = 1$ (blue curve), the loss is low when the predicted probability is close to 1, indicating a confident correct prediction. As $\hat{y}$ approaches 0, the loss increases sharply, penalizing confident incorrect predictions. 
+
+For $y = 0$ (red curve), the loss is low when $\hat{y}$ is close to 0, reflecting an accurate prediction for the negative class. When $\hat{y}$ nears 1, the loss grows steeply, again emphasizing penalties for confidently wrong predictions. 
+
+The annotated arrows highlight key points, showing regions of low and high loss for both classes, and the overall behavior underscores the role of cross-entropy in guiding models to make confident and correct predictions.
+
+### Deivative plot
+
+This plot visualizes the gradient of the binary cross-entropy loss with respect to the predicted probability $\hat{y}$, for two cases: when the true label $y = 1$ and when $y = 0$. The gradient indicates how the loss changes as the predicted probability moves closer to or farther from the true label. 
+
+![Cross-Entropy Derivative plot](../assets/cross_entropy/cross_entropy_derivative_plot.png)
+/// caption
+Cross-Entropy Derivative plot
+///
+
+For $y = 1$ (blue line), the gradient is steep (large positive values) near $\hat{y} = 0$. This signifies a strong correction when the model predicts a probability far from the true label. As $\hat{y}$ approaches 1, the gradient becomes smaller, meaning minimal adjustments are needed since the prediction aligns well with the true label.
+
+For $y = 0$ (red line), the pattern is reversed. The gradient is steep near $\hat{y} = 1$, penalizing predictions that incorrectly favor the positive class. When $\hat{y}$ approaches 0, the gradient diminishes, reflecting minimal penalties for predictions that align with the true label.
+
+
+## Multiclass Cross-Entropy
+
+For multiclass classification, the cross-entropy loss extends from the binary case to handle more than two classes. The **multiclass cross-entropy** formula for a **single sample** is:
 
 $$\mathcal{L} = - \sum_{i=1}^{C} y_i \log(p_i)$$
 
-
 Where $C$ is the number of classes, $y_i$ is the true label, encoded as a one-hot vector (i.e., one class has a label of 1, and all others have 0) and $p_i$ is the predicted probability for class $i$.
+
+**For a batch of $N$ examples**, the loss is averaged over the batch:
+
+$$\mathcal{L} = - \frac{1}{N} \sum_{n=1}^N \sum_{i=1}^C y_i^{(n)} \log(p_i^{(n)})$$
+
+Where $y_i^{(n)}$ and $p_i^{(n)}$ are the true label and predicted probability for class $i$ of the $n$-th example.
 
 Unlike binary cross-entropy, where only one term in the loss function is active, **multiclass cross-entropy** considers all classes. The loss is computed across all classes, but the log term only "activates" for the correct class.
 
-For the **gradient**, it becomes:
+
+### Multiclass CE derivative
+
+**Write the summation explicitly**:
+
+$$\mathcal{L} = -\left(y_1 \log(p_1) + y_2 \log(p_2) + \dots + y_C \log(p_C)\right)$$
+
+Since $y_i$ is non-zero only for the true class (in one-hot encoding), most terms in the summation vanish except for the term where $y_i = 1$. **Consider the term where $y_i = 1$**: assume $y_k = 1$ for some class $k$, and $y_j = 0$ for $j \neq k$. The loss simplifies to:
+
+$$\mathcal{L} = - \log(p_k)$$
+
+Thus, for the true class $k$, the relevant term is $-y_k \log(p_k)$. Differentiate with respect to $p_i$:
+
+$$\frac{\partial \mathcal{L}}{\partial p_k} = \frac{\partial}{\partial p_k} \left(-\log(p_k)\right) = -\frac{1}{p_k}$$
+
+For all other classes $j \neq k$, $y_j = 0$, so:
+
+$$\frac{\partial \mathcal{L}}{\partial p_j} = 0$$
 
 
-$$\frac{\partial \mathcal{L}}{\partial p_i} = p_i - y_i$$
+**Final Derivative**: Using the general summation form, the derivative of the loss with respect to $p_i$ is:
 
+$$\frac{\partial \mathcal{L}}{\partial p_i} = -\frac{y_i}{p_i}$$
 
 This adjusts the predicted probability for each class based on the difference between the predicted probability and the true label.
 
-**Binary Cross-Entropy (BCE)** is used for two-class problems, where only one term is active at a time. **Multiclass Cross-Entropy** handles more than two classes, using all the predicted probabilities, but the true class has a label of 1, and all others are 0. The loss for multiclass classification accumulates over all classes, making it more complex, but **the underlying principle of penalizing incorrect predictions remains the same.**
-
-
-### Example Multiclass Cross-Entropy:
+### Implementation of CE loss:
 
 ```python
 
+import numpy as np
+
 class CrossEntropyLoss:
-    def forward(self, pred: np.ndarray, target: np.ndarray, epsilon: float = 1e-7) -> np.ndarray:
+    def forward(self, pred: np.ndarray, target: np.ndarray, epsilon: float = 1e-7) -> float:
         """
         Compute the Cross-Entropy loss for multiclass classification.
 
         Args:
-            pred (np.ndarray): The predicted class probabilities from the model.
+            pred (np.ndarray): The predicted class probabilities from the model (output of softmax).
             target (np.ndarray): The one-hot encoded true target values.
             epsilon (float): A small value to avoid log(0) for numerical stability.
 
         Returns:
-            np.ndarray: The computed Cross-Entropy loss. Scalar for multiclass classification.
+            float: The computed Cross-Entropy loss. Scalar for multiclass classification.
         """
         # Clip predictions to avoid log(0)
         pred = np.clip(pred, epsilon, 1. - epsilon)
         
-        # Compute cross-entropy loss for each class
+        # Compute cross-entropy loss for each example
         loss = -np.sum(target * np.log(pred), axis=1)  # sum over classes for each example
 
+        # Return the mean loss over the batch
         return np.mean(loss)
     
     def backward(self, pred: np.ndarray, target: np.ndarray, epsilon: float = 1e-7) -> np.ndarray:
@@ -296,23 +315,26 @@ class CrossEntropyLoss:
         Compute the gradient of the Cross-Entropy loss with respect to the predicted values.
 
         Args:
-            pred (np.ndarray): The predicted class probabilities from the model.
+            pred (np.ndarray): The predicted class probabilities from the model (output of softmax).
             target (np.ndarray): The one-hot encoded true target values.
-            epsilon (float): A small value to avoid log(0) for numerical stability.
+            epsilon (float): A small value to avoid division by zero for numerical stability.
 
         Returns:
             np.ndarray: The gradient of the loss with respect to the predictions.
         """
-        # Clip predictions to avoid log(0)
+
+        # Clip predictions to avoid division by zero
         pred = np.clip(pred, epsilon, 1. - epsilon)
         
         # Compute the gradient of the loss with respect to predictions
-        grad = (pred - target) / pred.shape[0]  # average gradient over batch
+        grad = -target / pred  # gradient of cross-entropy w.r.t. predictions
         
         return grad
 
 ```
 
 ## Summary
+
+**Binary Cross-Entropy (BCE)** is used for two-class problems, where only one term is active at a time. **Multiclass Cross-Entropy** handles more than two classes, using all the predicted probabilities, but the true class has a label of 1, and all others are 0. The loss for multiclass classification accumulates over all classes, making it more complex, but **the underlying principle of penalizing incorrect predictions remains the same.**
 
 **Cross-Entropy Loss** is a powerful tool in classification tasks, particularly useful in penalizing confident but incorrect predictions. Logarithmic function amplifies the loss for wrong predictions made with high certainty, helping models learn more effectively.

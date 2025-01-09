@@ -56,6 +56,10 @@ array([ 0.49671415, -0.1382643,  0.64768854,  1.52302986, -0.23415337])
 
 These are the raw outputs. To convert them into **probabilities**, you can apply the **sigmoid function**.
 
+!!! info "Softmax for Multi-Class classification"
+
+    For multi-class classification, we typically use the **softmax** function rather than the **sigmoid** function to convert logits to probabilities. The softmax function ensures all probabilities sum to 1, which is essential for multi-class problems.
+
 
 These **logits** represent the raw, unnormalized scores assigned by the model to each of the 5 classes, they can take any value - positive, negative, or zero. 
 
@@ -88,7 +92,7 @@ array([ 4.99851316,  1.01778965, -0.74321057,  0.75818997, -0.80840313])
 
 In this example, we simulate the computation inside a model layer to create the logits-raw scores that are unbounded and not yet normalized.
 
-To make these logits interpretable as **probabilities** for each class, we use an activation function like the **sigmoid function**. The sigmoid maps these raw values into a range between 0 and 1, making them easier to interpret as class probabilities.
+To make these logits interpretable as **probabilities** for each class, we use an activation function like the **sigmoid function**. The sigmoid maps these raw values into a range between 0 and 1, making them easier to interpret as class probabilities. For multi-class classification, we use the **softmax** function, which converts these raw values into a probability distribution that sums to 1.
 
 
 ## Sigmoid
@@ -185,7 +189,7 @@ The **Sigmoid Function** maps input values to an output range between 0 and 1. F
 Sigmoid and derivative
 ///
 
-The **left graph** shows the sigmoid curve. Notice its smooth S-shape transitioning from 0 to 1 as $x$ increases. This smoothness is crucial for backpropagation in neural networks, as it allows gradients to flow efficiently during optimization. This smoothness is crucial for backpropagation in neural networks, as it allows gradients to flow efficiently during optimization.
+The **left graph** shows the sigmoid curve. Notice its smooth S-shape transitioning from 0 to 1 as $x$ increases. This smoothness is crucial for backpropagation in neural networks, as it allows gradients to flow efficiently during optimization.
 
 The **right graph** shows the derivative of the sigmoid function. The peak at $x = 0$ highlights the point of maximum sensitivity. This is the region where the sigmoid responds most strongly to changes in input. At the tails ($x \to \pm\infty$), the derivative diminishes, leading to the vanishing gradient problem in deep networks when using sigmoid in multiple layers.
 
@@ -245,4 +249,3 @@ Logits vs Probabilities 5 classes
 ### Sigmoid and Logistic Regression
 
 <iframe width="471" height="838" src="https://www.youtube.com/embed/1u5JeZl4PxU" title="Logistic Regression in action" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-

@@ -107,6 +107,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - footnotes
+  - admonition
   - pymdownx.blocks.caption
   - pymdownx.highlight:
       anchor_linenums: true

@@ -31,6 +31,9 @@ Binary Cross-Entropy (BCE)
 <!-- more -->
 
 
+<iframe width="1402" height="765" src="https://www.youtube.com/embed/BKjOBO1hkkA" title="Cross-Entropy Loss Explained: A Complete Visual Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 ### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/6.CrossEntropy.ipynb)
 
 Loss measures how different the true data labels are from the model's predictions. Consider two binary vectors, where "binary" means the vectors have only two possible values: 0 and 1. If we have two vectors

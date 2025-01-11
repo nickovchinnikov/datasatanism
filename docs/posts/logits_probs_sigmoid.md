@@ -66,11 +66,11 @@ These **logits** represent the raw, unnormalized scores assigned by the model to
 
 ## Inside the Linear Layer
 
-The model performs a key operation: a linear transformation. This is represented as:
+The Linear Layer performs a key operation: a linear transformation. This is represented as:
 
 $$\hat{x}_{i+1} = \sigma(\mathbf{w}_i^T \mathbf{x} + b_i)$$
 
-Here $\mathbf{w}_i^T$ are the model's weights and $b_i$ represents the biases. The term $\mathbf{w}_i^T \mathbf{x} + b_i$ applies a matrix multiplication (weights times the input) and adds the biases. We can simulate this step with the following code:
+Here $\mathbf{w}_i^T$ are the layer's weights and $b_i$ represents the biases. The term $\mathbf{w}_i^T \mathbf{x} + b_i$ applies a matrix multiplication (weights times the input) and adds the biases. We can simulate this step with the following code:
 
 ```python
 import numpy as np

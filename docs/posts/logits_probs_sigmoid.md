@@ -34,6 +34,9 @@ In a classification problem, especially in **multi-class classification**, the m
 <!-- more -->
 
 
+<iframe width="1410" height="765" src="https://www.youtube.com/embed/rcg1PTRDAWc" title="Understanding Logits to Probabilities: How Neural Networks Make Decisions with Sigmoid Function" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 ## **[Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/7.SigmoidLogitsProbs.ipynb)**
 
 

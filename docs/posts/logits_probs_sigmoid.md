@@ -34,6 +34,9 @@ In a classification problem, especially in **multi-class classification**, the m
 <!-- more -->
 
 
+<iframe width="1410" height="765" src="https://www.youtube.com/embed/rcg1PTRDAWc" title="Understanding Logits to Probabilities: How Neural Networks Make Decisions with Sigmoid Function" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 ## **[Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/7.SigmoidLogitsProbs.ipynb)**
 
 
@@ -66,11 +69,11 @@ These **logits** represent the raw, unnormalized scores assigned by the model to
 
 ## Inside the Linear Layer
 
-The model performs a key operation: a linear transformation. This is represented as:
+The Linear Layer performs a key operation: a linear transformation. This is represented as:
 
 $$\hat{x}_{i+1} = \sigma(\mathbf{w}_i^T \mathbf{x} + b_i)$$
 
-Here $\mathbf{w}_i^T$ are the model's weights and $b_i$ represents the biases. The term $\mathbf{w}_i^T \mathbf{x} + b_i$ applies a matrix multiplication (weights times the input) and adds the biases. We can simulate this step with the following code:
+Here $\mathbf{w}_i^T$ are the layer's weights and $b_i$ represents the biases. The term $\mathbf{w}_i^T \mathbf{x} + b_i$ applies a matrix multiplication (weights times the input) and adds the biases. We can simulate this step with the following code:
 
 ```python
 import numpy as np

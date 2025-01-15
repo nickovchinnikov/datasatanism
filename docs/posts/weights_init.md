@@ -23,19 +23,19 @@ tags:
 
 Weight initialization is crucial in training neural networks, as it sets the starting point for optimization algorithms. The activation function applies a non-linear transformation in our network. Different activation functions serve different purposes. Choosing the right weight initialization and activation function is key to better neural network performance. `Xavier` initialization is ideal for `Sigmoid` or `Tanh` in feedforward networks. `He` initialization pairs well with `ReLU` for faster convergence, especially in `CNNs`. Matching these improves training efficiency and model performance.
 
+
 ![Initialization methods comparison](../assets/weights_init_and_activation/init_side_by_side.png)
 /// caption
 Comparison of different initialization methods
 ///
+
 
 <!-- more -->
 
 
 ## Gaussian Initialization
 
-Gaussian (or Normal) Initialization is another widely used method for initializing weights in neural networks. This technique draws weights from a normal distribution, which can help mitigate issues related to gradient flow during training. 
-
-The concept of Gaussian initialization has its roots in the early studies of neural networks, where researchers recognized the importance of weight initialization in preventing problems like *vanishing and exploding gradients*. The work of Glorot and Bengio (2010) further emphasized the need for proper initialization methods, leading to the development of techniques like [Xavier initialization](#xavier-glorot-initialization), which incorporates Gaussian distributions for weight initialization.
+Gaussian (or Normal) Initialization draws weights from a normal distribution. The concept of Gaussian initialization has its roots in the early studies of neural networks, where researchers recognized the importance of weight initialization in preventing problems like *vanishing and exploding gradients*. The work of Glorot and Bengio (2010) further emphasized the need for proper initialization methods, leading to the development of techniques like [Xavier initialization](#xavier-glorot-initialization).
 
 
 Weights $W$ are initialized using a normal distribution defined as:
@@ -58,7 +58,7 @@ where $\mathcal{N}(0, \sigma^2)$ represents a normal distribution with mean 0 an
     Here $x$ is the value for which the probability density is calculated, $\mu$ is the mean (here 0), and $\sigma^2$ is the variance (here 1).
 
 
-Here is the python implementation:
+Here is the weights histogram plot:
 
 
 ```python
@@ -87,8 +87,7 @@ plt.show()
 Histogram of Gaussian Initialization
 ///
 
-
-In practice, Gaussian initialization is often implemented as a variant of [Xavier initialization](#xavier-glorot-initialization), where the weights are drawn from a normal distribution scaled by the input dimension. Most deep learning frameworks use this approach as their default initialization strategy.
+In practice, Gaussian initialization is often implemented as a variant of [Xavier initialization](#xavier-glorot-initialization), where the weights are drawn from a normal distribution scaled by the input dimension. **Most deep learning frameworks use this approach as their default initialization strategy.**
 
 
 ## Xavier (Glorot) Initialization
@@ -97,7 +96,7 @@ The original paper [Understanding the Difficulty of Training Deep Feedforward Ne
 
 The authors explore how back-propagated gradients diminish as they move from the output layer to the input layer, particularly under standard initialization methods. This phenomenon can lead to *vanishing gradients*, making it difficult for deeper layers to learn effectively.
 
-To counteract this issue, they propose a normalized initialization method that maintains consistent variances for activations and gradients across layers.
+They propose a normalized initialization method that maintains consistent variances for activations and gradients across layers.
 
 
 ![Figure 6: Normalized histograms with hyperbolic tangent activation](../assets/weights_init_and_activation/xavier_fig_6.png)
@@ -118,13 +117,13 @@ $$W \in (-\sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}}, \sqrt{\frac{6}{n_{\te
 
 where $n_{\text{in}}$ and $n_{\text{out}}$ are the number of input and output neurons, respectively.
 
-Xavier (Glorot) Initialization:
+**Xavier (Glorot) Initialization:**
 
 $$W \sim \mathcal{N}(0, \frac{1}{n_{\text{in}}})$$
 
 where $\mathcal{N}(0, \frac{1}{n_{\text{in}}})$ is the standart normal distribution with the mean 0 and the variance $\frac{1}{n_{\text{in}}}$.
 
-The Xavier initialization works particularly well with `Sigmoid` and `Tanh` activation functions because it helps prevent saturation. By ensuring that the variance of activations remains stable, it allows these functions to operate in their most effective range, thus facilitating better gradient flow during backpropagation.
+The `Xavier` initialization works particularly well with `Sigmoid` and `Tanh` activation functions because it helps prevent saturation. By ensuring that the variance of activations remains stable, it allows these functions to operate in their most effective range, thus facilitating better gradient flow during backpropagation.
 
 
 ??? note "The range of Xavier Uniform Initialization comes from the variance of the weights."
@@ -319,7 +318,7 @@ He initialization has become particularly important in modern deep learning arch
 
 ## He Initialization for LeakyReLU
 
-He initialization can be further adapted for `LeakyReLU` activation functions. While standard `He` initialization accounts for `ReLU`'s zero output for negative inputs, `LeakyReLU` has a small slope $\alpha$ for negative values, which affects the variance calculation.
+`He` initialization can be further adapted for `LeakyReLU` activation functions. While standard `He` initialization accounts for `ReLU`'s zero output for negative inputs, `LeakyReLU` has a small slope $\alpha$ for negative values, which affects the variance calculation.
 
 For `LeakyReLU` defined as:
 
@@ -646,4 +645,4 @@ The choice of weight initialization method significantly impacts neural network 
 
 The evolution from random to `Xavier` to `He` initialization reflects our growing understanding of deep neural networks. Each method addresses specific challenges in training deep networks, with `He` initialization currently standing as the most widely used approach in modern architectures, particularly those employing `ReLU` activations.
 
-While proper weight initialization remains important, the introduction of batch normalization has somewhat reduced its criticality. **Batch normalization**, by normalizing layer inputs during training, helps mitigate the impact of poor initialization choices. This technique reduces internal covariate shift and makes networks more robust to different initialization schemes. *However, using appropriate initialization methods like `Xavier` or `He` still provides better starting conditions and can lead to faster convergence, even with batch normalization.* The combination of proper initialization and batch normalization offers the best foundation for training deep neural networks effectively.
+While batch normalization has made weight initialization less critical, it’s still important. **Batch normalization** normalizes layer inputs, reducing the effects of poor initialization. Even so, starting with proper methods like `Xavier` or `He` can improve convergence speed. Combining good initialization with batch normalization gives the best results for training deep networks.

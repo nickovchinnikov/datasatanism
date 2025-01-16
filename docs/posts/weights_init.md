@@ -33,6 +33,11 @@ Comparison of different initialization methods
 <!-- more -->
 
 
+<iframe width="1410" height="765" src="https://www.youtube.com/embed/MQzim4eHr6Q" title="Understanding Weight Initialization in Neural Networks: Normal, Xavier, He, and Leaky He" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/8.WeightsAndActivation.ipynb)
+
 ## Gaussian Initialization
 
 Gaussian (or Normal) Initialization draws weights from a normal distribution. The concept of Gaussian initialization has its roots in the early studies of neural networks, where researchers recognized the importance of weight initialization in preventing problems like *vanishing and exploding gradients*. The work of Glorot and Bengio (2010) further emphasized the need for proper initialization methods, leading to the development of techniques like [Xavier initialization](#xavier-glorot-initialization).

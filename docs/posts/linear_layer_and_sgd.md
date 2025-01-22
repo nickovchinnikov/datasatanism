@@ -29,7 +29,7 @@ tags:
 
 The human brain remains one of the greatest mysteries, far more complex than anything else we know. **It is the most complicated object in the universe that we know of.** The underlying processes and the source of consciousness, as well as consciousness itself, remain unknown. Neural Nets are good for popularizing Deep Learning algorithms, but we can't say for sure what mechanism behind biological Neural Networks enables intelligence to arise.
 
-![Training result](../assets/neural_nets/training_result.png)
+![Training result](../assets/linear_layer_and_sgd/training_result.png)
 /// caption
 Visualized Boundaries
 ///
@@ -751,7 +751,7 @@ plt.show()
 
 **Output:**
 
-![Data plot](../assets/neural_nets/data_plot.png)
+![Data plot](../assets/linear_layer_and_sgd/data_plot.png)
 
 
 This dataset represents a linearly separable pattern with two classes, which the network must classify. Since data generation can vary slightly, you can experiment by creating and visualizing your own datasets. In this example, we use `random_state=1` to fix the data generation for reproducibility, but feel free to change it to explore different patterns.
@@ -862,7 +862,7 @@ plot_decision_boundaries(model, x, y_target)
 
 **Output:**
 
-![Training result](../assets/neural_nets/LinearSolution.png)
+![Training result](../assets/linear_layer_and_sgd/LinearSolution.png)
 /// caption
 Visualized Boundaries
 ///

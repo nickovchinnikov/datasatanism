@@ -38,7 +38,7 @@ Visualized Boundaries
 <!-- more -->
 
 
-<iframe width="1410" height="765" src="https://www.youtube.com/embed/1sFTTt-Aq5M" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="1410" height="765" src="https://www.youtube.com/embed/RO0cDCnPeyE" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
 ### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/9.LinearLayerAndSGD.ipynb)

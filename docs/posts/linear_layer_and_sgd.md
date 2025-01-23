@@ -255,20 +255,6 @@ class Linear(Module):
         x1 = x @ self.weights + self.biases
         return x1
 
-    def parameters(self):
-        return [
-            Parameter(
-                name="weights",
-                data=self.weights,
-                grad=self.d_weights
-            ),
-            Parameter(
-                name="biases",
-                data=self.biases,
-                grad=self.d_biases
-            ),
-        ]
-
 ```
 
 
@@ -387,7 +373,7 @@ $$\tag{layer gradient}
 1
 \end{bmatrix}$$
 
-Here's the implementation of the `backward` method for the `Linear` layer:
+Here's the full implementation of the `Linear` layer:
 
 ```python
 class Linear(Module):
@@ -473,6 +459,31 @@ class Linear(Module):
         layer_out = d_out @ self.weights.T
         return layer_out
 
+    def parameters(self):
+        r"""
+        Retrieves the parameters of the linear layer, including weights and biases, 
+        along with their corresponding gradients. This method is typically used for 
+        optimization purposes during training.
+
+        Returns:
+            list[Parameter]: A list of `Parameter` objects, where each object contains:
+                - `name` (str): The name of the parameter (e.g., "weights", "biases").
+                - `data` (np.ndarray): The parameter values (e.g., weights or biases).
+                - `grad` (np.ndarray): The gradients of the parameter with respect to the loss.
+        """
+
+        return [
+            Parameter(
+                name="weights",
+                data=self.weights,
+                grad=self.d_weights
+            ),
+            Parameter(
+                name="biases",
+                data=self.biases,
+                grad=self.d_biases
+            ),
+        ]
 ```
 
 

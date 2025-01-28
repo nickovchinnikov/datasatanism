@@ -38,6 +38,10 @@ Frank Rosenblatt and the Perceptron, a simple neural network machine designed to
 
 <!-- more -->
 
+<iframe width="942" height="530" src="https://www.youtube.com/embed/F09squ1quN0" title="Building a Multi-Layer Neural Network from Scratch: Solving the Spiral Classification Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/10.MultiLayerNetwork.ipynb)
+
 
 To understand the Perceptron, imagine it analyzing an image of the number "5." Each pixel serves as an input, connected to a weight. The Perceptron calculates a weighted sum, or dot product, between inputs ($x_i$) and weights ($w_i$):  
 
@@ -287,15 +291,16 @@ class LeakyReLU(Module):
     def forward(self, x: np.ndarray):
         self.input = x
         return np.where(x > 0, x, self.alpha * x)
-
+    
     def backward(self, d_out: np.ndarray):
         dx = np.ones_like(self.input)
-        dx[self.input < 0] = self.alpha
+        dx[self.input <= 0] = self.alpha
         return d_out * dx
+    
 
 ```
 
-The second piece that we need to add to our Multi-Layer Network is the `Sequential` class, which allows us to compose multiple layers into a single sequential model. This class facilitates both the `forward` and `backward` propagation of data through the layers of the network and makes managing the parameters of all layers in one unified structure.
+The second piece that we need to add is the `Sequential` class, which allows us to compose multiple layers into a single sequential model. This class facilitates both the `forward` and `backward` propagation of data through the layers of the network and makes managing the parameters of all layers in one unified structure.
 
 Here's the code for the `Sequential` class:
 
@@ -336,13 +341,12 @@ class Sequential(Module):
             x = layer.forward(x)
         return x
 
-    def backward(self, d_out: np.ndarray, lr: float = 0.001) -> np.ndarray:
+    def backward(self, d_out: np.ndarray) -> np.ndarray:
         r"""
         Performs the backward pass through all layers in reverse order.
         
         Args:
           - d_out (np.ndarray): Gradient of the loss with respect to the output.
-          - lr (float): Learning rate used for updates. Default is 0.001.
 
         Returns:
           - np.ndarray: Gradient of the loss with respect to the input of the first layer.
@@ -394,7 +398,7 @@ optimizer = SGD(lr=0.0025, momentum=0.9)
 And we are ready to run the training loop:
 
 ```python
-n_epoch = 500
+n_epoch = 1000
 
 for epoch in range(n_epoch):
     # Forward

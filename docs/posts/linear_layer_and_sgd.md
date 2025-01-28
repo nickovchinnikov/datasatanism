@@ -821,10 +821,16 @@ optimizer = SGD(lr=0.01, momentum=0.9)
 **Training Loop:**
 
 We'll train the model over 10 epochs. At each epoch, we:
-1. Perform a **forward pass**: Compute the predicted output using the model.
-2. Calculate the **loss** using `BCELoss`.
-3. Perform a **backward pass**: Compute the gradients of the loss with respect to the parameters.
-4. **Update parameters**: Use the optimizer to update the model weights.
+
+* Perform a **forward pass**: Compute the predicted output using the model.
+
+* Calculate the **loss** using `BCELoss`.
+
+* **zero_grad** before the `backward` step
+
+* Perform a **backward pass**: Compute the gradients of the loss with respect to the parameters.
+
+* **Update parameters**: Use the optimizer to update the model weights.
 
 Here's the training loop:
 

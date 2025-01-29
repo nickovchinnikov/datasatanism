@@ -25,8 +25,6 @@ tags:
 ---
 
 
-## Stop doing Neural Nets, they have played us for absolute fools!
-
 The human brain remains one of the greatest mysteries, far more complex than anything else we know. **It is the most complicated object in the universe that we know of.** The underlying processes and the source of consciousness, as well as consciousness itself, remain unknown. Neural Nets are good for popularizing Deep Learning algorithms, but we can't say for sure what mechanism behind biological Neural Networks enables intelligence to arise.
 
 ![Training result](../assets/linear_layer_and_sgd/training_result.png)

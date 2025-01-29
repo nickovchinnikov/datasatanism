@@ -1,5 +1,5 @@
 ---
-title: Solving Non-Linear Patterns with Multi-Layer Networks
+title: Solving Non-Linear Patterns with Deep Neural Network
 description: Multi-Layer neural networks solve complex, non-linear problems like the spiral dataset
 authors:
   - nick
@@ -259,9 +259,9 @@ The multi-layer models have the ability to approximate non-linear patterns. This
     **Universal Approximation Theorem (UAT)** asserts that feedforward neural networks with at least one hidden layer and a non-constant, bounded, continuous, and monotonically increasing activation function (e.g., sigmoid, tanh) can approximate any continuous function on a compact subset of $\mathbb{R}^n$ to any desired accuracy. Formally, for any continuous function $f$ and any $\epsilon > 0$, there exists a neural network $\hat{f}$ such that $|f(x) - \hat{f}(x)| < \epsilon$ for all $x$ in the set.
 
 
-## Multi-Layer Network
+## Deep Neural Network
 
-The solution to the spiral pattern problem lies in the **Multi-Layer Network**, which we can easily build using our framework, since we already have all the necessary building blocks! To recall the key components, check out my previous post: [Mastering Neural Network - Linear Layer and SGD](./linear_layer_and_sgd.md)
+The solution to the spiral pattern problem lies in the **Deep Neural Network**, which we can easily build using our framework, since we already have all the necessary building blocks! To recall the key components, check out my previous post: [Mastering Neural Network - Linear Layer and SGD](./linear_layer_and_sgd.md)
 
 First, let's introduce the `LeakyReLU` activation function, which we will use between the layers. Mathematically, it is defined as a piecewise function:
 
@@ -391,7 +391,7 @@ model = Sequential([
 ])
 
 bce = BCELoss()
-optimizer = SGD(lr=0.0025, momentum=0.9)
+optimizer = SGD(lr=0.001, momentum=0.9)
 
 ```
 

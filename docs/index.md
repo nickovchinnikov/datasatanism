@@ -1,5 +1,5 @@
 ---
-title: Blog
+title: DataSanta
 description: Dive into the world of Programming and the Mathematical Art of Deep Learning.
 ---
 
@@ -7,13 +7,8 @@ description: Dive into the world of Programming and the Mathematical Art of Deep
 
 **Open the Deep Learning Mystery: [**YouTube** :simple-youtube:](https://www.youtube.com/@datasatanism)**
 
-Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms whisper the secrets of the universe. Here, we take a delightfully unserious approach to very serious topics like data science, machine learning, and, yes, *Goddamnit AI!*. [Read more About This Blog](./about.md)
-
-## Feel free to:
-
-- **Subscribe** for updates.
-- **Comment** on posts with your insights or questions.
-- **Connect** with me and others who are equally fascinated by the power of data.
+Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms whisper the secrets of the universe.
+[Read more About This Blog](./about.md)
 
 
 ??? note "Here you can find me on platforms!"

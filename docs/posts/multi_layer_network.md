@@ -25,8 +25,6 @@ tags:
 ---
 
 
-## The Perceptron and Its Legacy
-
 The **Perceptron**, created by Frank Rosenblatt in the 1950s, was one of the first neural networks designed to classify patterns. Initially celebrated, it became a foundational milestone in machine learning.
 
 
@@ -37,6 +35,7 @@ Frank Rosenblatt and the Perceptron, a simple neural network machine designed to
 
 
 <!-- more -->
+
 
 <iframe width="942" height="530" src="https://www.youtube.com/embed/F09squ1quN0" title="Building a Multi-Layer Neural Network from Scratch: Solving the Spiral Classification Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

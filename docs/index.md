@@ -28,17 +28,4 @@ Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms w
 
 *Remember, here at @DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
 
-**Let's open the mystery together.**
-
-??? note "Are You Interested? Subscribe to my test Newsletter!"
-
-    <div style="position: relative; padding-bottom: 56.25%; height: 600px; overflow: hidden;">
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScj4u8DPfZr-9B4v9lcNTDXFlmavRC44gB0V1XKP05m2D_gYA/viewform?embedded=true" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
-                frameborder="0"
-                marginheight="0"
-                marginwidth="0"
-                allowfullscreen>Loading…</iframe>
-    </div>
-
 ---

@@ -28,7 +28,7 @@ tags:
 
 Hey there, data enthusiasts! Today, we're diving into the fascinating world of **Machine Learning Classification** using one of the most iconic datasets out there - the **MNIST dataset**. *MNIST stands for Modified National Institute of Standards and Technology.*
 
-We're diving into the realm of MNIST - a dataset that's like a treasure map for budding data scientists. It contains thousands of handwritten digits from 0 to 9. Each image is a snapshot of someone's attempt to scribble a number, and our mission is to make sense of these scribbles.
+We're diving into the realm of MNIST - a dataset that's like a treasure map for budding data scientists. It contains thousands of handwritten digits from 0 to 9. Each image is a snapshot of someone's attempt to scribble a number, and our mission is to make sense of these.
 
 <!-- more -->
 
@@ -47,7 +47,7 @@ Cat VS Dog
 
 ### Let's Meet MNIST
 
-**MNIST** stands for **Modified National Institute of Standards and Technology** database. It's not about cats and dogs, but it's just as exciting. This dataset contains images of handwritten digits (0 through 9). Your mission, should you choose to accept it, is to train a model to identify these digits correctly.
+**MNIST** stands for **Modified National Institute of Standards and Technology** database. It's not about cats and dogs, but it's just as exciting. This dataset contains images of handwritten digits (0 through 9). Your mission is to train a model to identify these digits correctly.
 
 ![MNIST digits](../assets/dive_into_learning_from_data/MNIST_more.png){ align=center }
 /// caption

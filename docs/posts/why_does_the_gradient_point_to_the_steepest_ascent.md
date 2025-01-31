@@ -12,6 +12,7 @@ categories:
   - Programming
   - Machine Learning
   - Data Science
+  - Optimizations
 tags:
   - Gradient Descent
   - Optimization Algorithms

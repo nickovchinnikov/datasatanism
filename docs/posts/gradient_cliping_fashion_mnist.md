@@ -1,5 +1,5 @@
 ---
-title: SGD & Gradient Problem Solutions
+title: SGD & Exploding Gradient Problem Solutions
 description: Explore why gradient descent struggles with exploding gradients. Tackle the Fashion-MNIST challenge!
 authors:
   - nick

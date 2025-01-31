@@ -9,6 +9,7 @@ comments: true
 categories:
   - Mathematics
   - Programming
+  - Optimizations
   - Machine Learning
   - Data Science
 tags:

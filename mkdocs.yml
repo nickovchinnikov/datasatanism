@@ -34,6 +34,7 @@ plugins:
         - Data Science
         - Machine Learning
         - Classification
+        - Optimizations
         - Computational Methods
         - Dimensionality Reduction
         - Feature Engineering

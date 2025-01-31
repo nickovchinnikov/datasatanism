@@ -10,6 +10,7 @@ categories:
   - Deep Learning
   - Machine Learning
   - Neural Networks
+  - Optimizations
 tags:
   - Gradient Descent
   - Backpropagation

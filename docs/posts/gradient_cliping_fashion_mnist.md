@@ -1,10 +1,10 @@
 ---
-title: SGD & Exploding Gradient Problem Solutions
-description: Explore why gradient descent struggles with exploding gradients. Tackle the Fashion-MNIST challenge!
+title: SGD, Momentum & Exploding Gradient
+description: Why gradient descent struggles with exploding gradients? Tackle the Fashion-MNIST challenge!
 authors:
   - nick
 date:
-  created: 2025-01-31
+  created: 2025-02-01
 comments: true
 categories:
   - Mathematics
@@ -41,10 +41,36 @@ Check the code from the previous post [Solving Non-Linear Patterns with Deep Neu
 Training Failure: `SGD` can't classify the spiral pattern
 ///
 
+In this chapter, I use the training loop code many times. Let's build a unified training loop creator:
+
+```python
+def training_loop(
+    model: Module,
+    loss_f: Module,
+    optimizer,
+    n_epoch: int = 500
+):
+    for epoch in range(n_epoch):
+        # Forward
+        y_pred = model(x)
+        loss = loss_f(y_pred, y_target)
+
+        model.zero_grad() 
+
+        # Backward
+        grad = loss_f.backward(y_pred, y_target)
+        model.backward(grad)
+
+        optimizer.step(model)
+
+        print(f"Epoch {epoch}, Loss: {loss:.4f}")
+
+```
+
 **Example:**
 
 ```python
-# Model architecture
+# Recreate Model, BCE, optimizer
 model = Sequential([
     Linear(x.shape[1], 128, init_method="he_leaky"),
     LeakyReLU(alpha=0.01),
@@ -55,26 +81,10 @@ model = Sequential([
 ])
 
 bce = BCELoss()
-# For example lr=0.007
-optimizer = SGD(lr=0.007, momentum=0.9)
+optimizer = SGD(lr=0.01, momentum=0.9)
 
-# Training Loop
-n_epoch = 500
-
-for epoch in range(n_epoch):
-    # Forward
-    y_pred = model(x)
-    loss = bce(y_pred, y_target)
-
-    model.zero_grad() 
-
-    # Backward
-    grad = bce.backward(y_pred, y_target)
-    model.backward(grad)
-
-    optimizer.step(model)
-
-    print(f"Epoch {epoch}, Loss: {loss:.4f}")
+# Training loop
+training_loop(model, bce, optimizer)
 
 ```
 
@@ -82,20 +92,21 @@ for epoch in range(n_epoch):
 
 ```
 # Bouncing
-Epoch 0, Loss: 0.7288
-Epoch 1, Loss: 1.4533
-Epoch 2, Loss: 4.2994
-Epoch 3, Loss: 0.7953
-Epoch 4, Loss: 2.7994
-Epoch 5, Loss: 3.4502
-Epoch 6, Loss: 1.5146
-Epoch 7, Loss: 5.0268
-Epoch 8, Loss: 0.8145
-Epoch 9, Loss: 0.8004
+Epoch 0, Loss: 0.6892
+Epoch 1, Loss: 1.9551
+Epoch 2, Loss: 4.4117
+Epoch 3, Loss: 3.7495
+Epoch 4, Loss: 1.0243
+Epoch 5, Loss: 0.7010
+Epoch 6, Loss: 2.5385
+Epoch 7, Loss: 3.0514
+Epoch 8, Loss: 3.6277
+Epoch 9, Loss: 2.2218
+Epoch 10, Loss: 8.0590
 ...
 # Overflow!
-Epoch 92, Loss: 8.0590
-Epoch 93, Loss: 8.0590
+Epoch 77, Loss: 8.0590
+Epoch 78, Loss: 8.0590
 Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
 C:\Users\oaiw\AppData\Local\Temp\ipykernel_4280\1697699738.py:124: RuntimeWarning: overflow encountered in exp
   self.output = 1 / (1 + np.exp(-x))
@@ -107,31 +118,33 @@ Epoch 498, Loss: 8.0590
 Epoch 499, Loss: 8.0590
 ```
 
-The *spiral pattern* is highly non-linear which makes `SGD` struggles. **Momentum helps speed up convergence in consistent gradient directions**, but in this case, it actually amplifies the problem. Momentum accumulates these large, changing gradients, and **the velocity term becomes too large. Large gradient updates cause oscillations**.
+[In my previous post](./linear_layer_and_sgd.md#stochastic-gradient-descent-sgd), I used separate terms for the momentum and gradient directions inside `SGD` for demonstration purposes. This is not the standard way of applying momentum, and it doesn't seem quite right. I used this for experimentation — you can amplify the direction for the velocity and the current gradient step separately.
 
 $$v_{t+1} = \mu \cdot v_{t} - \alpha \nabla f(x_t)$$
 
-Update rule for our position:
+The update rule for our position becomes:
 
 $$x_{t+1} = x_t + v_{t+1}$$
 
-The key factors are a high learning rate (0.007) and momentum (0.9). `SGD` updates weights with $\mu = 0.9$ (momentum term), which causes **large accumulated gradients**, while $\alpha = 0.007$ (learning rate) is relatively high. **Momentum Causes Gradient Explosion** because the momentum accumulates *past gradients*:
+And the implementation is here:
 
-$$x_{t+1} = x_t + 0.9 \cdot v_{t} - 0.007 \cdot \nabla f(x_t)$$
+```python
+# Update with momentum
+self.velocity[param_id] = self.momentum * self.velocity[param_id] - self.lr * grad
 
-If gradients ($\nabla f(x_t)$) are **large** (common in deep neural networks), the velocity term builds up, leading to **exploding updates**. **SGD fails to adapt**, bouncing around **sharp ridges** instead of converging smoothly.
+# Update parameters
+param.data += self.velocity[param_id]
+```
 
+Now let's use the correct, standard form where $\mu$ controls the influence of previous gradients, and $1 - \mu$ scales the current gradient like this:
 
-<iframe width="942" height="530" src="https://www.youtube.com/embed/be_FJk8k9UM" title="Exploding Gradient Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+$$v_{t+1} = \mu \cdot v_{t} + (1 - \mu) \nabla f(x_t)$$
 
+The update rule for our position, where $\alpha$ is the step size, is:
 
-## Gradient Clipping
+$$x_{t+1} = x_t - \alpha \cdot v_{t+1}$$
 
-To fix the exploding gradient problem, we can use **gradient clipping**. It limits the size of the gradients to a min/max range:
-
-$$\nabla \mathcal{L} \leftarrow \text{clip}(\nabla \mathcal{L}, -\text{clip_value}, \text{clip_value})$$
-
-This ensures that the gradients won't explode during backpropagation.
+In the correct implementation, we use **both** terms in the **negative direction.**
 
 **Implementation:**
 
@@ -140,7 +153,155 @@ class SGD:
     def __init__(
         self,
         lr: float = 0.01,
-        momentum: float = 0.0,
+        momentum: float = 0.9,
+    ):
+        self.lr = lr
+        self.momentum = momentum
+        self.velocity = {}
+
+    def step(self, module: Module):
+        for param in module.parameters():
+            param_id = param.name
+
+            # Init velocity if not exists
+            if param_id not in self.velocity:
+                self.velocity[param_id] = np.zeros_like(param.data)
+
+            grad = param.grad.copy()
+
+            # Update momentum
+            self.velocity[param_id] = (
+                self.momentum * self.velocity[param_id] +
+                (1 - self.momentum) * grad
+            )
+
+            # Update parameters in the *negative* direction!
+            param.data -= self.lr * self.velocity[param_id]
+
+```
+
+Let's re-run our training loop with the same parameters:
+
+```python
+# Recreate Model, BCE, optimizer
+model = Sequential([
+    Linear(x.shape[1], 128, init_method="he_leaky"),
+    LeakyReLU(alpha=0.01),
+    Linear(128, 64, init_method="he_leaky"),
+    LeakyReLU(alpha=0.01),
+    Linear(64, 1, init_method="xavier"),
+    Sigmoid()
+])
+
+bce = BCELoss()
+optimizer = SGD(lr=0.01, momentum=0.9)
+
+
+training_loop(model, bce, optimizer)
+
+```
+
+**Output:**
+
+```
+Epoch 0, Loss: 0.7023
+Epoch 1, Loss: 0.6343
+Epoch 2, Loss: 0.6479
+Epoch 3, Loss: 0.6560
+Epoch 4, Loss: 0.6377
+Epoch 5, Loss: 0.6282
+Epoch 6, Loss: 0.6342
+Epoch 7, Loss: 0.6373
+Epoch 8, Loss: 0.6352
+Epoch 9, Loss: 0.6288
+# ...
+Epoch 497, Loss: 0.0027
+Epoch 498, Loss: 0.0027
+Epoch 499, Loss: 0.0027
+```
+
+Stable movement towards the global minimum! The `SGD` optimization algorithm with vanilla `Momentum` now works stably!
+
+
+## Gradient Clipping
+
+The *spiral pattern* is highly non-linear which makes `SGD` struggles. **Momentum helps speed up convergence in consistent gradient directions**, but it can amplifies the problem. Momentum accumulates large, changing gradients, and **the velocity term becomes too large. Large gradient updates cause oscillations**.
+
+In `SGD`, weights are updated with $\mu = 0.9$ (the momentum term), can which causes **large accumulated gradients**. **Momentum can lead to gradient explosion** because it accumulates *past gradients* and amplifies them by multiplying with the $\mu$ term:
+
+The velocity term: $v_{t+1} = \mu \cdot v_{t} + (1 - \mu) \nabla f(x_t)$ and the update rule: $x_{t+1} = x_t - \alpha \cdot v_{t+1}$
+
+Let's use the $\alpha=0.1$ and the same $\mu=0.9$:
+
+$$x_{t+1} = x_t - 0.1 \cdot (0.9 \cdot v_t - 0.1 \cdot \nabla f(x_t))$$
+
+If gradients ($\nabla f(x_t)$) are **large** (which is common in deep neural networks), the velocity term can build up, leading to **exploding updates**. This causes **SGD to fail to adapt**, bouncing around **sharp ridges** in the loss landscape instead of converging smoothly.
+
+Let's run the training loop with the $\alpha=0.1$:
+
+```python
+# Recreate Model, BCE, optimizer
+model = Sequential([
+    Linear(x.shape[1], 128, init_method="he_leaky"),
+    LeakyReLU(alpha=0.01),
+    Linear(128, 64, init_method="he_leaky"),
+    LeakyReLU(alpha=0.01),
+    Linear(64, 1, init_method="xavier"),
+    Sigmoid()
+])
+bce = BCELoss()
+# lr=0.1
+optimizer = SGD(lr=0.1, momentum=0.9)
+
+training_loop(model, bce, optimizer)
+
+```
+
+**Output:**
+
+```
+Epoch 0, Loss: 0.6846
+Epoch 1, Loss: 2.3613
+Epoch 2, Loss: 4.6792
+Epoch 3, Loss: 2.0382
+Epoch 4, Loss: 1.3863
+Epoch 5, Loss: 1.6400
+Epoch 6, Loss: 6.8190
+Epoch 7, Loss: 2.9502
+# ...
+# Overflow!
+Epoch 87, Loss: 6.6729
+Epoch 88, Loss: 6.6729
+Output is truncated. View as a scrollable element or open in a text editor. Adjust cell output settings...
+C:\Users\oaiw\AppData\Local\Temp\ipykernel_5404\1697699738.py:124: RuntimeWarning: overflow encountered in exp
+  self.output = 1 / (1 + np.exp(-x))
+Epoch 89, Loss: 6.6729
+Epoch 90, Loss: 6.6729
+# No further progress...
+Epoch 496, Loss: 6.6729
+Epoch 497, Loss: 6.6729
+Epoch 498, Loss: 6.6729
+Epoch 499, Loss: 6.6729
+```
+
+<iframe width="942" height="530" src="https://www.youtube.com/embed/be_FJk8k9UM" title="Exploding Gradient Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+You might proudly tell me, "The learning rate is simply too high! Reduce the learning rate, and the result will stabilize." But I know a better way to fix this - one that works even with `lr=0.1`!
+
+To fix the exploding gradient problem, I use **gradient clipping**. It limits the size of the gradients to a min/max range:
+
+$$\nabla \mathcal{L} \leftarrow \text{clip}(\nabla \mathcal{L}, -\text{clip_value}, \text{clip_value})$$
+
+This ensures that the gradients won't explode during backpropagation. Also, let's use the standard form where $\mu$ controls the influence of previous gradients and $1 - \mu$ scales the current gradient
+
+**Implementation:**
+
+```python
+class SGD:
+    def __init__(
+        self,
+        lr: float = 0.01,
+        momentum: float = 0.9,
         clip_value: float = 1.0
     ):
         r"""
@@ -181,10 +342,13 @@ class SGD:
             if self.clip_value is not None:
                 np.clip(grad, -self.clip_value, self.clip_value, out=grad)
 
-            # Update with momentum
-            self.velocity[param_id] = self.momentum * self.velocity[param_id] + grad
+            # Update momentum
+            self.velocity[param_id] = (
+                self.momentum * self.velocity[param_id] +
+                (1 - self.momentum) * grad
+            )
 
-            # Update parameters
+            # Update parameters in the *negative* direction!
             param.data -= self.lr * self.velocity[param_id]
 
 ```
@@ -209,57 +373,28 @@ model = Sequential([
     Linear(64, 1, init_method="xavier"),
     Sigmoid()
 ])
-
 bce = BCELoss()
+# Use lr=0.1 for stable convergence!
+optimizer = SGD(lr=0.1, momentum=0.9)
+# 200 epochs are enoght!
+training_loop(model, bce, optimizer, n_epoch=200)
 
-# Use the lr=0.01!
-optimizer = SGD(lr=0.01, momentum=0.9)
-
-# 200 epoch!
-n_epoch = 200
-
-for epoch in range(n_epoch):
-    # Forward
-    y_pred = model(x)
-    loss = bce(y_pred, y_target)
-
-    model.zero_grad() 
-
-    # Backward
-    grad = bce.backward(y_pred, y_target)
-    model.backward(grad)
-
-    optimizer.step(model)
-
-    print(f"Epoch {epoch}, Loss: {loss:.4f}")
 ```
 
 **Output:**
 
 ```
-Epoch 0, Loss: 0.6892
-Epoch 1, Loss: 0.6578
-Epoch 2, Loss: 0.6596
-Epoch 3, Loss: 0.6820
-Epoch 4, Loss: 0.6494
-Epoch 5, Loss: 0.6412
-Epoch 6, Loss: 0.6399
-Epoch 7, Loss: 0.6491
-Epoch 8, Loss: 0.6296
-Epoch 9, Loss: 0.6296
+Epoch 0, Loss: 0.6648
+Epoch 1, Loss: 0.6432
+Epoch 2, Loss: 0.6413
+Epoch 3, Loss: 0.6532
+Epoch 4, Loss: 0.6473
+Epoch 5, Loss: 0.6478
 ...
-Epoch 188, Loss: 0.0005
-Epoch 189, Loss: 0.0005
-Epoch 190, Loss: 0.0005
-Epoch 191, Loss: 0.0005
-Epoch 192, Loss: 0.0005
-Epoch 193, Loss: 0.0004
-Epoch 194, Loss: 0.0004
-Epoch 195, Loss: 0.0004
-Epoch 196, Loss: 0.0004
-Epoch 197, Loss: 0.0004
-Epoch 198, Loss: 0.0004
-Epoch 199, Loss: 0.0004
+Epoch 196, Loss: 0.0234
+Epoch 197, Loss: 0.0205
+Epoch 198, Loss: 0.0223
+Epoch 199, Loss: 0.0195
 ```
 
 
@@ -269,6 +404,8 @@ Epoch 199, Loss: 0.0004
 /// caption
 Plot of `SGD` decision boundaries with gradient clipping
 ///
+
+Also, we **reduced the training epochs by more than half from `500` to `200`**, and got approximatelly the same result!
 
 
 ## Meet Fashion-MNIST!
@@ -624,7 +761,7 @@ model = Sequential([
 ])
 
 bce = CrossEntropyLoss()
-optimizer = SGD(lr=0.001, momentum=0.9)
+optimizer = SGD(lr=0.01, momentum=0.9)
 
 ```
 
@@ -684,27 +821,27 @@ print(f"Test Accuracy: {accuracy * 100:.2f}%")
 **Output:**
 
 ```
-Epoch 1/20, Loss: 0.5927
-Epoch 2/20, Loss: 0.4205
-Epoch 3/20, Loss: 0.3860
-Epoch 4/20, Loss: 0.3602
-Epoch 5/20, Loss: 0.3387
-Epoch 6/20, Loss: 0.3250
-Epoch 7/20, Loss: 0.3102
-Epoch 8/20, Loss: 0.3009
-Epoch 9/20, Loss: 0.2934
-Epoch 10/20, Loss: 0.2862
-Epoch 11/20, Loss: 0.2782
-Epoch 12/20, Loss: 0.2713
-Epoch 13/20, Loss: 0.2649
-Epoch 14/20, Loss: 0.2540
-Epoch 15/20, Loss: 0.2468
-Epoch 16/20, Loss: 0.2451
-Epoch 17/20, Loss: 0.2416
-Epoch 18/20, Loss: 0.2385
-Epoch 19/20, Loss: 0.2331
-Epoch 20/20, Loss: 0.2292
-Test Accuracy: 89.40%
+Epoch 1/20, Loss: 0.5885
+Epoch 2/20, Loss: 0.4156
+Epoch 3/20, Loss: 0.3807
+Epoch 4/20, Loss: 0.3570
+Epoch 5/20, Loss: 0.3370
+Epoch 6/20, Loss: 0.3236
+Epoch 7/20, Loss: 0.3089
+Epoch 8/20, Loss: 0.3052
+Epoch 9/20, Loss: 0.2970
+Epoch 10/20, Loss: 0.2837
+Epoch 11/20, Loss: 0.2757
+Epoch 12/20, Loss: 0.2712
+Epoch 13/20, Loss: 0.2636
+Epoch 14/20, Loss: 0.2608
+Epoch 15/20, Loss: 0.2513
+Epoch 16/20, Loss: 0.2448
+Epoch 17/20, Loss: 0.2438
+Epoch 18/20, Loss: 0.2357
+Epoch 19/20, Loss: 0.2325
+Epoch 20/20, Loss: 0.2311
+Test Accuracy: 89.94%
 ```
 
 Also we can check the extended metrics:
@@ -734,16 +871,16 @@ print(metrics_df)
 
 ```
    Class  Precision    Recall  F1-Score
-0      0   0.882633  0.798422  0.838418
-1      1   0.986419  0.984308  0.985362
-2      2   0.842898  0.835110  0.838986
-3      3   0.920198  0.899241  0.909599
-4      4   0.846332  0.807664  0.826546
-5      5   0.963340  0.979296  0.971253
-6      6   0.679735  0.800995  0.735400
-7      7   0.895341  0.975717  0.933803
-8      8   0.976831  0.973920  0.975373
-9      9   0.988327  0.885635  0.934167
+0      0   0.830812  0.866571  0.848315
+1      1   0.991254  0.970043  0.980534
+2      2   0.870843  0.800284  0.834074
+3      3   0.877632  0.920635  0.898619
+4      4   0.791472  0.875461  0.831351
+5      5   0.973629  0.968254  0.970934
+6      6   0.759445  0.700071  0.728550
+7      7   0.939844  0.977189  0.958153
+8      8   0.984733  0.961252  0.972851
+9      9   0.978556  0.954672  0.966467
 ```
 
-Not bad for `SGD`! We can use `SGD` with momentum and gradient clipping as an optimization benchmark. From here, we can aim to surpass this baseline by exploring more *advanced optimization techniques*!
+Not bad for `SGD`! We can use `SGD` with `momentum` and `gradient clipping` as an optimization baseline. From here, we can aim to surpass this baseline by exploring more *advanced optimization techniques*!

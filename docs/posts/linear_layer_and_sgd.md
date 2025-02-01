@@ -621,14 +621,6 @@ $$x_{t+1} = x_t + v_{t+1}$$
 
 For more datils check my post: [Gradient Descent Ninja with Momentum](./gradient_descent_ninja_with_momentum.md)
 
-**Gradient Clipping**
-
-In deep networks, large gradients can cause instability during training. **Gradient clipping** limits the gradients' size to a maximum value:
-
-$$\nabla \mathcal{L} \leftarrow \text{clip}(\nabla \mathcal{L}, -\text{clip_value}, \text{clip_value})$$
-
-This ensures that the gradients do not explode during backpropagation.
-
 
 **Implementation:**
 
@@ -638,25 +630,21 @@ class SGD:
         self,
         lr: float = 0.01,
         momentum: float = 0.0,
-        clip_value: float = 1.0  # Clipping value to avoid exploding gradients
     ):
         """
         Initializes the Stochastic Gradient Descent (SGD) optimizer.
 
         - **Learning Rate (`lr`)**: Controls how big the updates are. A larger learning rate might result in faster convergence but could also cause instability.
         - **Momentum (`momentum`)**: Helps accelerate the gradient descent process by adding inertia to the parameter updates. This makes the algorithm more efficient by using past gradients to update parameters in a more "smooth" way.
-        - **Gradient Clipping (`clip_value`)**: Prevents the gradients from exploding by clipping them to a specified range. Exploding gradients can occur during training, especially with deep networks, leading to unstable updates and model divergence.
         
         The optimizer aims to update the model's parameters in a way that reduces the loss function, allowing the model to improve its performance over time.
 
         Args:
             lr (float): Learning rate for updating the model's parameters.
             momentum (float): Momentum for accelerating gradient descent.
-            clip_value (float): Value to clip gradients to avoid exploding gradients.
         """
         self.lr = lr
         self.momentum = momentum
-        self.clip_value = clip_value
         self.velocity = {}  # Store momentum for each parameter
 
     def step(self, module: Module):
@@ -675,15 +663,11 @@ class SGD:
 
             grad = param.grad.copy()  # Make a copy to avoid modifying original
 
-            # Gradient clipping
-            if self.clip_value is not None:
-                np.clip(grad, -self.clip_value, self.clip_value, out=grad)
-
             # Update with momentum
-            self.velocity[param_id] = self.momentum * self.velocity[param_id] + grad
+            self.velocity[param_id] = self.momentum * self.velocity[param_id] - self.lr * grad
 
             # Update parameters
-            param.data -= self.lr * self.velocity[param_id]
+            param.data += self.velocity[param_id]
 
 ```
 
@@ -692,7 +676,7 @@ class SGD:
 
 ```python
 # Initialize the SGD optimizer with custom settings
-optimizer = SGD(lr=0.01, momentum=0.9, clip_value=5.0)
+optimizer = SGD(lr=0.01, momentum=0.9)
 
 # Perform a parameter update for each layer/module in the network
 optimizer.step(module)
@@ -857,16 +841,16 @@ for epoch in range(n_epoch):
 **Output:**
 
 ```
-Epoch 0, Loss: 0.5876
-Epoch 1, Loss: 0.4025
-Epoch 2, Loss: 0.2118
-Epoch 3, Loss: 0.1019
-Epoch 4, Loss: 0.0504
-Epoch 5, Loss: 0.0267
-Epoch 6, Loss: 0.0151
-Epoch 7, Loss: 0.0092
-Epoch 8, Loss: 0.0059
-Epoch 9, Loss: 0.0040
+Epoch 0, Loss: 0.2021
+Epoch 1, Loss: 0.1668
+Epoch 2, Loss: 0.1235
+Epoch 3, Loss: 0.0893
+Epoch 4, Loss: 0.0655
+Epoch 5, Loss: 0.0485
+Epoch 6, Loss: 0.0361
+Epoch 7, Loss: 0.0268
+Epoch 8, Loss: 0.0200
+Epoch 9, Loss: 0.0151
 ```
 
 Almost perfect score! Let's plot the decision boundaries.

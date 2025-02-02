@@ -41,7 +41,7 @@ Check the code from the previous post [Solving Non-Linear Patterns with Deep Neu
 Training Failure: `SGD` can't classify the spiral pattern
 ///
 
-In this chapter, I use the training loop code many times. Let's build a unified training loop creator:
+In this chapter, I use the training loop code many times. Let's build a unified training loop:
 
 ```python
 def training_loop(
@@ -117,6 +117,9 @@ Epoch 95, Loss: 8.0590
 Epoch 498, Loss: 8.0590
 Epoch 499, Loss: 8.0590
 ```
+
+
+### SGD and Momentum, again!
 
 [In my previous post](./linear_layer_and_sgd.md#stochastic-gradient-descent-sgd), I used separate terms for the momentum and gradient directions inside `SGD` for demonstration purposes. This is not the standard way of applying momentum, and it doesn't seem quite right. I used this for experimentation — you can amplify the direction for the velocity and the current gradient step separately.
 
@@ -679,7 +682,6 @@ class CrossEntropyLoss(Module):
 
 ```
 
-
 Now, let's see how this is efficiently handled in the **backward pass of Softmax**. The naive approach would be to compute the full **Softmax Jacobian matrix**, which has $N \times N$ elements (where $N$ is the number of classes). However, explicitly storing and multiplying by this matrix is computationally expensive. Instead, we take a **more efficient approach using vectorized computation**.
 
 In the backward pass, we receive $d_{\text{out}} = S - y$, which is the **gradient of Cross-Entropy Loss with respect to Softmax outputs**. The goal is to compute $\frac{\partial L}{\partial z}$, the gradient of the loss with respect to logits.
@@ -765,7 +767,7 @@ optimizer = SGD(lr=0.01, momentum=0.9)
 
 ```
 
-Now, let's build and run our training loop:
+Now, let's build and run our training loop for `Fashion-MNIST`:
 
 ```python
 from sklearn.metrics import accuracy_score
@@ -778,7 +780,8 @@ batch_size = 128
 
 # Training loop
 for epoch in range(epochs):
-    # Shuffle training data
+    # Shuffle training data - can help prevent overfitting!
+    # Stochastic batch of data for the training process!
     indices = np.random.permutation(X_train.shape[0])
     X_train_shuffled, y_train_shuffled = X_train[indices], y_train_one_hot[indices]
 
@@ -786,8 +789,13 @@ for epoch in range(epochs):
     num_batches = X_train.shape[0] // batch_size
 
     for i in range(0, X_train.shape[0], batch_size):
+        # Use a stochastic batch of data for training
         X_batch = X_train_shuffled[i:i+batch_size]
         y_batch = y_train_shuffled[i:i+batch_size]
+
+        #############
+        # Core steps!
+        #############
 
         # Forward pass
         preds = model(X_batch)
@@ -817,6 +825,10 @@ accuracy = accuracy_score(y_test, y_pred_labels)
 print(f"Test Accuracy: {accuracy * 100:.2f}%")
 
 ```
+
+
+I shuffled the training data, which can help prevent overfitting because the training algorithm might make sense of the sequence of batches and start to adjust the weights in the direction of the training batches. Remember, we use a **stochastic batch of data for the training process** and compute the gradient direction of this mini-batch of data.
+
 
 **Output:**
 

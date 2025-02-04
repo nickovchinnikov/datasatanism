@@ -5,6 +5,7 @@ authors:
   - nick
 date:
   created: 2025-02-01
+  updated: 2025-02-04
 comments: true
 categories:
   - Mathematics
@@ -44,13 +45,13 @@ Training Failure: `SGD` can't classify the spiral pattern
 In this chapter, I use the training loop code many times. Let's build a unified training loop:
 
 ```python
-def training_loop(
+def train_model(
     model: Module,
     loss_f: Module,
     optimizer,
-    n_epoch: int = 500
+    n_epochs: int = 500
 ):
-    for epoch in range(n_epoch):
+    for epoch in range(n_epochs):
         # Forward
         y_pred = model(x)
         loss = loss_f(y_pred, y_target)
@@ -70,7 +71,7 @@ def training_loop(
 **Example:**
 
 ```python
-# Recreate Model, BCE, optimizer
+# Model architecture
 model = Sequential([
     Linear(x.shape[1], 128, init_method="he_leaky"),
     LeakyReLU(alpha=0.01),
@@ -83,8 +84,8 @@ model = Sequential([
 bce = BCELoss()
 optimizer = SGD(lr=0.01, momentum=0.9)
 
-# Training loop
-training_loop(model, bce, optimizer)
+# Training: SGD Epic Fail!
+train_model(model, bce, optimizer, n_epochs=100)
 
 ```
 
@@ -199,8 +200,7 @@ model = Sequential([
 bce = BCELoss()
 optimizer = SGD(lr=0.01, momentum=0.9)
 
-
-training_loop(model, bce, optimizer)
+train_model(model, bce, optimizer)
 
 ```
 
@@ -256,7 +256,7 @@ bce = BCELoss()
 # lr=0.1
 optimizer = SGD(lr=0.1, momentum=0.9)
 
-training_loop(model, bce, optimizer)
+train_model(model, bce, optimizer)
 
 ```
 
@@ -377,10 +377,12 @@ model = Sequential([
     Sigmoid()
 ])
 bce = BCELoss()
+
 # Use lr=0.1 for stable convergence!
 optimizer = SGD(lr=0.1, momentum=0.9)
+
 # 200 epochs are enoght!
-training_loop(model, bce, optimizer, n_epoch=200)
+train_model(model, bce, optimizer, n_epoch=200)
 
 ```
 
@@ -422,6 +424,17 @@ Unlike `MNIST`, where a simple *Feed-Forward Neural Network* might achieve near-
 
 ```python
 import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_openml
+
+# Fetch the Fashion MNIST dataset from OpenML
+fashion_mnist = fetch_openml('Fashion-MNIST', version=1, as_frame=False)
+
+# Separate the features (images) and labels
+X, y = fashion_mnist['data'], fashion_mnist['target']
+
+# Convert labels to integers (since OpenML may return them as strings)
+y = y.astype(int)
+
 
 # Define label names for Fashion MNIST classes
 label_names = [
@@ -816,6 +829,7 @@ for epoch in range(epochs):
     # Compute average loss
     avg_loss = total_loss / num_batches
     print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}")
+
 
 # Evaluation
 y_pred = model(X_test)

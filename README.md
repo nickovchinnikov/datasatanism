@@ -52,5 +52,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Community Contributors**: Thank you to everyone who has contributed to making this blog a rich resource.
 - **Open Source Libraries**: A nod to the creators of Python, NumPy, pandas, scikit-learn, and others who make this work possible.
-
-Explore, learn, and contribute to the ever-expanding universe of **DataSatanism**. May your journey through data be as enlightening as it is mystifying.

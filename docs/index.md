@@ -5,7 +5,7 @@ description: Dive into the world of Programming and the Mathematical Art of Deep
 
 # Welcome to DataSanta 
 
-**Open the Deep Learning Mystery: [**YouTube** :simple-youtube:](https://www.youtube.com/@datasatanism)**
+**Open the Deep Learning Mystery: [**YouTube** :simple-youtube:](https://www.youtube.com/@datasanta)**
 
 Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms whisper the secrets of the universe.
 [Read more About This Blog](./about.md)
@@ -13,14 +13,12 @@ Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms w
 
 ??? note "Here you can find me on platforms!"
 
-    - [**YouTube** :simple-youtube:](https://www.youtube.com/@datasatanism)
-    - [**Reddit** :simple-reddit:](https://www.reddit.com/r/datasatanism/)
+    - [**YouTube** :simple-youtube:](https://www.youtube.com/@datasanta)
+    - [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasanta)
     - [**GitHub** :simple-github:](https://github.com/nickovchinnikov)
-    - [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasatanisma)
-    - [**Facebook** :simple-facebook:](https://www.facebook.com/groups/datasatanisma)
-    - [**Telegram** :simple-telegram:](https://t.me/datasatanisma)
+    - [**Telegram** :simple-telegram:](https://t.me/datasanta)
     - :material-email: contact@datasatanism.com
 
-*Remember, here at @DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
+*I believe in the power of knowledge, the magic of math, and the art of programming.*
 
 ---

@@ -29,16 +29,14 @@ Are you ready to explore, learn, and perhaps even laugh at the absurdity and bea
 - **Comment** on posts with your insights or questions.
 - **Connect** with me and others who are equally fascinated by the power of data.
 
-*Remember, here at @DataSatanism, I believe in the power of knowledge, the magic of math, and the art of programming.*
+*I believe in the power of knowledge, the magic of math, and the art of programming.*
 
 **Let's open the mystery together.**
 
 ## Here you can find me on platforms:
 
-- [**YouTube** :simple-youtube:](https://www.youtube.com/@datasatanism)
-- [**Reddit** :simple-reddit:](https://www.reddit.com/r/datasatanism/)
+- [**YouTube** :simple-youtube:](https://www.youtube.com/@datasantaa)
 - [**GitHub** :simple-github:](https://github.com/nickovchinnikov)
-- [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasatanisma)
-- [**Facebook** :simple-facebook:](https://www.facebook.com/groups/datasatanisma)
-- [**Telegram** :simple-telegram:](https://t.me/datasatanisma)
+- [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasantaa)
+- [**Telegram** :simple-telegram:](https://t.me/datasantaa)
 - :material-email: contact@datasatanism.com

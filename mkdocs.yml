@@ -68,22 +68,16 @@ extra:
     link: mailto:contact@datasatanism.com
   - icon: fontawesome/brands/youtube
     name: YouTube
-    link: https://www.youtube.com/@datasatanism
+    link: https://www.youtube.com/@datasantaa
   - icon: fontawesome/brands/github
     name: GitHub
     link: https://github.com/nickovchinnikov
   - icon: fontawesome/brands/x-twitter
     name: DataSanta on X
-    link: https://x.com/datasatanisma
-  - icon: fontawesome/brands/facebook
-    name: DataSatanism on Facebook
-    link: https://www.facebook.com/groups/datasatanisma
-  - icon: fontawesome/brands/reddit-alien
-    name: Reddit Sub
-    link: https://www.reddit.com/r/datasatanism/
+    link: https://x.com/datasantaa
   - icon: fontawesome/brands/telegram
-    name: DataSatanism on telegram
-    link: https://t.me/datasatanisma
+    name: DataSanta on telegram
+    link: https://t.me/datasantaa
   - icon: fontawesome/solid/rss
     name: RSS Feed
     link: /feed_rss_created.xml

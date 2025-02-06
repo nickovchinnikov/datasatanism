@@ -35,7 +35,7 @@ Are you ready to explore, learn, and perhaps even laugh at the absurdity and bea
 
 ## Here you can find me on platforms:
 
-- [**YouTube** :simple-youtube:](https://www.youtube.com/@datasantaa)
+- [**YouTube** :simple-youtube:](https://www.youtube.com/@datasanta)
 - [**GitHub** :simple-github:](https://github.com/nickovchinnikov)
 - [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasantaa)
 - [**Telegram** :simple-telegram:](https://t.me/datasantaa)

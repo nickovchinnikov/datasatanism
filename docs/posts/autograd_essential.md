@@ -1,6 +1,6 @@
 ---
-title: Building MicroTorch - A Deep Learning Framework from Scratch!
-description: Learn how to build an autograd-powered deep learning framework with automatic differentiation
+title: MicroTorch - Deep Learning from Scratch!
+description: Learn how to build an autograd-powered, Pytorch-Like Deep Learning Framework with automatic differentiation
 authors:
   - nick
 date:

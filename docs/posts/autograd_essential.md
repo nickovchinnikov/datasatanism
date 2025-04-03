@@ -1,6 +1,6 @@
 ---
 title: MicroTorch - Deep Learning from Scratch!
-description: Learn how to build an autograd-powered, Pytorch-Like Deep Learning Framework with automatic differentiation
+description: Learn how to build a PyTorch-like, autograd-powered Deep Learning Framework with automatic differentiation.
 authors:
   - nick
 date:
@@ -2600,7 +2600,7 @@ def clip(self, min_value: Optional[float] = None, max_value: Optional[float] = N
 By using `where`, we reduce code duplication and ensure consistency across these tensor operations.
 
 
-### Indexing
+## Indexing
 
 Indexing in the `Tensor` class allows selecting specific elements from the tensor using another tensor or a NumPy array as an index. This operation is useful for extracting sub-tensors or performing advanced slicing operations.
 
@@ -2702,6 +2702,7 @@ print(x.grad)
 ```
 
 
+## More Tensor ops
 
 ### `abs`
 
@@ -3385,7 +3386,7 @@ def mean(self, axis: Optional[int] = None, keepdims: bool = False) -> "Tensor":
 ```
 
 
-### More Activation Functions!
+## More Activation Functions!
 
 With our enhanced `Tensor` class, we can now build **complex functions** with ease. Let's explore essential activation functions — **ReLU**, **LeakyReLU** and **Softmax** — which are widely used in modern **neural network architectures**.
 
@@ -3420,6 +3421,6 @@ class Softmax(Module):
 These implementations **highlight the power of the `Tensor` class** - with minimal code, we can define functions that form the **building blocks** of deep learning models. Thanks to the design of our framework, we only need to implement the **forward** method - **backpropagation** is handled automatically!
 
 
-### Summary
+## Summary
 
 We now have a solid foundation for building the remaining tools needed to construct and train our Deep Neural Network. These fundamental tensor operations will enable automatic differentiation, making it easier to implement anything we need.

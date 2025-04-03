@@ -4,7 +4,7 @@ description: Learn how to build an autograd-powered deep learning framework with
 authors:
   - nick
 date:
-  created: 2025-02-13
+  created: 2025-04-03
 comments: true
 categories:
   - Deep Learning

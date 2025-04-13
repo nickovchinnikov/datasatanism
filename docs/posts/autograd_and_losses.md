@@ -4,7 +4,7 @@ description: Dive deep into loss functions, expected risk in the MicroTorch.
 authors:
   - nick
 date:
-  created: 2025-04-12
+  created: 2025-04-13
 comments: true
 categories:
   - Deep Learning
@@ -34,10 +34,15 @@ Medieval loss discovery
 
 <!-- more -->
 
+### [Check the Jupyter Notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/13.Tensor.ipynb)
 
 ## Loss Functions
 
 Loss functions, also known as cost functions or objective functions, are used to measure how well the model's predictions match the true labels. The loss function computes a scalar value that represents the error between the model's predictions and the target labels. **During training, the goal is to minimize this value using optimization techniques, thereby improving the model's performance.**
+
+
+<iframe width="927" height="521" src="https://www.youtube.com/embed/s7blWKlV3uM" title="Building Loss Functions in MicroTorch: Expected Risk, Empirical Risk, and Binary Cross-Entropy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 In our framework, we define a base class `Loss` that serves as a template for various types of loss functions. We also provide a few commonly used loss functions like **Cross-Entropy Loss** and **Binary Cross-Entropy Loss**.
 
@@ -307,6 +312,10 @@ class BCELoss(Loss):
 
 
 ### Cross-Entropy Loss and Softmax Together
+
+
+<iframe width="927" height="521" src="https://www.youtube.com/embed/ftob7lsheX4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 When we are dealing with multiple classes instead of just two, we need to **scale up** the entropy from `BinaryCrossEntropyLoss` to `CrossEntropyLoss`. And the `Sigmoid` function is not the best choice for this task. `Sigmoid` outputs probabilities for each class independently, which is not good for multi-class classification. Instead, we need to assign probabilities across multiple classes, ensuring they **sum to 1**. A much better approach is to use the `Softmax` function, which converts raw model outputs (logits) into a probability distribution over all classes. This allows our model to make more accurate predictions by selecting the class with the highest probability.
 

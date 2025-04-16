@@ -1,5 +1,5 @@
 ---
-title: Classification in Depth – Cross-Entropy & Softmax
+title: Classification - Cross-Entropy & Softmax
 description: Implement the Cross-Entropy & Softmax. Tackle the Fashion-MNIST challenge!
 authors:
   - nick
@@ -36,7 +36,7 @@ Fashion-MNIST Dataset Visualization
 
 <iframe width="942" height="530" src="https://www.youtube.com/embed/reiqm-oI4oc" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### [Check the jupyter notebook for this chapter](https://github.com/nickovchinnikov/datasatanism/blob/master/code/12.FashionMNIST.ipynb)
+### [Check the jupyter notebook for this chapter](https://github.com/nickovchinnikov/datasanta/blob/master/code/12.FashionMNIST.ipynb)
 
 
 You can check my post [Dive into Learning from Data - MNIST Video Adventure](./dive_into_learning_from_data.md) to understand the original `MNIST` challenge. `Fashion-MNIST` is a similar challenge - but this time, we're classifying clothing items instead of handwritten digits.

@@ -1,5 +1,5 @@
 site_name: DataSanta
-site_url: https://datasatanism.com
+site_url: https://datasanta.net
 site_dir: web
 theme:
   name: material
@@ -65,7 +65,7 @@ extra:
   social:
   - icon: /fontawesome/regular/envelope
     name: send me an email
-    link: mailto:contact@datasatanism.com
+    link: mailto:contact@datasanta.net
   - icon: fontawesome/brands/youtube
     name: YouTube
     link: https://www.youtube.com/@datasanta

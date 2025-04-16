@@ -40,7 +40,7 @@ Training Failure: `SGD` can't classify the spiral pattern
 <iframe width="942" height="530" src="https://www.youtube.com/embed/V60ylfHqTe8" title="Fixing Unstable Gradient Descent: Momentum and Gradient Clipping in Deep Learning" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
-### [Check the jupyter notebook for this chapter](https://github.com/nickovchinnikov/datasatanism/blob/master/code/11.GradientCliping.ipynb)
+### [Check the jupyter notebook for this chapter](https://github.com/nickovchinnikov/datasanta/blob/master/code/11.GradientCliping.ipynb)
 
 
 Check the code from the previous post [Solving Non-Linear Patterns with Deep Neural Networks](./deep_learning_network.md#deep-neural-network) and try experimenting with the learning rate for the `optimizer`. For example, setting `lr=0.01` can cause the optimizer to bounce around local minima. Even with `lr=0.001`, this problem can occur sometimes. When the optimizer moves too far in steep areas of the loss surface, the updates bounce back and forth, making the training oscillate and become unstable.

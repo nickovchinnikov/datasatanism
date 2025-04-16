@@ -17,7 +17,7 @@ Welcome to **DataSanta**, my digital diary where numbers dance, and algorithms w
     - [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasantaa)
     - [**GitHub** :simple-github:](https://github.com/nickovchinnikov)
     - [**Telegram** :simple-telegram:](https://t.me/datasantaa)
-    - :material-email: contact@datasatanism.com
+    - :material-email: contact@datasanta.net
 
 *I believe in the power of knowledge, the magic of math, and the art of programming.*
 

@@ -31,7 +31,7 @@ Gradient descent got stuck in a local minimum!
 
 <!-- more -->
 
-## [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/5.GradientDescentNinja.ipynb)
+## [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/5.GradientDescentNinja.ipynb)
 
 ## Chapter1: 3D Gradient Descent: The Rollercoaster of Optimization
 

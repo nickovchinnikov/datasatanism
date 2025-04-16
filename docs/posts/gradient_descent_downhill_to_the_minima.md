@@ -29,7 +29,7 @@ Tangent Line of a function at a given point
 
 <!-- more -->
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/3.GradientDescent.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/3.GradientDescent.ipynb)
 
 ### Optional: check my blog post if you want to know [why the gradient points to the steepest ascent](./why_does_the_gradient_point_to_the_steepest_ascent.md)
 

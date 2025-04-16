@@ -40,7 +40,7 @@ Visualized Boundaries
 <iframe width="1410" height="765" src="https://www.youtube.com/embed/RO0cDCnPeyE" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/9.LinearLayerAndSGD.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/9.LinearLayerAndSGD.ipynb)
 
 
 ## What We'll Build

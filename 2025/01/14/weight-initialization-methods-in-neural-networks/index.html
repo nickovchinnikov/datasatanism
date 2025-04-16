@@ -1,0 +1,2001 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="From Gaussian to Xavier and He methods, with math foundations and code examples.">
+      
+      
+      
+        <link rel="canonical" href="https://datasanta.net/2025/01/14/weight-initialization-methods-in-neural-networks/">
+      
+      
+        <link rel="prev" href="../../03/the-journey-from-logits-to-probabilities/">
+      
+      
+        <link rel="next" href="../../22/mastering-neural-network---linear-layer-and-sgd/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Weight Initialization Methods in Neural Networks - DataSanta</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-Y9BWQQSE0S"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-Y9BWQQSE0S",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-Y9BWQQSE0S",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Weight Initialization Methods in Neural Networks - DataSanta" >
+      
+        <meta  property="og:description"  content="From Gaussian to Xavier and He methods, with math foundations and code examples." >
+      
+        <meta  property="og:image"  content="https://datasanta.net/assets/images/social/posts/weights_init.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://datasanta.net/2025/01/14/weight-initialization-methods-in-neural-networks/" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Weight Initialization Methods in Neural Networks - DataSanta" >
+      
+        <meta  name="twitter:description"  content="From Gaussian to Xavier and He methods, with math foundations and code examples." >
+      
+        <meta  name="twitter:image"  content="https://datasanta.net/assets/images/social/posts/weights_init.png" >
+      
+    
+    
+   <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#check-the-jupyter-notebook" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="DataSanta" class="md-header__button md-logo" aria-label="DataSanta" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DataSanta
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Weight Initialization Methods in Neural Networks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="DataSanta" class="md-nav__button md-logo" aria-label="DataSanta" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    DataSanta
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataSanta
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Classification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/computational-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-science/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Science
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-transformations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Transformations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Visualization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deep Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/dimensionality-reduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dimensionality Reduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/feature-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Feature Engineering
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/linear-algebra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/loss-functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Loss Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mathematics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/natural-language-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Natural Language Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/neural-networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural Networks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/numerical-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Numerical Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/optimizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/speech-and-audio-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech and Audio Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/tts-text-to-speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TTS (Text to Speech)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#check-the-jupyter-notebook" class="md-nav__link">
+    <span class="md-ellipsis">
+      Check the jupyter notebook
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gaussian-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Gaussian Initialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xavier-glorot-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Xavier (Glorot) Initialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#he-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      He Initialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#he-initialization-for-leakyrelu" class="md-nav__link">
+    <span class="md-ellipsis">
+      He Initialization for LeakyReLU
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plot-comparing-initialization-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plot: Comparing Initialization Methods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#universal-parameter-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Universal Parameter Implementation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../.." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/7540752" alt="Nick Ovchinnikov">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          <a href="https://github.com/nickovchinnikov">Nick Ovchinnikov</a>
+                        
+                      </strong>
+                      <br>
+                      Follow the white rabbit
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-01-14 00:00:00+00:00" class="md-ellipsis">January 14, 2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/deep-learning/">Deep Learning</a>, 
+                              <a href="../../../../category/machine-learning/">Machine Learning</a>, 
+                              <a href="../../../../category/neural-networks/">Neural Networks</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              14 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+        <span class="md-tag">Classification</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Deep Learning</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">He Initialization</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Neural Network Training</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">ReLU</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Weight Initialization</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Xavier Initialization</span>
+      
+    
+  </nav>
+
+
+
+  <h1>Weight Initialization Methods in Neural Networks</h1>
+
+<p>Weight initialization is crucial in training neural networks, as it sets the starting point for optimization algorithms. The activation function applies a non-linear transformation in our network. Different activation functions serve different purposes. Choosing the right weight initialization and activation function is key to better neural network performance. <code>Xavier</code> initialization is ideal for <code>Sigmoid</code> or <code>Tanh</code> in feedforward networks. <code>He</code> initialization pairs well with <code>ReLU</code> for faster convergence, especially in <code>CNNs</code>. Matching these improves training efficiency and model performance.</p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/init_side_by_side.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Initialization methods comparison" src="../../../../assets/weights_init_and_activation/init_side_by_side.png" /></a></p>
+<figcaption>
+<p>Comparison of different initialization methods</p>
+</figcaption>
+</figure>
+<!-- more -->
+
+<iframe width="1410" height="765" src="https://www.youtube.com/embed/MQzim4eHr6Q" title="Understanding Weight Initialization in Neural Networks: Normal, Xavier, He, and Leaky He" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<h3 id="check-the-jupyter-notebook"><a href="https://github.com/nickovchinnikov/datasanta/blob/master/code/8.WeightsAndActivation.ipynb">Check the jupyter notebook</a><a class="headerlink" href="#check-the-jupyter-notebook" title="Permanent link">&para;</a></h3>
+<h2 id="gaussian-initialization">Gaussian Initialization<a class="headerlink" href="#gaussian-initialization" title="Permanent link">&para;</a></h2>
+<p>Gaussian (or Normal) Initialization draws weights from a normal distribution. The concept of Gaussian initialization has its roots in the early studies of neural networks, where researchers recognized the importance of weight initialization in preventing problems like <em>vanishing and exploding gradients</em>. The work of Glorot and Bengio (2010) further emphasized the need for proper initialization methods, leading to the development of techniques like <a href="#xavier-glorot-initialization">Xavier initialization</a>.</p>
+<p>Weights <span class="arithmatex">\(W\)</span> are initialized using a normal distribution defined as:</p>
+<div class="arithmatex">\[W \sim \mathcal{N}(0, \sigma^2)\]</div>
+<p>where <span class="arithmatex">\(\mathcal{N}(0, \sigma^2)\)</span> represents a normal distribution with mean 0 and variance <span class="arithmatex">\(\sigma^2\)</span>.</p>
+<details class="note">
+<summary>Gaussian (Normal) Distribution</summary>
+<p>The standard normal distribution <span class="arithmatex">\(\mathcal{N}(0, 1)\)</span> can be expressed using its probability density function (PDF):</p>
+<div class="arithmatex">\[\mathcal{N}(x \mid \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}\]</div>
+<p>For the standard normal distribution, where <span class="arithmatex">\(\mu = 0\)</span> and <span class="arithmatex">\(\sigma^2 = 1\)</span>, this simplifies to:</p>
+<div class="arithmatex">\[\mathcal{N}(x \mid 0, 1) = \frac{1}{\sqrt{2 \pi}} e^{-\frac{x^2}{2}}\]</div>
+<p>Here <span class="arithmatex">\(x\)</span> is the value for which the probability density is calculated, <span class="arithmatex">\(\mu\)</span> is the mean (here 0), and <span class="arithmatex">\(\sigma^2\)</span> is the variance (here 1).</p>
+</details>
+<p>Here is the weights histogram plot:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">96</span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Define input and output sizes</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">256</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">weights_normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># Plot histogram</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_normal</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Gaussian Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Weight Value&#39;</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/normal_init.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Gaussian initialization" src="../../../../assets/weights_init_and_activation/normal_init.png" /></a></p>
+<figcaption>
+<p>Histogram of Gaussian Initialization</p>
+</figcaption>
+</figure>
+<p>In practice, Gaussian initialization is often implemented as a variant of <a href="#xavier-glorot-initialization">Xavier initialization</a>, where the weights are drawn from a normal distribution scaled by the input dimension. <strong>Most deep learning frameworks use this approach as their default initialization strategy.</strong></p>
+<h2 id="xavier-glorot-initialization">Xavier (Glorot) Initialization<a class="headerlink" href="#xavier-glorot-initialization" title="Permanent link">&para;</a></h2>
+<p>The original paper <a href="https://www.researchgate.net/publication/215616968_Understanding_the_difficulty_of_training_deep_feedforward_neural_networks">Understanding the Difficulty of Training Deep Feedforward Neural Networks</a> by Xavier Glorot and Yoshua Bengio introduces the concept of Xavier (Glorot) Initialization, which addresses the challenges of training deep neural networks.</p>
+<p>The authors explore how back-propagated gradients diminish as they move from the output layer to the input layer, particularly under standard initialization methods. This phenomenon can lead to <em>vanishing gradients</em>, making it difficult for deeper layers to learn effectively.</p>
+<p>They propose a normalized initialization method that maintains consistent variances for activations and gradients across layers.</p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/xavier_fig_6.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Figure 6: Normalized histograms with hyperbolic tangent activation" src="../../../../assets/weights_init_and_activation/xavier_fig_6.png" /></a></p>
+<figcaption>
+<p>Figure 6: Activation values normalized histograms with hyperbolic tangent activation, with standard (top) vs normalized initialization (bottom). Top: 0-peak increases for higher layers.</p>
+</figcaption>
+</figure>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/xavier_fig_7.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Figure 7: Back-propagated gradients normalized histograms with hyperbolic tangent activation" src="../../../../assets/weights_init_and_activation/xavier_fig_7.png" /></a></p>
+<figcaption>
+<p>Figure 7: Back-propagated gradients normalized histograms with hyperbolic tangent activation, with standard (top) vs normalized (bottom) initialization. Top: 0-peak decreases for higher layers.</p>
+</figcaption>
+</figure>
+<p>This is achieved by initializing weights from a <em>uniform distribution</em> between:</p>
+<div class="arithmatex">\[W \in (-\sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}}, \sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}})\]</div>
+<p>where <span class="arithmatex">\(n_{\text{in}}\)</span> and <span class="arithmatex">\(n_{\text{out}}\)</span> are the number of input and output neurons, respectively.</p>
+<p><strong>Xavier (Glorot) Initialization:</strong></p>
+<div class="arithmatex">\[W \sim \mathcal{N}(0, \frac{1}{n_{\text{in}}})\]</div>
+<p>where <span class="arithmatex">\(\mathcal{N}(0, \frac{1}{n_{\text{in}}})\)</span> is the standart normal distribution with the mean 0 and the variance <span class="arithmatex">\(\frac{1}{n_{\text{in}}}\)</span>.</p>
+<p>The <code>Xavier</code> initialization works particularly well with <code>Sigmoid</code> and <code>Tanh</code> activation functions because it helps prevent saturation. By ensuring that the variance of activations remains stable, it allows these functions to operate in their most effective range, thus facilitating better gradient flow during backpropagation.</p>
+<details class="note">
+<summary>The range of Xavier Uniform Initialization comes from the variance of the weights.</summary>
+<p>Weights <span class="arithmatex">\(W\)</span> are initialized with a uniform distribution:</p>
+<div class="arithmatex">\[W \sim U\left(-a, a\right)\]</div>
+<p>For a <a href="https://en.wikipedia.org/wiki/Continuous_uniform_distribution">uniform distribution</a>, the variance is given by:</p>
+<div class="arithmatex">\[\text{Var}(W) = \frac{(b - a)^2}{12}\]</div>
+<p>For a symmetric uniform distribution (<span class="arithmatex">\(-a\)</span> to <span class="arithmatex">\(a\)</span>):</p>
+<div class="arithmatex">\[\text{Var}(W) = \frac{(a - (-a))^2}{12} = \frac{(2a)^2}{12} = \frac{4a^2}{12} = \frac{a^2}{3}\]</div>
+<p>To balance the variance of inputs and outputs, we require:  </p>
+<div class="arithmatex">\[\text{Var}(\text{outputs}) = \text{Var}(\text{inputs}) = \frac{1}{n_{\text{in}}}\]</div>
+<p>Thus, the total variance of the weights should satisfy:</p>
+<div class="arithmatex">\[\frac{a^2}{3} = \frac{1}{n_{\text{in}} + n_{\text{out}}}\]</div>
+<p>Rearranging gives:</p>
+<div class="arithmatex">\[a = \sqrt{\frac{3}{n_{\text{in}} + n_{\text{out}}}}\]</div>
+<p>To emphasize the range's symmetry and its relation to variance, the expression is often rewritten by factoring out <span class="arithmatex">\(\sqrt{6}\)</span>. <strong>Range for <span class="arithmatex">\(W\)</span></strong>:</p>
+<div class="arithmatex">\[W \in \left(-\sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}}, \sqrt{\frac{6}{n_{\text{in}} + n_{\text{out}}}}\right)\]</div>
+<p>This equivalence comes from the relationship between the variance <span class="arithmatex">\(\frac{a^2}{3}\)</span> and the range <span class="arithmatex">\(-a\)</span> to <span class="arithmatex">\(a\)</span>. The factor <span class="arithmatex">\(\sqrt{6}\)</span> arises naturally because the variance involves dividing the squared range <span class="arithmatex">\((2a)^2 = 4a^2\)</span> by 12.</p>
+</details>
+<p>Here is the python implementation:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">96</span><span class="p">)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Define input and output sizes</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">256</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Xavier initialization</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">weights_xavier</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Plot histogram</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_xavier</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Xavier Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Weight Value&#39;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/xavier_init.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Xavier initialization" src="../../../../assets/weights_init_and_activation/xavier_init.png" /></a></p>
+<figcaption>
+<p>Histogram of Xavier Initialization</p>
+</figcaption>
+</figure>
+<p>The main lines:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Xavier initialization</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">weights_xavier</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This directly corresponds to:</p>
+<div class="arithmatex">\[W = N \cdot \sqrt{\frac{1}{n_{\text{in}}}}\]</div>
+<p>Where: <span class="arithmatex">\(N \sim \mathcal{N}(0, 1)\)</span>, a standard normal distribution, and <span class="arithmatex">\(\sqrt{\frac{1}{n_{\text{in}}}}\)</span> scales the standard deviation to match the Xavier initialization rule.</p>
+<details class="note">
+<summary>The range of Xavier Uniform Initialization comes from the variance of the weights.</summary>
+<p>Xavier (Glorot) Initialization:</p>
+<div class="arithmatex">\[W \sim \mathcal{N}(0, \frac{1}{n_{\text{in}}})\]</div>
+<p>This formula initializes weights <span class="arithmatex">\(W\)</span> with a normal distribution where the variance is <span class="arithmatex">\(\frac{1}{n_{\text{in}}}\)</span>, ensuring the weights are scaled to prevent vanishing or exploding gradients during training.</p>
+<p>To scale the standard normal distribution to have the desired variance, we multiply the standard normal random variable <span class="arithmatex">\(N \sim \mathcal{N}(0, 1)\)</span> by a scaling factor. The scaling factor ensures that the variance of the weights is <span class="arithmatex">\(\frac{1}{n_{\text{in}}}\)</span>. </p>
+<p>Let's define the weight initialization as:</p>
+<div class="arithmatex">\[W = N \cdot \sqrt{\frac{1}{n_{\text{in}}}}\]</div>
+<p>Here, <span class="arithmatex">\(N\)</span> is a random variable sampled from the standard normal distribution <span class="arithmatex">\(\mathcal{N}(0, 1)\)</span>, and multiplying by <span class="arithmatex">\(\sqrt{\frac{1}{n_{\text{in}}}}\)</span> scales the variance of the weights. If you multiply a random variable <span class="arithmatex">\(N\)</span> by a constant <span class="arithmatex">\(c\)</span>, the new variance becomes <span class="arithmatex">\(\text{Var}(c \cdot N) = c^2 \cdot \text{Var}(N)\)</span>. For the standard normal distribution <span class="arithmatex">\(N\)</span>, the variance is 1. By multiplying by <span class="arithmatex">\(\sqrt{\frac{1}{n_{\text{in}}}}\)</span>, the variance of <span class="arithmatex">\(W\)</span> becomes:</p>
+<div class="arithmatex">\[\text{Var}(W) = \left(\sqrt{\frac{1}{n_{\text{in}}}}\right)^2 \cdot \text{Var}(N) = \frac{1}{n_{\text{in}}} \cdot 1 = \frac{1}{n_{\text{in}}}\]</div>
+<p>This matches the desired variance in the Xavier initialization, ensuring that the weight distribution has the right scaling for stable training.</p>
+</details>
+<p>In modern deep learning practice, <strong>Gaussian initialization with Xavier scaling</strong> has become the de facto standard due to its robust performance across different architectures and tasks.</p>
+<h2 id="he-initialization">He Initialization<a class="headerlink" href="#he-initialization" title="Permanent link">&para;</a></h2>
+<p>He initialization, introduced in the paper <a href="https://arxiv.org/abs/1502.01852">Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification</a> by Kaiming He et al., addresses specific challenges when using <code>ReLU</code> activation functions in deep neural networks. This initialization method was developed to maintain variance across layers specifically for <code>ReLU</code>-based architectures, which became increasingly popular due to their effectiveness in reducing the vanishing gradient problem.</p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/he_fig_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Figure 2. The convergence of a 22-layer large mode" src="../../../../assets/weights_init_and_activation/he_fig_2.png" /></a></p>
+<figcaption>
+<p>Figure 2. The convergence of a 22-layer large model (B in Table 3). The x-axis is the number of training epochs. The y-axis is
+the top-1 error of 3,000 random val samples, evaluated on the center crop. We use ReLU as the activation for both cases. Both our
+initialization (red) and "Xavier" (blue) lead to convergence, but ours starts reducing error earlier.</p>
+</figcaption>
+</figure>
+<p>The authors discovered that while <code>Xavier</code> initialization works well for linear and tanh activation functions, it can lead to dead neurons when used with <code>ReLU</code> activations. This occurs because <code>ReLU</code> sets all negative values to zero, effectively reducing the variance of the activations by half.</p>
+<p>To compensate for this effect, <code>He</code> initialization scales the weights by a factor of <span class="arithmatex">\(\sqrt{2}\)</span>:</p>
+<div class="arithmatex">\[W \sim \mathcal{N}(0, \frac{2}{n_{\text{in}}})\]</div>
+<p>where <span class="arithmatex">\(\mathcal{N}(0, \frac{2}{n_{\text{in}}})\)</span> is the normal distribution with mean 0 and variance <span class="arithmatex">\(\frac{2}{n_{\text{in}}}\)</span>, and <span class="arithmatex">\(n_{\text{in}}\)</span> is the number of input neurons.</p>
+<details class="note">
+<summary>Mathematical Intuition Behind He Initialization</summary>
+<p>The factor of 2 in <code>He</code> initialization comes from the <code>ReLU</code> activation function's behavior. When using <code>ReLU</code>:</p>
+<ol>
+<li>Approximately half of the neurons will output zero (for negative inputs)</li>
+<li>The other half will pass through unchanged (for positive inputs)</li>
+</ol>
+<p>This means the variance is effectively halved after <code>ReLU</code> activation. To maintain the desired variance:</p>
+<div class="arithmatex">\[\text{Var}(W_{\text{He}}) = \frac{2}{n_{\text{in}}} = 2 \cdot \text{Var}(W_{\text{Xavier}})\]</div>
+<p>This compensates for the variance reduction caused by <code>ReLU</code>, ensuring proper gradient flow during training.</p>
+</details>
+<p>Here is the python implementation:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Define input and output sizes</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">256</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># He initialization</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">weights_he</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Plot histogram</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_he</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of He Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Weight Value&#39;</span><span class="p">)</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/he_init.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="He initialization" src="../../../../assets/weights_init_and_activation/he_init.png" /></a></p>
+<figcaption>
+<p>Histogram of He Initialization</p>
+</figcaption>
+</figure>
+<p>The main lines:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># He initialization</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">weights_he</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span></code></pre></div>
+<p>This directly corresponds to:</p>
+<div class="arithmatex">\[W = N \cdot \sqrt{\frac{2}{n_{\text{in}}}}\]</div>
+<p>Where: <span class="arithmatex">\(N \sim \mathcal{N}(0, 1)\)</span> is a standard normal distribution, and <span class="arithmatex">\(\sqrt{\frac{2}{n_{\text{in}}}}\)</span> scales the standard deviation to match the <code>He</code> initialization rule.</p>
+<p>He initialization has become particularly important in modern deep learning architectures, especially in Convolutional Neural Networks (CNNs) where <code>ReLU</code> is the dominant activation function. By properly scaling the initial weights, <code>He</code> initialization helps maintain healthy gradients throughout the network, enabling faster convergence and better overall performance in deep architectures.</p>
+<h2 id="he-initialization-for-leakyrelu">He Initialization for LeakyReLU<a class="headerlink" href="#he-initialization-for-leakyrelu" title="Permanent link">&para;</a></h2>
+<p><code>He</code> initialization can be further adapted for <code>LeakyReLU</code> activation functions. While standard <code>He</code> initialization accounts for <code>ReLU</code>'s zero output for negative inputs, <code>LeakyReLU</code> has a small slope <span class="arithmatex">\(\alpha\)</span> for negative values, which affects the variance calculation.</p>
+<p>For <code>LeakyReLU</code> defined as:</p>
+<div class="arithmatex">\[
+f(x) = \begin{cases} 
+x &amp; \text{if } x &gt; 0 \\
+\alpha x &amp; \text{if } x \leq 0
+\end{cases}
+\]</div>
+<p>The initialization is modified to:</p>
+<div class="arithmatex">\[W \sim \mathcal{N}(0, \frac{2}{(1 + \alpha^2)n_{\text{in}}})\]</div>
+<p>where <span class="arithmatex">\(\alpha\)</span> is the negative slope parameter of <code>LeakyReLU</code> (typically 0.01).</p>
+<details class="note">
+<summary>Mathematical Intuition Behind He Initialization for LeakyReLU</summary>
+<p>The adjustment for <code>LeakyReLU</code> comes from considering both positive and negative inputs:</p>
+<ol>
+<li>For positive inputs (approximately half), the variance remains unchanged</li>
+<li>For negative inputs (approximately half), the variance is multiplied by <span class="arithmatex">\(\alpha^2\)</span></li>
+</ol>
+<p>The total variance after <code>LeakyReLU</code> activation becomes:</p>
+<div class="arithmatex">\[\text{Var}(output) = \frac{1}{2} \cdot \text{Var}(input) + \frac{1}{2} \cdot \alpha^2 \cdot \text{Var}(input) = \frac{1 + \alpha^2}{2} \cdot \text{Var}(input)\]</div>
+<p>To maintain variance across layers, we scale the initialization by <span class="arithmatex">\(\sqrt{\frac{2}{1 + \alpha^2}}\)</span> compared to standard <code>He</code> initialization.</p>
+</details>
+<p>Here is the python implementation:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Define input and output sizes and LeakyReLU alpha</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">256</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># LeakyReLU negative slope</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># He initialization for LeakyReLU</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">weights_he_leaky</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">input_size</span><span class="p">))</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Plot histogram</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_he_leaky</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of He Initialization (LeakyReLU)&#39;</span><span class="p">)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Weight Value&#39;</span><span class="p">)</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/leaky_he_init.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="He initialization for LeakyReLU" src="../../../../assets/weights_init_and_activation/leaky_he_init.png" /></a></p>
+<figcaption>
+<p>Histogram of He Initialization adapted for LeakyReLU activation</p>
+</figcaption>
+</figure>
+<p>The main lines:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Generate normal distribution</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># He initialization for LeakyReLU</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">weights_he_leaky</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">input_size</span><span class="p">))</span>
+</span></code></pre></div>
+<p>This directly corresponds to:</p>
+<div class="arithmatex">\[W = N \cdot \sqrt{\frac{2}{(1 + \alpha^2)n_{\text{in}}}}\]</div>
+<p>Where: <span class="arithmatex">\(N \sim \mathcal{N}(0, 1)\)</span> is a standard normal distribution, and <span class="arithmatex">\(\sqrt{\frac{2}{(1 + \alpha^2)n_{\text{in}}}}\)</span> scales the standard deviation to account for the <code>LeakyReLU</code> activation function.</p>
+<p>When <span class="arithmatex">\(\alpha = 0\)</span>, this reduces to standard <code>He</code> initialization for <code>ReLU</code>. For typical <code>LeakyReLU</code> with <span class="arithmatex">\(\alpha = 0.01\)</span>, the difference from standard <code>He</code> initialization is minimal but can become more significant with larger <span class="arithmatex">\(\alpha\)</span> values.</p>
+<h2 id="plot-comparing-initialization-methods">Plot: Comparing Initialization Methods<a class="headerlink" href="#plot-comparing-initialization-methods" title="Permanent link">&para;</a></h2>
+<p>To better understand the differences between these initialization methods, let's examine them side by side. The following plots show the distribution of weights for each initialization method:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">96</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># Define input and output sizes</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">50</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># LeakyReLU negative slope</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Random normal initialization</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">weights_random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1"># Xavier (Glorot) initialization</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">weights_xavier</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># He initialization</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">weights_he</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># Leaky He init</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">weights_leaky_he</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.</span> <span class="o">/</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">input_size</span><span class="p">))</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="c1"># Plotting the histograms for the weights initialized by different methods</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="c1"># Random init plot</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_random</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Random Normal Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="c1"># Xavier init plot</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_xavier</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Xavier Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a><span class="c1"># He initialization plot</span>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_he</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;He Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="c1"># Leaky He initialization plot</span>
+</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">weights_leaky_he</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</span><span id="__span-7-45"><a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Leaky He Initialization&#39;</span><span class="p">)</span>
+</span><span id="__span-7-46"><a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-47"><a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a>
+</span><span id="__span-7-48"><a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span><span id="__span-7-49"><a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/weights_init_and_activation/init_side_by_side.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Initialization methods comparison" src="../../../../assets/weights_init_and_activation/init_side_by_side.png" /></a></p>
+<figcaption>
+<p>Comparison of different initialization methods (left-right): Random Normal, Xavier, He, and Leaky He</p>
+</figcaption>
+</figure>
+<p>The plots reveal several key differences between the initialization methods:</p>
+<ol>
+<li>
+<p><strong>Random Normal Initialization</strong> (red) shows the widest spread of weights, with no consideration for the network architecture. This can lead to vanishing or exploding gradients, especially in deeper networks.</p>
+</li>
+<li>
+<p><strong>Xavier Initialization</strong> (green) demonstrates a more controlled distribution, with weights scaled according to the input dimension. The narrower spread helps maintain stable gradients when using sigmoid or tanh activation functions.</p>
+</li>
+<li>
+<p><strong>He Initialization</strong> (blue) shows a slightly wider distribution than Xavier, but still maintains a structured spread. The increased variance compensates for the ReLU activation function's tendency to zero out negative values.</p>
+</li>
+<li>
+<p><strong>Leaky He Initialization</strong> (black) scales the variance for <code>LeakyReLU</code> activations, slightly narrowing the spread compared to <strong>He Initialization</strong>. This accounts for the negative slope <span class="arithmatex">\(\alpha\)</span>, ensuring effective propagation of both positive and negative signals.</p>
+</li>
+</ol>
+<details class="note">
+<summary>Distribution Characteristics</summary>
+<p>The variance of each distribution reflects its intended use:</p>
+<ul>
+<li>Random Normal: <span class="arithmatex">\(\sigma^2 = 1\)</span></li>
+<li>Xavier: <span class="arithmatex">\(\sigma^2 = \frac{1}{n_{\text{in}}}\)</span></li>
+<li>He: <span class="arithmatex">\(\sigma^2 = \frac{2}{n_{\text{in}}}\)</span></li>
+<li>Leaky He: <span class="arithmatex">\(\sigma^2 = \frac{2}{(1 + \alpha^2)n_{\text{in}}}\)</span></li>
+</ul>
+<p>These differences in variance directly impact how well each method maintains the signal through deep networks with different activation functions.</p>
+</details>
+<h2 id="universal-parameter-implementation">Universal Parameter Implementation<a class="headerlink" href="#universal-parameter-implementation" title="Permanent link">&para;</a></h2>
+<p>The <code>Parameter</code> class for the weight initialization.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">parameter</span><span class="p">(</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">init_method</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;xavier&quot;</span><span class="p">,</span> <span class="s2">&quot;he&quot;</span><span class="p">,</span> <span class="s2">&quot;he_leaky&quot;</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="s2">&quot;uniform&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;xavier&quot;</span><span class="p">,</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="n">gain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="sd">    Initialize weights using specified initialization method.</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="sd">    Args:</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="sd">        input_size (int): Number of input neurons.</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="sd">        output_size (int): Number of output neurons.</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="sd">        init_method (str): Method of initialization (&quot;xavier&quot;, &quot;he&quot;, &quot;he_leaky&quot;, &quot;normal&quot;, &quot;uniform&quot;).</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="sd">        gain (float): Scaling factor for weight initialization.</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="sd">        alpha (float): Slope for Leaky ReLU in &quot;he_leaky&quot; initialization.</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="sd">    Returns:</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="sd">        np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="sd">    Raises:</span>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="sd">        ValueError: If the initialization method is unknown.</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>    <span class="k">if</span> <span class="n">init_method</span> <span class="o">==</span> <span class="s2">&quot;xavier&quot;</span><span class="p">:</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>        <span class="n">std</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>        <span class="k">return</span> <span class="n">std</span> <span class="o">*</span> <span class="n">weights</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a>    <span class="k">if</span> <span class="n">init_method</span> <span class="o">==</span> <span class="s2">&quot;he&quot;</span><span class="p">:</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33" href="#__codelineno-8-33"></a>        <span class="n">std</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">)</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34" href="#__codelineno-8-34"></a>        <span class="k">return</span> <span class="n">std</span> <span class="o">*</span> <span class="n">weights</span>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35" href="#__codelineno-8-35"></a>    <span class="k">if</span> <span class="n">init_method</span> <span class="o">==</span> <span class="s2">&quot;he_leaky&quot;</span><span class="p">:</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36" href="#__codelineno-8-36"></a>        <span class="n">std</span> <span class="o">=</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">input_size</span><span class="p">))</span>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37" href="#__codelineno-8-37"></a>        <span class="k">return</span> <span class="n">std</span> <span class="o">*</span> <span class="n">weights</span>
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38" href="#__codelineno-8-38"></a>    <span class="k">if</span> <span class="n">init_method</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39" href="#__codelineno-8-39"></a>        <span class="k">return</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">weights</span>
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40" href="#__codelineno-8-40"></a>    <span class="k">if</span> <span class="n">init_method</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41" href="#__codelineno-8-41"></a>        <span class="k">return</span> <span class="n">gain</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">))</span>
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42" href="#__codelineno-8-42"></a>
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43" href="#__codelineno-8-43"></a>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown initialization method: </span><span class="si">{</span><span class="n">init_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44" href="#__codelineno-8-44"></a>
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45" href="#__codelineno-8-45"></a>
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46" href="#__codelineno-8-46"></a><span class="k">class</span><span class="w"> </span><span class="nc">Parameter</span><span class="p">:</span>
+</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47" href="#__codelineno-8-47"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48" href="#__codelineno-8-48"></a><span class="sd">    A class to represent and initialize neural network parameters (weights).</span>
+</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49" href="#__codelineno-8-49"></a>
+</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50" href="#__codelineno-8-50"></a><span class="sd">    Attributes:</span>
+</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51" href="#__codelineno-8-51"></a><span class="sd">        gain (float): Scaling factor for weight initialization.</span>
+</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52" href="#__codelineno-8-52"></a><span class="sd">        input_size (int): Number of input neurons.</span>
+</span><span id="__span-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53" href="#__codelineno-8-53"></a><span class="sd">        output_size (int): Number of output neurons.</span>
+</span><span id="__span-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54" href="#__codelineno-8-54"></a>
+</span><span id="__span-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55" href="#__codelineno-8-55"></a><span class="sd">    Methods:</span>
+</span><span id="__span-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56" href="#__codelineno-8-56"></a><span class="sd">        he(): Initializes weights using He initialization.</span>
+</span><span id="__span-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57" href="#__codelineno-8-57"></a><span class="sd">        he_leaky(alpha): Initializes weights using He initialization with Leaky ReLU.</span>
+</span><span id="__span-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58" href="#__codelineno-8-58"></a><span class="sd">        xavier(): Initializes weights using Xavier initialization.</span>
+</span><span id="__span-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59" href="#__codelineno-8-59"></a><span class="sd">        random(): Initializes weights with a normal distribution.</span>
+</span><span id="__span-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60" href="#__codelineno-8-60"></a><span class="sd">        uniform(): Initializes weights with a uniform distribution.</span>
+</span><span id="__span-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61" href="#__codelineno-8-61"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62" href="#__codelineno-8-62"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gain</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="__span-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63" href="#__codelineno-8-63"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64" href="#__codelineno-8-64"></a><span class="sd">        Initialize the Parameter object with input size, output size, and scaling factor.</span>
+</span><span id="__span-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65" href="#__codelineno-8-65"></a>
+</span><span id="__span-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66" href="#__codelineno-8-66"></a><span class="sd">        Args:</span>
+</span><span id="__span-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67" href="#__codelineno-8-67"></a><span class="sd">            input_size (int): Number of input neurons.</span>
+</span><span id="__span-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68" href="#__codelineno-8-68"></a><span class="sd">            output_size (int): Number of output neurons.</span>
+</span><span id="__span-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69" href="#__codelineno-8-69"></a><span class="sd">            gain (float): Scaling factor for initialization.</span>
+</span><span id="__span-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70" href="#__codelineno-8-70"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71" href="#__codelineno-8-71"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">input_size</span> <span class="o">=</span> <span class="n">input_size</span>
+</span><span id="__span-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72" href="#__codelineno-8-72"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span> <span class="o">=</span> <span class="n">output_size</span>
+</span><span id="__span-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73" href="#__codelineno-8-73"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">gain</span> <span class="o">=</span> <span class="n">gain</span>
+</span><span id="__span-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74" href="#__codelineno-8-74"></a>
+</span><span id="__span-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75" href="#__codelineno-8-75"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">he</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-76"><a id="__codelineno-8-76" name="__codelineno-8-76" href="#__codelineno-8-76"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-77"><a id="__codelineno-8-77" name="__codelineno-8-77" href="#__codelineno-8-77"></a><span class="sd">        Initializes weights using He initialization (for ReLU activations).</span>
+</span><span id="__span-8-78"><a id="__codelineno-8-78" name="__codelineno-8-78" href="#__codelineno-8-78"></a>
+</span><span id="__span-8-79"><a id="__codelineno-8-79" name="__codelineno-8-79" href="#__codelineno-8-79"></a><span class="sd">        Returns:</span>
+</span><span id="__span-8-80"><a id="__codelineno-8-80" name="__codelineno-8-80" href="#__codelineno-8-80"></a><span class="sd">            np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-81"><a id="__codelineno-8-81" name="__codelineno-8-81" href="#__codelineno-8-81"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-82"><a id="__codelineno-8-82" name="__codelineno-8-82" href="#__codelineno-8-82"></a>        <span class="k">return</span> <span class="n">parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="s2">&quot;he&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">)</span>
+</span><span id="__span-8-83"><a id="__codelineno-8-83" name="__codelineno-8-83" href="#__codelineno-8-83"></a>
+</span><span id="__span-8-84"><a id="__codelineno-8-84" name="__codelineno-8-84" href="#__codelineno-8-84"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">he_leaky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-85"><a id="__codelineno-8-85" name="__codelineno-8-85" href="#__codelineno-8-85"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-86"><a id="__codelineno-8-86" name="__codelineno-8-86" href="#__codelineno-8-86"></a><span class="sd">        Initializes weights using He initialization with Leaky ReLU.</span>
+</span><span id="__span-8-87"><a id="__codelineno-8-87" name="__codelineno-8-87" href="#__codelineno-8-87"></a>
+</span><span id="__span-8-88"><a id="__codelineno-8-88" name="__codelineno-8-88" href="#__codelineno-8-88"></a><span class="sd">        Args:</span>
+</span><span id="__span-8-89"><a id="__codelineno-8-89" name="__codelineno-8-89" href="#__codelineno-8-89"></a><span class="sd">            alpha (float): Slope of Leaky ReLU.</span>
+</span><span id="__span-8-90"><a id="__codelineno-8-90" name="__codelineno-8-90" href="#__codelineno-8-90"></a>
+</span><span id="__span-8-91"><a id="__codelineno-8-91" name="__codelineno-8-91" href="#__codelineno-8-91"></a><span class="sd">        Returns:</span>
+</span><span id="__span-8-92"><a id="__codelineno-8-92" name="__codelineno-8-92" href="#__codelineno-8-92"></a><span class="sd">            np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-93"><a id="__codelineno-8-93" name="__codelineno-8-93" href="#__codelineno-8-93"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-94"><a id="__codelineno-8-94" name="__codelineno-8-94" href="#__codelineno-8-94"></a>        <span class="k">return</span> <span class="n">parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="s2">&quot;he_leaky&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+</span><span id="__span-8-95"><a id="__codelineno-8-95" name="__codelineno-8-95" href="#__codelineno-8-95"></a>
+</span><span id="__span-8-96"><a id="__codelineno-8-96" name="__codelineno-8-96" href="#__codelineno-8-96"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">xavier</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-97"><a id="__codelineno-8-97" name="__codelineno-8-97" href="#__codelineno-8-97"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-98"><a id="__codelineno-8-98" name="__codelineno-8-98" href="#__codelineno-8-98"></a><span class="sd">        Initializes weights using Xavier initialization.</span>
+</span><span id="__span-8-99"><a id="__codelineno-8-99" name="__codelineno-8-99" href="#__codelineno-8-99"></a>
+</span><span id="__span-8-100"><a id="__codelineno-8-100" name="__codelineno-8-100" href="#__codelineno-8-100"></a><span class="sd">        Returns:</span>
+</span><span id="__span-8-101"><a id="__codelineno-8-101" name="__codelineno-8-101" href="#__codelineno-8-101"></a><span class="sd">            np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-102"><a id="__codelineno-8-102" name="__codelineno-8-102" href="#__codelineno-8-102"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-103"><a id="__codelineno-8-103" name="__codelineno-8-103" href="#__codelineno-8-103"></a>        <span class="k">return</span> <span class="n">parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="s2">&quot;xavier&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">)</span>
+</span><span id="__span-8-104"><a id="__codelineno-8-104" name="__codelineno-8-104" href="#__codelineno-8-104"></a>
+</span><span id="__span-8-105"><a id="__codelineno-8-105" name="__codelineno-8-105" href="#__codelineno-8-105"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-106"><a id="__codelineno-8-106" name="__codelineno-8-106" href="#__codelineno-8-106"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-107"><a id="__codelineno-8-107" name="__codelineno-8-107" href="#__codelineno-8-107"></a><span class="sd">        Initializes weights with a standard normal distribution.</span>
+</span><span id="__span-8-108"><a id="__codelineno-8-108" name="__codelineno-8-108" href="#__codelineno-8-108"></a>
+</span><span id="__span-8-109"><a id="__codelineno-8-109" name="__codelineno-8-109" href="#__codelineno-8-109"></a><span class="sd">        Returns:</span>
+</span><span id="__span-8-110"><a id="__codelineno-8-110" name="__codelineno-8-110" href="#__codelineno-8-110"></a><span class="sd">            np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-111"><a id="__codelineno-8-111" name="__codelineno-8-111" href="#__codelineno-8-111"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-112"><a id="__codelineno-8-112" name="__codelineno-8-112" href="#__codelineno-8-112"></a>        <span class="k">return</span> <span class="n">parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">)</span>
+</span><span id="__span-8-113"><a id="__codelineno-8-113" name="__codelineno-8-113" href="#__codelineno-8-113"></a>
+</span><span id="__span-8-114"><a id="__codelineno-8-114" name="__codelineno-8-114" href="#__codelineno-8-114"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+</span><span id="__span-8-115"><a id="__codelineno-8-115" name="__codelineno-8-115" href="#__codelineno-8-115"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-8-116"><a id="__codelineno-8-116" name="__codelineno-8-116" href="#__codelineno-8-116"></a><span class="sd">        Initializes weights using a uniform distribution.</span>
+</span><span id="__span-8-117"><a id="__codelineno-8-117" name="__codelineno-8-117" href="#__codelineno-8-117"></a>
+</span><span id="__span-8-118"><a id="__codelineno-8-118" name="__codelineno-8-118" href="#__codelineno-8-118"></a><span class="sd">        Returns:</span>
+</span><span id="__span-8-119"><a id="__codelineno-8-119" name="__codelineno-8-119" href="#__codelineno-8-119"></a><span class="sd">            np.ndarray: The initialized weight matrix.</span>
+</span><span id="__span-8-120"><a id="__codelineno-8-120" name="__codelineno-8-120" href="#__codelineno-8-120"></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="__span-8-121"><a id="__codelineno-8-121" name="__codelineno-8-121" href="#__codelineno-8-121"></a>        <span class="k">return</span> <span class="n">parameter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_size</span><span class="p">,</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gain</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Example of Usage:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">param</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">weights</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">he</span><span class="p">()</span>  <span class="c1"># Will use &quot;he&quot; initialization</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">weights</span>
+</span></code></pre></div>
+<p><strong>Output:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>array([[-0.13668641,  0.06869297,  0.14488719,  0.13556128, -0.10379101,
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>        -0.02760059, -0.20395249,  0.08597498, -0.11700688, -0.21882887]])
+</span></code></pre></div>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>The choice of weight initialization method significantly impacts neural network training dynamics. Through our analysis, we can draw several key conclusions:</p>
+<ol>
+<li>
+<p>Random (Normal) initialization, while simple, lacks the mathematical foundation to ensure stable gradient flow in deep networks.</p>
+</li>
+<li>
+<p><code>Xavier</code> initialization provides a robust solution for networks using <code>sigmoid</code> or <code>tanh</code> activation functions by maintaining variance across layers.</p>
+</li>
+<li>
+<p><code>He</code> initialization builds upon <code>Xavier's</code> insights to specifically address the characteristics of <code>ReLU</code> activation functions, making it the preferred choice for modern architectures using <code>ReLU</code> and its variants.</p>
+</li>
+<li>
+<p><code>Leaky He</code> initialization extends <code>He</code> initialization to account for the non-zero negative slope of <code>LeakyReLU</code> activations, ensuring both positive and negative signals propagate effectively through the network. The slight adjustment in variance makes it ideal for networks with <code>LeakyReLU</code> or similar activations.</p>
+</li>
+</ol>
+<p>The evolution from random to <code>Xavier</code> to <code>He</code> initialization reflects our growing understanding of deep neural networks. Each method addresses specific challenges in training deep networks, with <code>He</code> initialization currently standing as the most widely used approach in modern architectures, particularly those employing <code>ReLU</code> activations.</p>
+<p>While batch normalization has made weight initialization less critical, it’s still important. <strong>Batch normalization</strong> normalizes layer inputs, reducing the effects of poor initialization. Even so, starting with proper methods like <code>Xavier</code> or <code>He</code> can improve convergence speed. Combining good initialization with batch normalization gives the best results for training deep networks.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+  <h2 id="__comments">Comments</h2>
+  <script src="https://giscus.app/client.js"
+        data-repo="nickovchinnikov/datasanta"
+        data-repo-id="R_kgDONS23-g"
+        data-category="Show and tell"
+        data-category-id="DIC_kwDONS23-s4CkjoJ"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate"
+        ? "transparent_dark"
+        : "light"
+
+      // Instruct Giscus to set theme
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      var ref = document.querySelector("[data-md-component=palette]")
+      ref.addEventListener("change", function() {
+        var palette = __md_get("__palette")
+        if (palette && typeof palette.color === "object") {
+          var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+          // Instruct Giscus to change theme
+          var frame = document.querySelector(".giscus-frame")
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app"
+          )
+        }
+      })
+    })
+  </script>
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../03/the-journey-from-logits-to-probabilities/" class="md-footer__link md-footer__link--prev" aria-label="Previous: The journey from Logits to Probabilities">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                The journey from Logits to Probabilities
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../22/mastering-neural-network---linear-layer-and-sgd/" class="md-footer__link md-footer__link--next" aria-label="Next: Mastering Neural Network - Linear Layer and SGD">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Mastering Neural Network - Linear Layer and SGD
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:contact@datasanta.net" target="_blank" rel="noopener" title="send me an email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 112c-8.8 0-16 7.2-16 16v22.1l172.5 141.6c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16zM48 212.2V384c0 8.8 7.2 16 16 16h384c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0zM0 128c0-35.3 28.7-64 64-64h384c35.3 0 64 28.7 64 64v256c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/@datasanta" target="_blank" rel="noopener" title="YouTube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nickovchinnikov" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://x.com/datasantaa" target="_blank" rel="noopener" title="DataSanta on X" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://t.me/datasantaa" target="_blank" rel="noopener" title="DataSanta on telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="/feed_rss_created.xml" target="_blank" rel="noopener" title="RSS Feed" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.footer", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

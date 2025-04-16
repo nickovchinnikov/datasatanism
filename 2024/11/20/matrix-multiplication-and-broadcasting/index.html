@@ -1,0 +1,2270 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The Heartbeat of Data Transformations - Dive into the essentials of matrix multiplication and broadcasting.">
+      
+      
+      
+        <link rel="canonical" href="https://datasanta.net/2024/11/20/matrix-multiplication-and-broadcasting/">
+      
+      
+        <link rel="prev" href="../../../06/11/text-to-speech-tts-models-overview-little-theory-and-math/">
+      
+      
+        <link rel="next" href="../../26/dive-into-learning-from-data---mnist-video-adventure/">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
+    
+    
+      
+        <title>Matrix Multiplication and Broadcasting - DataSanta</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-Y9BWQQSE0S"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-Y9BWQQSE0S",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-Y9BWQQSE0S",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="Matrix Multiplication and Broadcasting - DataSanta" >
+      
+        <meta  property="og:description"  content="The Heartbeat of Data Transformations - Dive into the essentials of matrix multiplication and broadcasting." >
+      
+        <meta  property="og:image"  content="https://datasanta.net/assets/images/social/posts/matmul_broadcasting.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://datasanta.net/2024/11/20/matrix-multiplication-and-broadcasting/" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="Matrix Multiplication and Broadcasting - DataSanta" >
+      
+        <meta  name="twitter:description"  content="The Heartbeat of Data Transformations - Dive into the essentials of matrix multiplication and broadcasting." >
+      
+        <meta  name="twitter:image"  content="https://datasanta.net/assets/images/social/posts/matmul_broadcasting.png" >
+      
+    
+    
+   <link href="../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#exploring-matrix-multiplication-in-detail" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="DataSanta" class="md-header__button md-logo" aria-label="DataSanta" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DataSanta
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Matrix Multiplication and Broadcasting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="DataSanta" class="md-nav__button md-logo" aria-label="DataSanta" data-md-component="logo">
+      
+  <img src="../../../../assets/logo.png" alt="logo">
+
+    </a>
+    DataSanta
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DataSanta
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Archive
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2024/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2024
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Categories
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Classification
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/computational-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Computational Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-science/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Science
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-transformations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Transformations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/data-visualization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Visualization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deep Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/dimensionality-reduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Dimensionality Reduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/feature-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Feature Engineering
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/linear-algebra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linear Algebra
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/loss-functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Loss Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/machine-learning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Machine Learning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mathematics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/natural-language-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Natural Language Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/neural-networks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Neural Networks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/numerical-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Numerical Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/optimizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimizations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/speech-and-audio-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Speech and Audio Processing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/tts-text-to-speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    TTS (Text to Speech)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-matrix-multiplication-in-detail" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploring Matrix Multiplication in Detail
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring Matrix Multiplication in Detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-up-our-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up Our Matrices:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-dot-product-vector-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Dot Product - Vector Multiplication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matrix-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix Multiplication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Matrix Multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-matrix-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Matrix Multiplication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dimensionality-in-matrix-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dimensionality in Matrix Multiplication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generalizing-matrix-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generalizing Matrix Multiplication
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-different-approaches-to-matrix-multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exploring Different Approaches to Matrix Multiplication
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring Different Approaches to Matrix Multiplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#horizontal-stacking-multiply-a-by-columns-of-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      Horizontal Stacking - Multiply A by Columns of B:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vertical-stacking-multiply-rows-of-a-by-b" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vertical Stacking - Multiply Rows of A by B:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matrix-multiplication-an-interesting-dimensionality-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix Multiplication: An Interesting Dimensionality Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matrix-multiplication-column-row-way" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matrix Multiplication: Column-Row Way
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broadcasting-expanding-the-dimensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broadcasting: Expanding the Dimensions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broadcasting: Expanding the Dimensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#broadcasting-example-in-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broadcasting Example in Python
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-step-the-power-of-broadcasting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Final Step: The Power of Broadcasting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Final Step: The Power of Broadcasting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#broadcasting-in-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broadcasting in Action
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      Takeaways
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../.." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/7540752" alt="Nick Ovchinnikov">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          <a href="https://github.com/nickovchinnikov">Nick Ovchinnikov</a>
+                        
+                      </strong>
+                      <br>
+                      Follow the white rabbit
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2024-11-20 00:00:00+00:00" class="md-ellipsis">November 20, 2024</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/linear-algebra/">Linear Algebra</a>, 
+                              <a href="../../../../category/data-transformations/">Data Transformations</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              12 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+  <nav class="md-tags" >
+    
+      
+      
+      
+        <span class="md-tag">Broadcasting</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Matrices</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Neural Networks</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Numpy</span>
+      
+    
+      
+      
+      
+        <span class="md-tag">Pytorch</span>
+      
+    
+  </nav>
+
+
+
+  <h1>Matrix Multiplication and Broadcasting</h1>
+
+<p>Understanding the transformation of input through weights and biases is fundamental in machine learning. Let's dive into how matrix multiplication plays a crucial role. It's all about matrix multiplication, the bread and butter of transforming inputs into meaningful outputs. Let's dive into how weights, biases, and inputs dance together in this mathematical ballet.</p>
+<figure>
+<p><a class="glightbox" href="../../../../assets/matmul_broadcasting/Matrix_multiplication.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="center," alt="matrix multiplication" src="../../../../assets/matmul_broadcasting/Matrix_multiplication.png" width="500" /></a></p>
+<figcaption>
+<p>For matrix multiplication, the number of columns in the first matrix must be equal to the number of rows in the second matrix. The result matrix has the number of rows of the first and the number of columns of the second matrix.</p>
+</figcaption>
+</figure>
+<!-- more -->
+
+<h2 id="exploring-matrix-multiplication-in-detail">Exploring Matrix Multiplication in Detail<a class="headerlink" href="#exploring-matrix-multiplication-in-detail" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Matrix multiplication is not just about numbers; it's about understanding how data flows through layers of computation in machine learning models.</p>
+</blockquote>
+<iframe width="1707" height="765" src="https://www.youtube.com/embed/rfTwxV6H-8o" title="Matrix Multiplication, The Broadcasting rules" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<h3 id="setting-up-our-matrices">Setting Up Our Matrices:<a class="headerlink" href="#setting-up-our-matrices" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Input Matrix <span class="arithmatex">\(\mathbf{X}\)</span></strong>: This represents our data, with each row being a sample and each column a feature. <strong>For 100 samples and 3 features, we have:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{X} = \begin{bmatrix}
+x_{11} &amp; x_{12} &amp; x_{13} \\
+x_{21} &amp; x_{22} &amp; x_{23} \\
+\vdots &amp; \vdots &amp; \vdots \\
+x_{101} &amp; x_{102} &amp; x_{103}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Weights Vector <span class="arithmatex">\(\mathbf{W}\)</span></strong>: Our weights are like the tuning knobs for our model; they adjust how much each feature influences the outcome:</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{W} = \begin{bmatrix}
+w_1 \\
+w_2 \\
+w_3
+\end{bmatrix} \quad \text{(3 weights)}
+\]</div>
+<ul>
+<li><strong>Bias <span class="arithmatex">\(b\)</span></strong>: A little nudge to shift our predictions, just a single number:</li>
+</ul>
+<div class="arithmatex">\[
+b = 1 \quad \text{(Scalar bias term)}
+\]</div>
+<h3 id="the-process">The Process<a class="headerlink" href="#the-process" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Linear Combination <span class="arithmatex">\(Z\)</span></strong>: The first step in our logistic regression model is to compute <span class="arithmatex">\(z\)</span>, the linear combination of our features with their respective weights plus the bias:</li>
+</ul>
+<div class="arithmatex">\[
+z = \mathbf{X} \cdot \mathbf{W} + b = \begin{bmatrix}
+z_1 \\
+z_2 \\
+\vdots \\
+z_{100}
+\end{bmatrix} \quad \text{(100 linear combinations)}
+\]</div>
+<ul>
+<li><strong>Predicted Probabilities <span class="arithmatex">\(\hat{y}\)</span></strong>: We then pass our linear combinations through the sigmoid function to squash the results between 0 and 1, turning them into probabilities:</li>
+</ul>
+<div class="arithmatex">\[
+\hat{y} = \sigma(Z) = \begin{bmatrix}
+\hat{y}_1 \\
+\hat{y}_2 \\
+\vdots \\
+\hat{y}_{100}
+\end{bmatrix} \quad \text{(100 predicted probabilities)}
+\]</div>
+<p>But why do we end up with 100 results? Let's examine this more closely!</p>
+<h3 id="the-dot-product-vector-multiplication">The Dot Product - Vector Multiplication<a class="headerlink" href="#the-dot-product-vector-multiplication" title="Permanent link">&para;</a></h3>
+<p>This simple operation is the heartbeat of matrix multiplication, allowing our model to compute how much each feature contributes to the prediction. The dot product is the sum of the element-wise products of two vectors.</p>
+<div class="arithmatex">\[
+\mathbf{a} \cdot \mathbf{b} =
+\begin{bmatrix} a_1 &amp; a_2 \end{bmatrix} \cdot
+\begin{bmatrix} b_1 \\ b_2 \end{bmatrix} =
+a_1 \cdot b_1 + a_2 \cdot b_2
+\]</div>
+<h2 id="matrix-multiplication">Matrix Multiplication<a class="headerlink" href="#matrix-multiplication" title="Permanent link">&para;</a></h2>
+<p>Matrix multiplication is not just about numbers; it's about understanding how data flows through layers of computation in machine learning models. Consider <strong>Matrix A</strong> with dimensions 2x2 and <strong>Matrix B</strong> also with dimensions 2x2:</p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix}
+\]</div>
+<div class="arithmatex">\[
+\mathbf{C} = \mathbf{A} \cdot \mathbf{B} = \begin{bmatrix}
+1 \cdot 2 + 2 \cdot 3 &amp; 1 \cdot 1 + 2 \cdot 0 \\
+3 \cdot 2 + 1 \cdot 3 &amp; 3 \cdot 1 + 1 \cdot 0
+\end{bmatrix} = \begin{bmatrix}
+8 &amp; 1 \\
+9 &amp; 3
+\end{bmatrix}
+\]</div>
+<h3 id="step-by-step-matrix-multiplication">Step-by-Step Matrix Multiplication<a class="headerlink" href="#step-by-step-matrix-multiplication" title="Permanent link">&para;</a></h3>
+<p>Here's the color-coded step-by-step representation of matrix multiplication. To compute <span class="arithmatex">\(\mathbf{C} = \mathbf{A} \cdot \mathbf{B}\)</span>:</p>
+<p><strong>Step #1:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+\colorbox{blue}{1} &amp; \colorbox{blue}{2} \\
+3 &amp; 1
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+\colorbox{blue}{2} &amp; 1 \\
+\colorbox{blue}{3} &amp; 0
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Element of <span class="arithmatex">\( \mathbf{C} \)</span></strong>:</li>
+</ul>
+<div class="arithmatex">\[
+C_{11} = \colorbox{blue}{1} \cdot \colorbox{blue}{2} + \colorbox{blue}{2} \cdot \colorbox{blue}{3} = 2 + 6 = 8
+\]</div>
+<p><strong>Step #2:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+\colorbox{blue}{1} &amp; \colorbox{blue}{2} \\
+3 &amp; 1
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+2 &amp; \colorbox{blue}{1} \\
+3 &amp; \colorbox{blue}{0}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Second Element of the First Row</strong>:</li>
+</ul>
+<div class="arithmatex">\[
+C_{12} = \colorbox{blue}{1} \cdot \colorbox{blue}{1} + \colorbox{blue}{2} \cdot \colorbox{blue}{0} = 1 + 0 = 1
+\]</div>
+<p><strong>Step #3:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+\colorbox{blue}{3} &amp; \colorbox{blue}{1}
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+\colorbox{blue}{2} &amp; 1 \\
+\colorbox{blue}{3} &amp; 0
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Element of the Second Row</strong>:</li>
+</ul>
+<div class="arithmatex">\[
+C_{21} = \colorbox{blue}{3} \cdot \colorbox{blue}{2} + \colorbox{blue}{1} \cdot \colorbox{blue}{3} = 6 + 3 = 9
+\]</div>
+<p><strong>Step #4:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+\colorbox{blue}{3} &amp; \colorbox{blue}{1}
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+2 &amp; \colorbox{blue}{1} \\
+3 &amp; \colorbox{blue}{0}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Second Element of the Second Row</strong>:</li>
+</ul>
+<div class="arithmatex">\[
+C_{22} = \colorbox{blue}{3} \cdot \colorbox{blue}{1} + \colorbox{blue}{1} \cdot \colorbox{blue}{0} = 3 + 0 = 3
+\]</div>
+<p>After completing these steps, the resulting matrix <span class="arithmatex">\( \mathbf{C} \)</span> would be:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+\colorbox{blue}{8} &amp; \colorbox{blue}{1} \\
+\colorbox{blue}{9} &amp; \colorbox{blue}{3}
+\end{bmatrix}
+\]</div>
+<p>Each step highlights the corresponding elements from <span class="arithmatex">\(\mathbf{A}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span> used in the calculation, with the color blue indicating the active elements in the multiplication.</p>
+<h3 id="dimensionality-in-matrix-multiplication">Dimensionality in Matrix Multiplication<a class="headerlink" href="#dimensionality-in-matrix-multiplication" title="Permanent link">&para;</a></h3>
+<p>Matrix multiplication is not only about the arithmetic of numbers but also about how dimensions play a crucial role in the operation. Here's a detailed look:</p>
+<ul>
+<li>Let's revisit <strong>Matrix A</strong> and <strong>Matrix B</strong>:</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>The Requirement for Multiplication</strong>: The number of columns in <span class="arithmatex">\(\mathbf{A}\)</span> must equal the number of rows in <span class="arithmatex">\(\mathbf{B}\)</span>. Both <span class="arithmatex">\(\mathbf{A}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span> are 2x2, fitting this requirement perfectly. But, if we take a column from <span class="arithmatex">\(\mathbf{B}\)</span>, say <span class="arithmatex">\( \begin{bmatrix} 2 \\ 3 \end{bmatrix} \)</span>, we can multiply <span class="arithmatex">\(\mathbf{A}\)</span> by this vector!</li>
+</ul>
+<p><strong>Step #1 - Matrix A by Column of B:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+\colorbox{blue}{1} &amp; \colorbox{blue}{2} \\
+\colorbox{blue}{3} &amp; \colorbox{blue}{1}
+\end{bmatrix}, \quad
+\mathbf{B1} = \begin{bmatrix}
+\colorbox{blue}{2} \\
+\colorbox{blue}{3}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Row Multiplication:</strong></li>
+</ul>
+<div class="arithmatex">\[
+1 \cdot 2 + 2 \cdot 3 = 2 + 6 = 8
+\]</div>
+<ul>
+<li><strong>Second Row Multiplication:</strong></li>
+</ul>
+<div class="arithmatex">\[
+3 \cdot 2 + 1 \cdot 3 = 6 + 3 = 9
+\]</div>
+<p>Resulting in:</p>
+<div class="arithmatex">\[
+\begin{bmatrix}
+\colorbox{blue}{8} \\
+\colorbox{blue}{9}
+\end{bmatrix}
+\]</div>
+<p>This operation indeed matches the first column of the full matrix multiplication result! Now, take only the first row of <span class="arithmatex">\(\mathbf{A}\)</span> and multiply it by <span class="arithmatex">\(\mathbf{B}\)</span>:</p>
+<p><strong>Step #1 - Row of A by Matrix B:</strong></p>
+<div class="arithmatex">\[
+\mathbf{A1} = \begin{bmatrix}
+\colorbox{blue}{1} &amp; \colorbox{blue}{2}
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+\colorbox{blue}{2} &amp; \colorbox{blue}{1} \\
+3 &amp; 0
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Column Multiplication:</strong></li>
+</ul>
+<div class="arithmatex">\[
+1 \cdot 2 + 2 \cdot 3 = 2 + 6 = 8
+\]</div>
+<ul>
+<li><strong>Second Column Multiplication:</strong></li>
+</ul>
+<div class="arithmatex">\[
+1 \cdot 1 + 2 \cdot 0 = 1 + 0 = 1
+\]</div>
+<p>Resulting in:</p>
+<div class="arithmatex">\[
+\begin{bmatrix}
+\colorbox{blue}{8} &amp; \colorbox{blue}{1}
+\end{bmatrix}
+\]</div>
+<p>This matches the first row of our previous matrix multiplication result.</p>
+<h2 id="generalizing-matrix-multiplication">Generalizing Matrix Multiplication<a class="headerlink" href="#generalizing-matrix-multiplication" title="Permanent link">&para;</a></h2>
+<ul>
+<li>When we multiply a matrix <span class="arithmatex">\(\mathbf{A}\)</span> of size <span class="arithmatex">\(M \times N\)</span> by a matrix <span class="arithmatex">\(\mathbf{B}\)</span> of size <span class="arithmatex">\(N \times P\)</span>, the result is a matrix <span class="arithmatex">\(\mathbf{C}\)</span> of size <span class="arithmatex">\(M \times P\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{C}_{m \times p} = \mathbf{A}_{m \times n} \cdot \mathbf{B}_{n \times p}
+\]</div>
+<ul>
+<li><strong>Dimensionality Rules:</strong></li>
+<li>The dimensions of <span class="arithmatex">\(\mathbf{A}\)</span>'s columns must match the dimensions of <span class="arithmatex">\(\mathbf{B}\)</span>'s rows (<code>N</code>).</li>
+<li>The resulting matrix <span class="arithmatex">\(\mathbf{C}\)</span> has the row dimension of <span class="arithmatex">\(\mathbf{A}\)</span> (<code>M</code>) and the column dimension of <span class="arithmatex">\(\mathbf{B}\)</span> (<code>P</code>).</li>
+</ul>
+<p>This process helps in understanding how matrix multiplication transforms data across neural network layers or any other application requiring feature transformation. It's about ensuring that the 'middle' dimensions align, allowing for a fusion of input data with weights to produce an output that can be interpreted in the context of our model's needs.</p>
+<h2 id="exploring-different-approaches-to-matrix-multiplication">Exploring Different Approaches to Matrix Multiplication<a class="headerlink" href="#exploring-different-approaches-to-matrix-multiplication" title="Permanent link">&para;</a></h2>
+<p>Matrix multiplication isn't limited to one technique; there are various ways to conceptualize and compute it. Here's how we can think about this operation both horizontally (column by column) and vertically (row by row):</p>
+<h3 id="horizontal-stacking-multiply-a-by-columns-of-b">Horizontal Stacking - Multiply <code>A</code> by Columns of <code>B</code>:<a class="headerlink" href="#horizontal-stacking-multiply-a-by-columns-of-b" title="Permanent link">&para;</a></h3>
+<p>Let's split matrix <span class="arithmatex">\(\mathbf{B}\)</span> into columns <span class="arithmatex">\(b_1\)</span> and <span class="arithmatex">\(b_2\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{B} = \begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix}
+\rightarrow
+\mathbf{b_1} = \begin{bmatrix}
+    2 \\
+    3
+\end{bmatrix},
+\mathbf{b_2} = \begin{bmatrix}
+    1 \\
+    0
+\end{bmatrix}
+\]</div>
+<p>Then, we can multiply matrix <span class="arithmatex">\(\mathbf{A}\)</span> by each of these vectors and stack the results horizontally:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+    \mathbf{A}\mathbf{b_1} &amp; \mathbf{A}\mathbf{b_2}
+\end{bmatrix} =
+\begin{bmatrix}
+    \begin{bmatrix}
+        1 &amp; 2 \\
+        3 &amp; 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        2 \\
+        3
+    \end{bmatrix}
+    &amp;
+    \begin{bmatrix}
+        1 &amp; 2 \\
+        3 &amp; 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 \\
+        0
+    \end{bmatrix}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Column of <span class="arithmatex">\(\mathbf{C}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{A}\mathbf{b_1} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+2 \\
+3
+\end{bmatrix} = \begin{bmatrix}
+1 \cdot 2 + 2 \cdot 3 \\
+3 \cdot 2 + 1 \cdot 3
+\end{bmatrix} = \begin{bmatrix}
+8 \\
+9
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Second Column of <span class="arithmatex">\(\mathbf{C}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{A}\mathbf{b_2} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix} = \begin{bmatrix}
+1 \cdot 1 + 2 \cdot 0 \\
+3 \cdot 1 + 1 \cdot 0
+\end{bmatrix} = \begin{bmatrix}
+1 \\
+3
+\end{bmatrix}
+\]</div>
+<p>Thus, the resulting matrix <span class="arithmatex">\(\mathbf{C}\)</span> is:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+8 &amp; 1 \\
+9 &amp; 3
+\end{bmatrix}
+\]</div>
+<h3 id="vertical-stacking-multiply-rows-of-a-by-b">Vertical Stacking - Multiply Rows of <code>A</code> by <code>B</code>:<a class="headerlink" href="#vertical-stacking-multiply-rows-of-a-by-b" title="Permanent link">&para;</a></h3>
+<p>Now, let's split matrix <span class="arithmatex">\(\mathbf{A}\)</span> into rows <span class="arithmatex">\(a_1\)</span> and <span class="arithmatex">\(a_2\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}
+\rightarrow
+\mathbf{a_1} = \begin{bmatrix}
+    1 &amp; 2
+\end{bmatrix},
+\mathbf{a_2} = \begin{bmatrix}
+    3 &amp; 1
+\end{bmatrix}
+\]</div>
+<p>Then, we multiply each row of <span class="arithmatex">\(\mathbf{A}\)</span> by <span class="arithmatex">\(\mathbf{B}\)</span> and stack the results vertically:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+    \mathbf{a_1}\mathbf{B} \\
+    \mathbf{a_2}\mathbf{B}
+\end{bmatrix} =
+\begin{bmatrix}
+    \begin{bmatrix}
+        1 &amp; 2
+    \end{bmatrix}
+    \begin{bmatrix}
+        2 &amp; 1 \\
+        3 &amp; 0
+    \end{bmatrix} \\
+    \begin{bmatrix}
+        3 &amp; 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        2 &amp; 1 \\
+        3 &amp; 0
+    \end{bmatrix}
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Row of <span class="arithmatex">\(\mathbf{C}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{a_1}\mathbf{B} = \begin{bmatrix}
+1 &amp; 2 
+\end{bmatrix}
+\begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix} = \begin{bmatrix}
+1 \cdot 2 + 2 \cdot 3 &amp; 1 \cdot 1 + 2 \cdot 0 
+\end{bmatrix} = \begin{bmatrix}
+8 &amp; 1 
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Second Row of <span class="arithmatex">\(\mathbf{C}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{a_2}\mathbf{B} = \begin{bmatrix}
+3 &amp; 1 
+\end{bmatrix}
+\begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix} = \begin{bmatrix}
+3 \cdot 2 + 1 \cdot 3 &amp; 3 \cdot 1 + 1 \cdot 0 
+\end{bmatrix} = \begin{bmatrix}
+9 &amp; 3 
+\end{bmatrix}
+\]</div>
+<p>Thus, the resulting matrix <span class="arithmatex">\(\mathbf{C}\)</span> is:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+8 &amp; 1 \\
+9 &amp; 3
+\end{bmatrix}
+\]</div>
+<p>Both horizontal and vertical stacking methods yield the same result, highlighting the flexibility in matrix multiplication techniques while emphasizing the importance of understanding how dimensions interact.</p>
+<h2 id="matrix-multiplication-an-interesting-dimensionality-example">Matrix Multiplication: An Interesting Dimensionality Example<a class="headerlink" href="#matrix-multiplication-an-interesting-dimensionality-example" title="Permanent link">&para;</a></h2>
+<p>In the world of matrix operations, sometimes the dimensionality rules allow for some intriguing transformations. Let's dive into an example where the dimensions seem unconventional:</p>
+<ul>
+<li><strong>Matrix <span class="arithmatex">\(\mathbf{A}\)</span></strong>: 3 rows and 1 column,</li>
+<li><strong>Matrix <span class="arithmatex">\(\mathbf{B}\)</span></strong>: 1 row and 2 columns.</li>
+</ul>
+<p>Here, <span class="arithmatex">\(\mathbf{A}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span> have matching dimensions for multiplication, specifically the column dimentions of <span class="arithmatex">\(\mathbf{A}\)</span> matches the row dimentions of <span class="arithmatex">\(\mathbf{B}\)</span>:</p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 \\
+2 \\
+3
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+1 &amp; 2
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Computing the Output:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\mathbf{C} = \mathbf{A} \cdot \mathbf{B} = \begin{bmatrix}
+1 \\
+2 \\
+3
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 2
+\end{bmatrix} = \begin{bmatrix}
+1 \cdot 1 &amp; 1 \cdot 2 \\
+2 \cdot 1 &amp; 2 \cdot 2 \\
+3 \cdot 1 &amp; 3 \cdot 2
+\end{bmatrix} = \begin{bmatrix}
+1 &amp; 2 \\
+2 &amp; 4 \\
+3 &amp; 6
+\end{bmatrix}
+\]</div>
+<p>The resulting matrix <span class="arithmatex">\(\mathbf{C}\)</span> has dimensions <span class="arithmatex">\(3 \times 2\)</span>, showing how the multiplication can indeed change the shape of our data.</p>
+<h2 id="matrix-multiplication-column-row-way">Matrix Multiplication: Column-Row Way<a class="headerlink" href="#matrix-multiplication-column-row-way" title="Permanent link">&para;</a></h2>
+<p>Let's use this method for <strong>Matrix <span class="arithmatex">\(\mathbf{A}\)</span></strong> and <strong>Matrix <span class="arithmatex">\(\mathbf{B}\)</span></strong>:</p>
+<div class="arithmatex">\[
+\mathbf{A} = \begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 1
+\end{bmatrix}, \quad
+\mathbf{B} = \begin{bmatrix}
+2 &amp; 1 \\
+3 &amp; 0
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>First Column of <span class="arithmatex">\(\mathbf{A}\)</span> by First Row of <span class="arithmatex">\(\mathbf{B}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\begin{bmatrix}
+1 \\
+3
+\end{bmatrix}
+\begin{bmatrix}
+2 &amp; 1
+\end{bmatrix} = \begin{bmatrix}
+1 \cdot 2 &amp; 1 \cdot 1 \\
+3 \cdot 2 &amp; 3 \cdot 1
+\end{bmatrix} = \begin{bmatrix}
+2 &amp; 1 \\
+6 &amp; 3
+\end{bmatrix}
+\]</div>
+<ul>
+<li><strong>Second Column of <span class="arithmatex">\(\mathbf{A}\)</span> by Second Row of <span class="arithmatex">\(\mathbf{B}\)</span>:</strong></li>
+</ul>
+<div class="arithmatex">\[
+\begin{bmatrix}
+2 \\
+1
+\end{bmatrix}
+\begin{bmatrix}
+3 &amp; 0
+\end{bmatrix} = \begin{bmatrix}
+2 \cdot 3 &amp; 2 \cdot 0 \\
+1 \cdot 3 &amp; 1 \cdot 0
+\end{bmatrix} = \begin{bmatrix}
+6 &amp; 0 \\
+3 &amp; 0
+\end{bmatrix}
+\]</div>
+<p>Now, we sum these resulting matrices:</p>
+<div class="arithmatex">\[
+\mathbf{C} = \begin{bmatrix}
+2 &amp; 1 \\
+6 &amp; 3
+\end{bmatrix} +
+\begin{bmatrix}
+6 &amp; 0 \\
+3 &amp; 0
+\end{bmatrix} = 
+\begin{bmatrix}
+8 &amp; 1 \\
+9 &amp; 3
+\end{bmatrix}
+\]</div>
+<p>This method, where we multiply a column from one matrix by a row from another, effectively constructs the result matrix <span class="arithmatex">\(\mathbf{C}\)</span> by summing these intermediate results. Each element of <span class="arithmatex">\(\mathbf{C}\)</span> is formed by considering the dot product between corresponding columns of <span class="arithmatex">\(\mathbf{A}\)</span> and rows of <span class="arithmatex">\(\mathbf{B}\)</span>, which is a fundamental way to understand how matrix elements interact in matrix multiplication.</p>
+<h2 id="broadcasting-expanding-the-dimensions">Broadcasting: Expanding the Dimensions<a class="headerlink" href="#broadcasting-expanding-the-dimensions" title="Permanent link">&para;</a></h2>
+<p>Now let's come back to our example. We know that our Matrix <code>X</code> is of 3 by 3 dimensions, and Matrix <code>W</code> is three rows with only one column. We then add a bias term <code>B</code>, which is just a scalar, equal to 1. The dimensionality of <code>X * W</code> results in a <code>3x1</code> matrix, and adding the scalar <code>B</code> involves an operation called broadcasting.</p>
+<p>Broadcasting is a method used by most scientific computing libraries like PyTorch or NumPy to handle operations between arrays of different shapes. Here’s how it works:</p>
+<ul>
+<li><strong>Broadcasting Rules</strong>: </li>
+<li>When performing an operation, compare the dimensions from right to left side.</li>
+<li>If the dimensions do not match, the shape with a size of 1 is stretched to match the other shape.</li>
+</ul>
+<p>In our example, if we were to broadcast:</p>
+<ul>
+<li><strong>Matrix <code>A</code></strong> with shape <code>(3, 1)</code> (our <code>X * W</code> result)</li>
+<li><strong>Matrix <code>B</code></strong> with shape <code>(1, 4)</code> (our bias <code>B</code> expanded to match <code>X * W</code> for broadcasting)</li>
+</ul>
+<p>For the addition, we:</p>
+<ol>
+<li>Stretch <code>A</code> to match <code>B</code> by duplicating the column four times.</li>
+<li>Stretch <code>B</code> to match <code>A</code> by duplicating the row three times.</li>
+</ol>
+<p>Thus, both matrices would be aligned to have dimensions of 3x4, allowing for element-wise addition.</p>
+<h3 id="broadcasting-example-in-python">Broadcasting Example in Python<a class="headerlink" href="#broadcasting-example-in-python" title="Permanent link">&para;</a></h3>
+<p>Let's see this in code using NumPy:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Define array A with shape (3, 1)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">])</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Array A shape: </span><span class="si">{</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># Define array B with shape (1, 4)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">])</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Array B shape: </span><span class="si">{</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># Perform broadcasting addition</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="n">result</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A + B result: &quot;</span><span class="p">)</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result of A + B shape: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="c1"># Broadcasting the same for the matrix multiplication</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="n">matmul</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">B</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matmul A @ B shape: </span><span class="si">{</span><span class="n">matmul</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matmul result: &quot;</span><span class="p">)</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="nb">print</span><span class="p">(</span><span class="n">matmul</span><span class="p">)</span>
+</span></code></pre></div>
+<p><em>Output:</em></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Array A shape: (3, 1)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Array B shape: (1, 4)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>A + B result: 
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>[[2 3 4 5]
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a> [3 4 5 6]
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> [4 5 6 7]]
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Result of A + B shape: (3, 4)
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>Matmul A @ B shape: (3, 4)
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Matmul result: 
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>[[ 1  2  3  4]
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a> [ 2  4  6  8]
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a> [ 3  6  9 12]]
+</span></code></pre></div>
+<p>This code demonstrates:</p>
+<ul>
+<li>Broadcasting addition where <code>A</code> is extended across columns and <code>B</code> across rows to perform element-wise addition, yielding a <code>3x4</code> result.</li>
+<li>Matrix multiplication where <code>A</code> (as a column vector) is multiplied with <code>B</code> (as a row vector), also yielding a <code>3x4</code> matrix.</li>
+</ul>
+<p>Both operations use the broadcasting mechanism to align the arrays appropriately before performing the operation. The output shapes and values will confirm that the broadcasting worked as expected, providing insight into how matrix dimensions can be manipulated and aligned for operations in machine learning and data processing tasks.</p>
+<h2 id="final-step-the-power-of-broadcasting">Final Step: The Power of Broadcasting<a class="headerlink" href="#final-step-the-power-of-broadcasting" title="Permanent link">&para;</a></h2>
+<p>Returning to our initial example, we have:</p>
+<ul>
+<li><strong>Matrix <code>X</code></strong> with 100 samples and 3 features, leading to a 100x3 matrix.</li>
+<li><strong>Matrix <code>W</code></strong> with 3 weights, forming a 3x1 matrix after transposition.</li>
+<li><strong>Bias <code>B</code></strong> as a scalar, which we can consider as having dimensions 1x1.</li>
+</ul>
+<p>When performing the linear combination of <code>X</code> with <code>W</code>, we get a result with dimensions 100x1, as each sample in <code>X</code> is mapped to a single value through the weights. Now, we add <code>B</code>:</p>
+<h3 id="broadcasting-in-action">Broadcasting in Action<a class="headerlink" href="#broadcasting-in-action" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Applying Broadcasting Rules:</strong></p>
+</li>
+<li>
+<p><strong>Step 1</strong>: The rightmost dimension of <code>B</code> (1) matches with the leftmost dimension of the result of <code>X * W</code> (1). This means <code>B</code> can be broadcasted along the rows of our result to match the 100 rows.</p>
+</li>
+<li>
+<p><strong>Operation</strong>: We're adding a 1x1 matrix to a 100x1 matrix. Broadcasting stretches <code>B</code> to have the same number of rows as our result from the multiplication, effectively turning it into a 100x1 matrix where every element is <code>1</code>.</p>
+</li>
+</ul>
+<p>Thus, the addition operation looks like this:</p>
+<div class="arithmatex">\[
+\mathbf{Z} = \mathbf{X} \cdot \mathbf{W} + \mathbf{B} = \begin{bmatrix}
+z_1 \\
+z_2 \\
+\vdots \\
+z_{100}
+\end{bmatrix} + \begin{bmatrix}
+1 \\
+1 \\
+\vdots \\
+1
+\end{bmatrix} = \begin{bmatrix}
+z_1 + 1 \\
+z_2 + 1 \\
+\vdots \\
+z_{100} + 1
+\end{bmatrix}
+\]</div>
+<p>The final output <code>Z</code> still has dimensions <code>100x1</code>, giving us 100 linear combinations with the bias term added to each.</p>
+<h2 id="takeaways">Takeaways<a class="headerlink" href="#takeaways" title="Permanent link">&para;</a></h2>
+<p><strong>Remember, in machine learning, the shape of your data often dictates the shape of your solution!</strong></p>
+<ul>
+<li>
+<p><strong>Matrix Shapes</strong>: The shape of your matrices tells you a lot about the nature of your data and what operations are possible or necessary. Here, the shape of <code>Z</code> after broadcasting indicates that we now have a vector of 100 predictions, each adjusted by our bias term.</p>
+</li>
+<li>
+<p><strong>Dimension Management</strong>: Understanding and managing dimensions is crucial in machine learning. Broadcasting allows us to perform operations that would otherwise require reshaping or looping over arrays manually, simplifying our code and making operations more efficient.</p>
+</li>
+<li>
+<p><strong>Predictive Power</strong>: With this setup, each element in <code>Z</code> represents a 'score' for each sample, which, when passed through an activation function like sigmoid, gives us probabilistic predictions for classification tasks.</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+  <form class="md-feedback" name="feedback" hidden>
+    <fieldset>
+      <legend class="md-feedback__title">
+        Was this page helpful?
+      </legend>
+      <div class="md-feedback__inner">
+        <div class="md-feedback__list">
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page was helpful" data-md-value="1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m7 0c0 .8-.7 1.5-1.5 1.5S14 10.3 14 9.5 14.7 8 15.5 8s1.5.7 1.5 1.5m-5 7.73c-1.75 0-3.29-.73-4.19-1.81L9.23 14c.45.72 1.52 1.23 2.77 1.23s2.32-.51 2.77-1.23l1.42 1.42c-.9 1.08-2.44 1.81-4.19 1.81"/></svg>
+            </button>
+          
+            <button class="md-feedback__icon md-icon" type="submit" title="This page could be improved" data-md-value="0">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8m2 0a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10m-6.5-4c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5.7-1.5 1.5-1.5M10 9.5c0 .8-.7 1.5-1.5 1.5S7 10.3 7 9.5 7.7 8 8.5 8s1.5.7 1.5 1.5m2 4.5c1.75 0 3.29.72 4.19 1.81l-1.42 1.42C14.32 16.5 13.25 16 12 16s-2.32.5-2.77 1.23l-1.42-1.42C8.71 14.72 10.25 14 12 14"/></svg>
+            </button>
+          
+        </div>
+        <div class="md-feedback__note">
+          
+            <div data-md-value="1" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback!
+            </div>
+          
+            <div data-md-value="0" hidden>
+              
+              
+                
+              
+              
+              
+                
+                
+              
+              Thanks for your feedback! Help us improve this page by using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+            </div>
+          
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+
+  <h2 id="__comments">Comments</h2>
+  <script src="https://giscus.app/client.js"
+        data-repo="nickovchinnikov/datasanta"
+        data-repo-id="R_kgDONS23-g"
+        data-category="Show and tell"
+        data-category-id="DIC_kwDONS23-s4CkjoJ"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate"
+        ? "transparent_dark"
+        : "light"
+
+      // Instruct Giscus to set theme
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function() {
+      var ref = document.querySelector("[data-md-component=palette]")
+      ref.addEventListener("change", function() {
+        var palette = __md_get("__palette")
+        if (palette && typeof palette.color === "object") {
+          var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+          // Instruct Giscus to change theme
+          var frame = document.querySelector(".giscus-frame")
+          frame.contentWindow.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app"
+          )
+        }
+      })
+    })
+  </script>
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../06/11/text-to-speech-tts-models-overview-little-theory-and-math/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Text-to-Speech (TTS) Models Overview, Little Theory and Math">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Text-to-Speech (TTS) Models Overview, Little Theory and Math
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../26/dive-into-learning-from-data---mnist-video-adventure/" class="md-footer__link md-footer__link--next" aria-label="Next: Dive into Learning from Data - MNIST Video Adventure">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Dive into Learning from Data - MNIST Video Adventure
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:contact@datasanta.net" target="_blank" rel="noopener" title="send me an email" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M64 112c-8.8 0-16 7.2-16 16v22.1l172.5 141.6c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16zM48 212.2V384c0 8.8 7.2 16 16 16h384c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0zM0 128c0-35.3 28.7-64 64-64h384c35.3 0 64 28.7 64 64v256c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/@datasanta" target="_blank" rel="noopener" title="YouTube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/nickovchinnikov" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://x.com/datasantaa" target="_blank" rel="noopener" title="DataSanta on X" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://t.me/datasantaa" target="_blank" rel="noopener" title="DataSanta on telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="/feed_rss_created.xml" target="_blank" rel="noopener" title="RSS Feed" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M0 64c0-17.7 14.3-32 32-32 229.8 0 416 186.2 416 416 0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96 14.3 96 0 81.7 0 64m0 352a64 64 0 1 1 128 0 64 64 0 1 1-128 0m32-256c159.1 0 288 128.9 288 288 0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224-17.7 0-32-14.3-32-32s14.3-32 32-32"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.footer", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

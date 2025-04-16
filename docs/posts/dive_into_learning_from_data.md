@@ -32,7 +32,7 @@ We're diving into the realm of MNIST - a dataset that's like a treasure map for 
 
 <!-- more -->
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/0.MNIST_Adventure.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/0.MNIST_Adventure.ipynb)
 
 <iframe width="1707" height="765" src="https://www.youtube.com/embed/csZ4dIAPowA" title="Dive Into Learning From Data" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

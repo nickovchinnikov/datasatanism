@@ -35,7 +35,7 @@ Build an autograd!
 <!-- more -->
 
 
-### [Check the Jupyter Notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/13.Tensor.ipynb)
+### [Check the Jupyter Notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/13.Tensor.ipynb)
 
 In the previous chapters, I built everything from the ground up. Now, we will create a `Tensor` object that abstracts the implementation of the backward steps for our building blocks.  
 

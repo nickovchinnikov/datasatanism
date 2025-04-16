@@ -35,7 +35,7 @@ In a classification problem, especially in **multi-class classification**, the m
 <iframe width="1410" height="765" src="https://www.youtube.com/embed/rcg1PTRDAWc" title="Understanding Logits to Probabilities: How Neural Networks Make Decisions with Sigmoid Function" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
-## **[Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/7.SigmoidLogitsProbs.ipynb)**
+## **[Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/7.SigmoidLogitsProbs.ipynb)**
 
 
 Let's consider a 5-class classification problem. The model outputs the following **logits**, which are generated using `np.random.randn(5)`. To ensure reproducibility, we set the random seed using `np.random.seed(42)`:
@@ -232,7 +232,7 @@ A threshold of **0.5** is commonly used:
 
 This transformation helps us map the model's raw outputs (logits) into meaningful probabilities, ready for decision-making.
 
-You can explore the Logits vs. Probabilities simulation on your own, [code is here](https://github.com/nickovchinnikov/datasatanism/blob/master/code/7.SigmoidLogitsProbs.ipynb)
+You can explore the Logits vs. Probabilities simulation on your own, [code is here](https://github.com/nickovchinnikov/datasanta/blob/master/code/7.SigmoidLogitsProbs.ipynb)
 
 ![Logits vs Probs 5 classes](../assets/logits_probs_sigmoid/logits_vs_probs_5_classes.png)
 /// caption

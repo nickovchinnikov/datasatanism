@@ -39,7 +39,7 @@ Frank Rosenblatt and the Perceptron, a simple neural network machine designed to
 
 <iframe width="942" height="530" src="https://www.youtube.com/embed/F09squ1quN0" title="Building a Multi-Layer Neural Network from Scratch: Solving the Spiral Classification Problem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/10.MultiLayerNetwork.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/10.MultiLayerNetwork.ipynb)
 
 
 To understand the Perceptron, imagine it analyzing an image of the number "5." Each pixel serves as an input, connected to a weight. The Perceptron calculates a weighted sum, or dot product, between inputs ($x_i$) and weights ($w_i$):  

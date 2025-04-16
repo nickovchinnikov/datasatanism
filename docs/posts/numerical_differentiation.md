@@ -33,7 +33,7 @@ Absolute Error Numerical Differentiation Example
 
 <!-- more -->
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/1.Numerical_Differentiation.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/1.Numerical_Differentiation.ipynb)
 
 <iframe width="1707" height="765" src="https://www.youtube.com/embed/Xynwf7su6DI" title="Mastering Derivatives: From Math to Code - Python Numerical Differentiation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 

@@ -33,7 +33,7 @@ Gradient direction in 3D from Min => Max
 <!-- more -->
 
 
-### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/2.GradientIsTheSteepestAscent.ipynb)
+### [Check the jupyter notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/2.GradientIsTheSteepestAscent.ipynb)
 
 
 ### What is gradient?

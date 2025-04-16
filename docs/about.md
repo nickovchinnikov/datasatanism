@@ -39,4 +39,4 @@ Are you ready to explore, learn, and perhaps even laugh at the absurdity and bea
 - [**GitHub** :simple-github:](https://github.com/nickovchinnikov)
 - [**X(Twitter)** :fontawesome-brands-x-twitter:](https://x.com/datasantaa)
 - [**Telegram** :simple-telegram:](https://t.me/datasantaa)
-- :material-email: contact@datasatanism.com
+- :material-email: contact@datasanta.net

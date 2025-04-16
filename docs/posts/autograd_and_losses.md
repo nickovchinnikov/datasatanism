@@ -34,7 +34,7 @@ Medieval loss discovery
 
 <!-- more -->
 
-### [Check the Jupyter Notebook](https://github.com/nickovchinnikov/datasatanism/blob/master/code/13.Tensor.ipynb)
+### [Check the Jupyter Notebook](https://github.com/nickovchinnikov/datasanta/blob/master/code/13.Tensor.ipynb)
 
 ## Loss Functions
 

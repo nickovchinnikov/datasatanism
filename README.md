@@ -33,12 +33,12 @@ To get started with the content in this repository:
 
 1. **Clone** the repository:
 ```bash
-git clone https://github.com/nickovchinnikov/datasatanism.git
+git clone https://github.com/nickovchinnikov/datasanta.git
 ```
 
 2. **Install the necessary dependencies**:
 ```bash
-cd datasatanism
+cd datasanta
 pip install -r requirements.txt
 ```
 

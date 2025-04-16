@@ -83,7 +83,7 @@ extra:
     link: /feed_rss_created.xml
   analytics:
     provider: google
-    property: G-YQ1VTYK2L7
+    property: G-Y9BWQQSE0S
     feedback:
       title: Was this page helpful?
       ratings:
